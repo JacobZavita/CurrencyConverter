@@ -1,0 +1,45 @@
+/* rules for a sticky footer  */
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+/*                             */
+
+.gitLogo {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.floralWhite {
+  background-color: #FFFCF2;
+}
+
+.paleSilver {
+  background-color: #CCC5B9;
+}
+
+.blackOlive {
+  background-color: #403D39;
+}
+
+.eerieBlack {
+  background-color: #252422;
+}
+
+.flame {
+  background-color: #EB5E28;
+}
+
+.textBlack {
+  color: #252422;
+}
+
+.textWhite {
+  color: #FFFCF2;
+}
