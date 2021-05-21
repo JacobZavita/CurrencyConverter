@@ -15,7 +15,7 @@
 <body>
   <!-- navbar -->
   <nav>
-    <header class="nav-wrapper">
+    <header class="nav-wrapper flame">
       <!-- can change the logo later -->
       <a href="./index.html" class="brand-logo" style="padding-left: 3%;">Logo</a> 
       <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -25,11 +25,56 @@
       </ul>
     </header>
   </nav>
-  <main>
 
+  <!--Header  -->
+  <header class="section no-pad-bot" id="index-banner">
+    <section class="container">
+      <h1 class="header center textWhite">Currency Converter</h1>
+      <div class="row center">
+        <h5 class="header col s12 light white-text">See exchange rates between fiat and crypto currencies</h5>
+      </div>
+      <br><br>
+    </section>
+  </header>
+
+  <!-- end Header -->
+  <main>
+    <section class="container">
+      <br>
+      <section class="row">
+        <section class="col s3"></section>
+        <section class="col s6">
+          <form>
+            <!-- input field id: testInput -->
+            <section class="input-field col s6">
+              <input placeholder="text" id="testInput" type="text" class="validate">
+              <label for="testInput">Test Input</label>
+            </section>
+            <br>
+            <!-- button id: testButton -->
+            <button id = "testButton" class="waves-effect waves-light btn-small deep-orange darken-3">Button</button>
+          </form>
+        </section>
+        <section class="col s3"></section>
+      </section>
+      <!-- row end -->
+      <section class="row">
+        <section class="col s3"></section>
+        <section class="col s6">
+          <!-- div id: testDiv -->
+          <div id="testDiv">
+            <!-- unordered list id: testUl -->
+            <ul id="testUl"></ul>
+          </div>
+        </section>
+        <section class="col s3"></section>
+      </section>
+    </section>
   </main>
+  <!-- end Main -->
+
   <!-- sticky footer -->
-  <footer style="text-align: center; height: 40px;" class="blackOlive">
+  <footer id="index-banner" style="text-align: center; height: 40px;">
       <a href="https://github.com/CharlotteFrancis/CurrencyConverter">
         <!-- makes a chip for github link-->
         <div class="gitLogo chip">
@@ -37,8 +82,7 @@
             Github 
         </div>
       </a>
-  </footer>  
-    
+  </footer>
 
   <!-- Compiled and minified JavaScript for Materialize-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
