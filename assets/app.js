@@ -31,9 +31,16 @@ axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&s
   .catch(err => console.error(err))
 
 // Calling exchange data. This brings back an array btc to ten other coins
-axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
-  .then(resp => {
-    let top20 = resp.data.data
-    console.log(top20)
+  axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
+    .then(({ data: { data } }) => {
+      top20 = data
+      console.log(top20)
+    })
+    .catch(err => console.error(err))
+
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.querySelectorAll('.dropdown-trigger')
+  var instances = M.Dropdown.init(elems, {
+    closeOnClick: true
   })
-  .catch(err => console.error(err))
+})

@@ -46,12 +46,21 @@
         <form>
           <!-- input field id: testInput -->
           <section class="input-field col s6">
+            <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>From</a>
+            <ul id='dropdown1' class='dropdown-content'>
+              <li><a href="#!">USD</a></li>
+              <li><a href="#!">CNY</a></li>
+              <li><a href="#!">JPY</a></li>
+              <li><a href="#!">EUR</a></li>
+              <li><a href="#!">BRL</a></li>
+            </ul>
+            
             <input placeholder="text" id="testInput" type="text" class="validate">
             <label for="testInput">Test Input</label>
           </section>
           <br>
           <!-- button id: testButton -->
-          <button id = "testButton" class="waves-effect waves-light btn-small deep-orange darken-3">Button</button>
+          <button id = "convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
         </form>
       </section>
       <section class="col s3"></section>
