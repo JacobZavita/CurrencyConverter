@@ -1,21 +1,26 @@
+
+#index-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/header.jpg");
+  }
+
 .floralWhite{
     background-color: #FFFCF2;
   }
-  .paleSilver{
+.paleSilver{
     background-color: #CCC5B9;
   }
-  .blackOlive{
+.blackOlive{
     background-color: #403D39;
   }
-  .eerieBlack{
+.eerieBlack{
     background-color: #252422;
   }
-  .flame{
+.flame{
     background-color: #EB5E28;
   }
-  .textBlack{
+.textBlack{
     color: #252422;
   }
-  .textWhite{
+.textWhite{
     color: #FFFCF2;
   }
