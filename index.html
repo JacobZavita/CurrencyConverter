@@ -60,7 +60,6 @@
   <section class="container">
     <br>
     <section class="row">
-      <section class="col s3"></section>
       <section class="col s6">
         <form>
           <!-- input field id: testInput -->
@@ -73,7 +72,7 @@
               <li><a href="#!">EUR</a></li>
               <li><a href="#!">BRL</a></li>
             </ul>
-            
+
             <input placeholder="text" id="testInput" type="text" class="validate">
             <label for="testInput">Test Input</label>
           </section>
@@ -82,17 +81,39 @@
           <button id = "convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
         </form>
       </section>
-      <!-- row end -->
-      <section class="row">
-        <section class="col s3"></section>
-        <section class="col s6">
-          <!-- div id: testDiv -->
-          <div id="testDiv">
-            <!-- unordered list id: testUl -->
-            <ul id="testUl"></ul>
-          </div>
-        </section>
-        <section class="col s3"></section>
+
+      <section class="col s6">
+        <form>
+          <!-- input field id: testInput -->
+          <section class="input-field col s6">
+            <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>From</a>
+            <ul id='dropdown2' class='dropdown-content'>
+              <li><a href="#!">BTC</a></li>
+              <li><a href="#!">ETH</a></li>
+              <li><a href="#!">USDT</a></li>
+              <li><a href="#!">ADA</a></li>
+              <li><a href="#!">BNB</a></li>
+            </ul>
+        
+            <input placeholder="text" id="testInput" type="text" class="validate">
+            <label for="testInput">Test Input</label>
+          </section>
+          <br>
+          <!-- button id: testButton -->
+          <button id="convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
+        </form>
+      </section>
+    </section>
+    <!-- row end -->
+    <section class="row">
+      <section class="col s3"></section>
+      <section class="col s6">
+        <!-- div id: testDiv -->
+        <div id="testDiv">
+          <!-- unordered list id: testUl -->
+          <ul id="testUl"></ul>
+        </div>
+
       </section>
     </section>
 </main>
