@@ -10,6 +10,10 @@ main {
   flex: 1 0 auto;
 }
 
+th {
+  font-weight: bold;
+  color: #252422; 
+}
 /*                             */
 
 .gitLogo {
@@ -51,6 +55,8 @@ main {
   align-items: flex-start !important;
   flex-wrap: nowrap;
 }
+
+
 
 .favoritesBar {
   margin-top: 20px;
