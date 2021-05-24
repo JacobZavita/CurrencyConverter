@@ -94,8 +94,6 @@ const weekAgo = _ => {
   return formatedDate
 }
 
-console.log(weekAgo())
-
 // returns formated date of one day ago
 const dayAgo = _ =>{
   let formatedDate = ''
@@ -202,40 +200,54 @@ fiatArray = [
   }
 ]
 
-// Pull historical data from USD
-// Week Ago
-axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
+axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
-    let weekAgo= res.data
+    // let source = res.data.source
+    // console.log(source)
+    let quotes = res.data.quotes
+    console.log(quotes)
+    console.log(quotes.USDCNY)
+    
+    // Pull historical data from USD
+    // Week Ago
+    axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
+      .then(resp => {
+        let weekAgo = resp.data
+      })
+      .catch(err => console.error(err))
+
+    // Day Ago
+    axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
+      .then(respo => {
+        let dayAgo = respo.data.quotes
+        console.log(dayAgo)
+
+        document.getElementById('fiatChart').innerHTML = ''
+        fiatArray.forEach((elem, i) => {
+          let fiatElem = document.createElement('tr')
+          fiatElem.innerHTML = `
+          <td>${fiatArray[i].name}</td>
+          <td>${quotes.USDCNY}</td>
+          <td>${dayAgo.USDCNY/quotes.USDCNY}</td>
+          <td><button>Favorite</button></td>
+          `
+        document.getElementById('fiatChart').append(fiatElem)
+      })
+      .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
+})
 
-// Day Ago
-axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
-  .then(res => {
-    let dayAgo= res.data
-  })
-  .catch(err => console.error(err))
-
-
-// axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
-//   .then(res => {
-//     let source = res.data.source
-//     console.log(source)
-//     let quotes = res.data.quotes
-//     console.log(quotes)
-//   })
-//   .catch(err => console.error(err))
 
 // Call for converting one currency to another
-// axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
-//   .then(res => {
-//     let exchange = res.data
-//     console.log(exchange)
-//     console.log(exchange.query)
-//     console.log(exchange.result)
-//   })
-//   .catch(err => console.error(err))
+axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
+  .then(res => {
+    let exchange = res.data
+    console.log(exchange)
+    console.log(exchange.query)
+    console.log(exchange.result)
+  })
+  .catch(err => console.error(err))
 
 // LunarCrush API
 // Calling data on one crypto
@@ -256,10 +268,10 @@ axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&s
     })
     .catch(err => console.error(err))
 
+// Javascript for dropdown picker in search
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('.dropdown-trigger')
   var instances = M.Dropdown.init(elems, {
     closeOnClick: true
   })
 })
-
