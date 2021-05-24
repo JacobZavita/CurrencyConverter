@@ -112,24 +112,24 @@ fiatArray = [
   }
 ]
 
-axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
-  .then(res => {
-    let source = res.data.source
-    console.log(source)
-    let quotes = res.data.quotes
-    console.log(quotes)
-  })
-  .catch(err => console.error(err))
+// axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
+//   .then(res => {
+//     let source = res.data.source
+//     console.log(source)
+//     let quotes = res.data.quotes
+//     console.log(quotes)
+//   })
+//   .catch(err => console.error(err))
 
 // Call for converting one currency to another
-axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
-  .then(res => {
-    let exchange = res.data
-    console.log(exchange)
-    console.log(exchange.query)
-    console.log(exchange.result)
-  })
-  .catch(err => console.error(err))
+// axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
+//   .then(res => {
+//     let exchange = res.data
+//     console.log(exchange)
+//     console.log(exchange.query)
+//     console.log(exchange.result)
+//   })
+//   .catch(err => console.error(err))
 
 // LunarCrush API
 // Calling data on one crypto
