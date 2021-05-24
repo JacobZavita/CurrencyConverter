@@ -83,7 +83,7 @@ const weekAgo = _ =>{
   ourDate.setDate(pastDate)
   ourDate += ''
   // get year
-  formatedDate += ourDate.substring(10, 15)
+  formatedDate += ourDate.substring(11, 15)
   formatedDate += '-'
   // get month
   formatedDate += monthToNumber(ourDate.substring(4, 7))
@@ -103,7 +103,7 @@ const dayAgo = _ =>{
   ourDate.setDate(pastDate)
   ourDate += ''
   // get year
-  formatedDate += ourDate.substring(10, 15)
+  formatedDate += ourDate.substring(11, 15)
   formatedDate += '-'
   // get month
   formatedDate += monthToNumber(ourDate.substring(4, 7))
