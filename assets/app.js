@@ -74,7 +74,7 @@ const monthToNumber = (month) =>{
   return newMonth
 }
 // returns formated date of one week ago
-const weekAgo = _ =>{
+const weekAgo = _ => {
   let formatedDate = ''
   // Get today's date using the JavaScript Date object.
   let ourDate = new Date()
@@ -83,7 +83,7 @@ const weekAgo = _ =>{
   ourDate.setDate(pastDate)
   ourDate += ''
   // get year
-  formatedDate += ourDate.substring(10, 15)
+  formatedDate += ourDate.substring(11, 15)
   formatedDate += '-'
   // get month
   formatedDate += monthToNumber(ourDate.substring(4, 7))
@@ -93,6 +93,9 @@ const weekAgo = _ =>{
 
   return formatedDate
 }
+
+console.log(weekAgo())
+
 // returns formated date of one day ago
 const dayAgo = _ =>{
   let formatedDate = ''
@@ -103,7 +106,7 @@ const dayAgo = _ =>{
   ourDate.setDate(pastDate)
   ourDate += ''
   // get year
-  formatedDate += ourDate.substring(10, 15)
+  formatedDate += ourDate.substring(11, 15)
   formatedDate += '-'
   // get month
   formatedDate += monthToNumber(ourDate.substring(4, 7))
@@ -199,6 +202,22 @@ fiatArray = [
   }
 ]
 
+// Pull historical data from USD
+// Week Ago
+axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
+  .then(res => {
+    let weekAgo= res.data
+  })
+  .catch(err => console.error(err))
+
+// Day Ago
+axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
+  .then(res => {
+    let dayAgo= res.data
+  })
+  .catch(err => console.error(err))
+
+
 // axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
 //   .then(res => {
 //     let source = res.data.source
@@ -221,10 +240,10 @@ fiatArray = [
 // LunarCrush API
 // Calling data on one crypto
 axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=LTC`)
-  .then(resp => {
-    let cryptoName = resp.data.data[0].name
+  .then(res => {
+    let cryptoName = res.data.data[0].name
     console.log(cryptoName)
-    let cryptoData = resp.data.data[0]
+    let cryptoData = res.data.data[0]
     console.log(cryptoData)
   })
   .catch(err => console.error(err))
