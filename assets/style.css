@@ -44,6 +44,13 @@ main {
   color: #FFFCF2;
 }
 
+.testRow {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  flex-wrap: nowrap;
+}
+
 #index-banner {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/header.jpg");
   }
