@@ -26,6 +26,93 @@ const fiatToCrypto = (baseFiat, exchangeRate) => {
   }
 }
 
+// converts the month to numerical value
+const monthToNumber = (month) =>{
+  let newMonth = ''
+  switch (month){
+    case ('Jan'):
+      newMonth += '01'
+      break
+    case ('Feb'):
+      newMonth += '02'
+      break
+    case ('Mar'):
+      newMonth += '03'
+      break
+    case ('Apr'):
+      newMonth += '04'
+      break
+    case ('May'):
+      newMonth += '05'
+      break
+    case ('Jun'):
+      newMonth += '06'
+      break
+    case ('Jul'):
+      newMonth += '07'
+      break
+    case ('Aug'):
+      newMonth += '08'
+      break
+    case ('Sep'):
+      newMonth += '09'
+      break
+    case ('Oct'):
+      newMonth += '10'
+      break
+    case ('Nov'):
+      newMonth += '11'
+      break
+    case ('Dec'):
+      newMonth += '12'
+      break
+    default:
+      newMonth += '01'
+      console.log('error in the month to number function.')
+      break
+  }
+  return newMonth
+}
+// returns formated date of one week ago
+const weekAgo = _ =>{
+  let formatedDate = ''
+  // Get today's date using the JavaScript Date object.
+  let ourDate = new Date()
+  // Change it so that it is 7 days in the past.
+  let pastDate = ourDate.getDate() - 7
+  ourDate.setDate(pastDate)
+  ourDate += ''
+  // get year
+  formatedDate += ourDate.substring(10, 15)
+  formatedDate += '-'
+  // get month
+  formatedDate += monthToNumber(ourDate.substring(4, 7))
+  formatedDate += '-'
+  // get day
+  formatedDate += ourDate.substring(8, 10)
+
+  return formatedDate
+}
+// returns formated date of one day ago
+const dayAgo = _ =>{
+  let formatedDate = ''
+  // Get today's date using the JavaScript Date object.
+  let ourDate = new Date()
+  // Change it so that it is 1 day in the past.
+  let pastDate = ourDate.getDate() - 1
+  ourDate.setDate(pastDate)
+  ourDate += ''
+  // get year
+  formatedDate += ourDate.substring(10, 15)
+  formatedDate += '-'
+  // get month
+  formatedDate += monthToNumber(ourDate.substring(4, 7))
+  formatedDate += '-'
+  // get day
+  formatedDate += ourDate.substring(8, 10)
+
+  return formatedDate
+}
 
 // CurrencyLayer API
 // Call for pulling exchange rates from one currency to another
