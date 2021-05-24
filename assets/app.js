@@ -1,3 +1,32 @@
+/*
+converts crypto to fiat currency
+accepts a base amount of crypto and the exchange rate
+Pre-condition: The exchange rate matches the desired outcome
+*/
+const cryptoToFiat = (baseCrypto, exchangeRate) => {
+  //check parameters
+  if(NaN(baseCrypto) || NaN(exchangeRate)) {
+    return -1 //invalid return value
+  } else {
+    return baseCrypto * exchangeRate
+  }
+}
+
+/*
+converts fiat to crypto
+accepts base amount of fiat and multiplies by the exchange rate
+Pre-condition: The exchange rate matches the desired outcome
+*/
+const fiatToCrypto = (baseFiat, exchangeRate) => {
+  //check parameters
+  if(NaN(baseFiat) || NaN(exchangeRate)) {
+    return -1
+  } else {
+    return baseFiat * baseCrypto
+  }
+}
+
+
 // CurrencyLayer API
 // Call for pulling exchange rates from one currency to another
 axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
@@ -44,3 +73,4 @@ document.addEventListener('DOMContentLoaded', function () {
     closeOnClick: true
   })
 })
+
