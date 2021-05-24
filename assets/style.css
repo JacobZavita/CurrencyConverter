@@ -9,6 +9,7 @@ body {
 main {
   flex: 1 0 auto;
 }
+
 /*                             */
 
 .gitLogo {
@@ -51,28 +52,43 @@ main {
   flex-wrap: nowrap;
 }
 
-#index-banner {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/header.jpg");
-  }
+.favoritesBar {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: smaller;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+  url("./images/header.jpg");
+}
 
-.floralWhite{
-    background-color: #FFFCF2;
-  }
-.paleSilver{
-    background-color: #CCC5B9;
-  }
-.blackOlive{
-    background-color: #403D39;
-  }
-.eerieBlack{
-    background-color: #252422;
-  }
-.flame{
-    background-color: #EB5E28;
-  }
-.textBlack{
-    color: #252422;
-  }
-.textWhite{
-    color: #FFFCF2;
-  }
+#index-banner {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/header.jpg");
+}
+
+.floralWhite {
+  background-color: #FFFCF2;
+}
+
+.paleSilver {
+  background-color: #CCC5B9;
+}
+
+.blackOlive {
+  background-color: #403D39;
+}
+
+.eerieBlack {
+  background-color: #252422;
+}
+
+.flame {
+  background-color: #EB5E28;
+}
+
+.textBlack {
+  color: #252422;
+}
+
+.textWhite {
+  color: #FFFCF2;
+}
