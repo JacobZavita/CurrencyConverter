@@ -1,5 +1,88 @@
 // CurrencyLayer API
 // Call for pulling exchange rates from one currency to another
+fiatArray = [
+  {
+    code: 'USD',
+    name: 'United States Dollar'
+  },
+  {
+    code: 'CNY',
+    name: 'Chinese Yuan'
+  },
+  {
+    code: 'JPY',
+    name: 'Japanese Yen'
+  },
+  {
+    code: 'EUR',
+    name: 'Euro'
+  },
+  {
+    code: 'GBP',
+    name: 'British Pound Sterling'
+  },
+  {
+    code: 'INR',
+    name: 'Indian Rupee'
+  },
+  {
+    code: 'AUD',
+    name: 'Australian Dollar'
+  },
+  {
+    code: 'CAD',
+    name: 'Canadian Dollar'
+  },
+  {
+    code: 'CHF',
+    name: 'Swiss Franc'
+  },
+  {
+    code: 'CNH',
+    name: 'Chinese Renminbi'
+  },
+  {
+    code: 'HKD',
+    name: 'Hong Kong Dollar'
+  },
+  {
+    code: 'NZD',
+    name: 'New Zealand Dollar'
+  },
+  {
+    code: 'BRL',
+    name: 'Brazilian Real'
+  },
+  {
+    code: 'NGN',
+    name: 'Nigerian Naira'
+  },
+  {
+    code: 'KRW',
+    name: 'Korean Won'
+  },
+  {
+    code: 'IDR',
+    name: 'Indonesean Rupah'
+  },
+  {
+    code: 'SAR',
+    name: 'Saudi Riyal'
+  },
+  {
+    code: 'TRY',
+    name: 'Turkish'
+  },
+  {
+    code: 'KWD',
+    name: 'Kuwait Dinar'
+  },
+  {
+    code: 'KYD',
+    name: 'Cayman Island Dollar'
+  }
+]
+
 axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
     let source = res.data.source
