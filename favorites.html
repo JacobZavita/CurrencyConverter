@@ -26,14 +26,53 @@
       </header>
     </nav>
 <main>
+
+    <!--Header  -->
+    <header class="section no-pad-bot" id="index-banner">
+      <section class="container">
+        <h1 class="header center textWhite">Favorites</h1>
+        <div class="row center">
+          <h5 class="header col s12 light white-text">See your favorite exchange rates</h5>
+        </div>
+        <br><br>
+      </section>
+    </header>
+    <!-- end Header -->
+
+
+
+
   <!-- favorites page -->
   <section class="container">
-    <div class="favoritesBar">
+    <!-- <div class="favoritesBar">
       <h1 class="textWhite">Favorites</h1>
-    </div>
+    </div> -->
+    <br>
     <section class="row">
-      
-
+      <div id="testDiv">
+        <!-- unordered list id: testUl -->
+        <table class="striped">
+          <thead>
+            <tr class = "testRow">
+              <th>Currency</th>
+              <th>Amount</th>
+              <th>Change (24hr)</th>
+              <th>Change (7d)</th>
+              <th style="margin-right: 7.5%;"></th>
+            </tr>
+          </thead>
+          <!-- example row -->
+          <tbody id="chartData">
+            <tr class = "testRow">
+              <td>Euro</td>
+              <td>$1.22</td>
+              <td>-0.014%</td>
+              <td>0.14%</td>
+              <td><a class="waves-effect waves-light btn red">Remove</a></td>
+            </tr>                 
+          </tbody>
+        </table>
+       </div>
     </section>
   </section>
 </main>
