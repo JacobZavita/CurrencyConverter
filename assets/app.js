@@ -118,10 +118,10 @@ const dayAgo = _ =>{
 // CurrencyLayer API
 // Call for pulling exchange rates from one currency to another
 fiatArray = [
-  {
-    code: 'USD',
-    name: 'United States Dollar'
-  },
+  // {
+  //   code: 'USD',
+  //   name: 'United States Dollar'
+  // },
   {
     code: 'CNY',
     name: 'Chinese Yuan'
@@ -204,6 +204,7 @@ fiatArray = [
 axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
     let quotes = res.data.quotes
+    console.log(quotes)
     
     // Pull historical data from USD -- Week Ago
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
@@ -219,18 +220,24 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
             fiatArray.forEach((elem, i) => {
               let fiatElem = document.createElement('tr')
 
-              let dayChange = (dayAgo.USDCNY / quotes.USDCNY) - 1
+              let shortCode = fiatArray[i].code
+              let exchangeCode = 'USD' + shortCode
+              // console.log(quotes.exchangeCode)
+
+              console.log(quotes[exchangeCode])
+
+              let dayChange = (dayAgo[exchangeCode] / quotes[exchangeCode]) - 1
               let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 
-              let weekChange = (weekAgo.USDCNY / quotes.USDCNY) - 1
+              let weekChange = (weekAgo[exchangeCode] / quotes[exchangeCode]) - 1
               let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 
               fiatElem.innerHTML = `
           <td>${fiatArray[i].name}</td>
-          <td>${quotes.USDCNY}</td>
+          <td>${quotes[exchangeCode]}</td>
           <td>${dayPercent}</td>
           <td>${weekPercent}</td>
-          <td><button>Favorite</button></td>
+          <td><button class="waves-effect waves-light btn green">Favorite</button></td>
           `
               document.getElementById('fiatChart').append(fiatElem)
             })
@@ -241,25 +248,25 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
   .catch(err => console.error(err))
 })
 
-axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
-  .then(res => {
-    let source = res.data.source
-    console.log(source)
-    let quotes = res.data.quotes
-    console.log(quotes)
-  })
-  .catch(err => console.error(err))
+// axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
+//   .then(res => {
+//     let source = res.data.source
+//     console.log(source)
+//     let quotes = res.data.quotes
+//     console.log(quotes)
+//   })
+//   .catch(err => console.error(err))
 
 
 // Call for converting one currency to another
-axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
-  .then(res => {
-    let exchange = res.data
-    console.log(exchange)
-    console.log(exchange.query)
-    console.log(exchange.result)
-  })
-  .catch(err => console.error(err))
+// axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
+//   .then(res => {
+//     let exchange = res.data
+//     console.log(exchange)
+//     console.log(exchange.query)
+//     console.log(exchange.result)
+//   })
+//   .catch(err => console.error(err))
 
 // LunarCrush API
 // Calling data on one crypto
