@@ -22,41 +22,23 @@ const fiatToFiat = () => {
       
       //multiply the amount by conversion rate
       let result = parseFloat(document.getElementById('amount').value) * conversions[str.toUpperCase()]
-      printResult(result)
-
+      
     })
     .catch(err => console.error(err))
   }
 
-
-//function to print out the answer
-//expects a number value !!!!!!!!!!!!!!!!!!Still in progress
-const printResult = (result) => {
-  console.log(result)
-}
-
-//start logic on conversion
+//logic for type conversion
 
 document.getElementById('convertCalc').addEventListener('click', event => {
   //determine which checkboxes are checked
-  if(document.getElementById('fromFiat').checked) {
+  //fiat to fiat
+  if(document.getElementById('fromFiat').checked && document.getElementById('toFiat').checked) {
     fiatToFiat()
   }
+  //fiat to crypto
+
+  //crypto to crypto
+
+  //crypto to fiat
 })
 
-
-
-
-/////TEST SECTION////////////*
-// document.getElementById('convertCalc').addEventListener('click', event => {
-//   event.preventDefault()
-//   //get the exchange rate of the entered currency
-//   axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1&source=${document.getElementById('from').value}`)
-//     .then(res => {
-//       let source = res.data.source
-//       console.log(source)
-//       let quotes = res.data.quotes
-//       console.log(quotes)
-//     })
-//     .catch(err => console.error(err))
-// })
