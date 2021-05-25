@@ -94,8 +94,6 @@ const weekAgo = _ => {
   return formatedDate
 }
 
-console.log(weekAgo())
-
 // returns formated date of one day ago
 const dayAgo = _ =>{
   let formatedDate = ''
@@ -202,21 +200,46 @@ fiatArray = [
   }
 ]
 
-
-// Pull historical data from USD
-// Week Ago
-axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
+// User lands on page and this loads:
+axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
-    let weekAgo= res.data
+    let quotes = res.data.quotes
+    
+    // Pull historical data from USD -- Week Ago
+    axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
+      .then(resp => {
+        let weekAgo = resp.data.quotes
+
+        // Day Ago
+        axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
+          .then(respo => {
+            let dayAgo = respo.data.quotes
+
+            document.getElementById('fiatChart').innerHTML = ''
+            fiatArray.forEach((elem, i) => {
+              let fiatElem = document.createElement('tr')
+
+              let dayChange = (dayAgo.USDCNY / quotes.USDCNY) - 1
+              let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              let weekChange = (weekAgo.USDCNY / quotes.USDCNY) - 1
+              let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              fiatElem.innerHTML = `
+          <td>${fiatArray[i].name}</td>
+          <td>${quotes.USDCNY}</td>
+          <td>${dayPercent}</td>
+          <td>${weekPercent}</td>
+          <td><button>Favorite</button></td>
+          `
+              document.getElementById('fiatChart').append(fiatElem)
+            })
+              .catch(err => console.error(err))
+      })
+      .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
-
-// Day Ago
-axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
-  .then(res => {
-    let dayAgo= res.data
-  })
-  .catch(err => console.error(err))
+})
 
 axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
@@ -257,10 +280,10 @@ axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&s
     })
     .catch(err => console.error(err))
 
+// Javascript for dropdown picker in search
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('.dropdown-trigger')
   var instances = M.Dropdown.init(elems, {
     closeOnClick: true
   })
 })
-
