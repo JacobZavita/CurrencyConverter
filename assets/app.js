@@ -320,7 +320,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
           <td>${quotes[exchangeCode]}</td>
           <td>${dayPercent}</td>
           <td>${weekPercent}</td>
-          <td><button class="waves-effect waves-light btn green">Favorite</button></td>
+          <td><button class="waves-effect waves-light btn green">♡</button></td>
           `
               document.getElementById('fiatChart').append(fiatElem)
             })
@@ -339,17 +339,22 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
 
     document.getElementById('cryptoChart').innerHTML = ''
     cryptoArray.forEach((elem, i) => {
-      let cryptoElem = document.createElement('tr')
-      cryptoElem.innerHTML = `
-      <td>${top20[i].n}</td>
-          <td>$${top20[i].p}</td>
-          <td>${top20[i].pc}%</td>
-          <td>week change</td>
-          <td><button class="waves-effect waves-light btn green">Favorite</button></td>
-      `
-      document.getElementById('cryptoChart').append(cryptoElem)
-    })
 
+      axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${top20[i].s}&change=1w`)
+        .then(resp => {
+          let oneWeek = resp.data
+          let cryptoElem = document.createElement('tr')
+          cryptoElem.innerHTML = `
+          <td>${top20[i].n}</td>
+              <td>$${top20[i].p}</td>
+              <td>${top20[i].pc}%</td>
+              <td>${oneWeek.data[0].percent_change_7d}%</td>
+              <td><button class="waves-effect waves-light btn green">♡</button></td>
+          `
+          document.getElementById('cryptoChart').append(cryptoElem)
+        })
+        .catch(err => console.error(err))
+    })
   })
   .catch(err => console.error(err))
 
