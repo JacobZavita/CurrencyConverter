@@ -75,7 +75,6 @@ th {
   justify-content: space-evenly;
   flex-wrap: nowrap;
   /* border and shadow */
-
 }
 .calcRow {
   border-radius: 25px;
@@ -84,12 +83,26 @@ th {
   box-shadow: 2px 2px 5px #CCC5B9;
 }
 
+.calcButton {
+  text-align: right;
+  margin-right: 4%;
+  margin-top: 8%;
+}
+
+.calcDiv {
+  margin-left: 4%;
+}
+
 .calcInput {
   width: 100%;
 }
 
 .d-flex {
   display: flex;
+}
+.justify-flex-end {
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .floralWhite {
