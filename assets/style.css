@@ -56,8 +56,6 @@ th {
   flex-wrap: nowrap;
 }
 
-
-
 .favoritesBar {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -69,6 +67,42 @@ th {
 
 #index-banner {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/header.jpg");
+}
+
+.calcContainer {
+  display: flex;
+  justify-content: center;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  /* border and shadow */
+}
+.calcRow {
+  border-radius: 25px;
+  border: 2px solid #CBCADB;
+  padding: 20px;
+  box-shadow: 2px 2px 5px #CCC5B9;
+}
+
+.calcButton {
+  text-align: right;
+  margin-right: 4%;
+  margin-top: 8%;
+}
+
+.calcDiv {
+  margin-left: 4%;
+}
+
+.calcInput {
+  width: 100%;
+}
+
+.d-flex {
+  display: flex;
+}
+.justify-flex-end {
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .floralWhite {
