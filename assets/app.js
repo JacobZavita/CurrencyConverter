@@ -200,38 +200,41 @@ fiatArray = [
   }
 ]
 
+// User lands on page and this loads:
 axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
-    // let source = res.data.source
-    // console.log(source)
     let quotes = res.data.quotes
-    console.log(quotes)
-    console.log(quotes.USDCNY)
     
-    // Pull historical data from USD
-    // Week Ago
+    // Pull historical data from USD -- Week Ago
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
       .then(resp => {
-        let weekAgo = resp.data
-      })
-      .catch(err => console.error(err))
+        let weekAgo = resp.data.quotes
 
-    // Day Ago
-    axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
-      .then(respo => {
-        let dayAgo = respo.data.quotes
-        console.log(dayAgo)
+        // Day Ago
+        axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
+          .then(respo => {
+            let dayAgo = respo.data.quotes
 
-        document.getElementById('fiatChart').innerHTML = ''
-        fiatArray.forEach((elem, i) => {
-          let fiatElem = document.createElement('tr')
-          fiatElem.innerHTML = `
+            document.getElementById('fiatChart').innerHTML = ''
+            fiatArray.forEach((elem, i) => {
+              let fiatElem = document.createElement('tr')
+
+              let dayChange = (dayAgo.USDCNY / quotes.USDCNY) - 1
+              let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              let weekChange = (weekAgo.USDCNY / quotes.USDCNY) - 1
+              let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              fiatElem.innerHTML = `
           <td>${fiatArray[i].name}</td>
           <td>${quotes.USDCNY}</td>
-          <td>${dayAgo.USDCNY/quotes.USDCNY}</td>
+          <td>${dayPercent}</td>
+          <td>${weekPercent}</td>
           <td><button>Favorite</button></td>
           `
-        document.getElementById('fiatChart').append(fiatElem)
+              document.getElementById('fiatChart').append(fiatElem)
+            })
+              .catch(err => console.error(err))
       })
       .catch(err => console.error(err))
   })
