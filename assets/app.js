@@ -94,7 +94,7 @@ const weekAgo = _ => {
   return formatedDate
 }
 
-console.log(weekAgo())
+// console.log(weekAgo())
 
 // returns formated date of one day ago
 const dayAgo = _ =>{
@@ -289,7 +289,7 @@ cryptoArray = [
 axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
     let source = res.data.source
-    console.log(source)
+    // console.log(source)
     let quotes = res.data.quotes
     
     // Pull historical data from USD -- Week Ago
@@ -332,11 +332,10 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
 })
 
 // User lands on page and this loads for crypto currencies:
-axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
+axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
   .then(({ data: { data } }) => {
     top20 = data
     console.log(top20)
-    console.log(top20[0].as)
 
     document.getElementById('cryptoChart').innerHTML = ''
     cryptoArray.forEach((elem, i) => {
@@ -344,7 +343,7 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
       cryptoElem.innerHTML = `
       <td>${top20[i].n}</td>
           <td>$${top20[i].p}</td>
-          <td>24hr change</td>
+          <td>${top20[i].pc}%</td>
           <td>week change</td>
           <td><button class="waves-effect waves-light btn green">Favorite</button></td>
       `
@@ -353,6 +352,10 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
 
   })
   .catch(err => console.error(err))
+
+
+
+
 // axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
 //   .then(res => {
 //     let source = res.data.source
@@ -364,14 +367,14 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
 
 
 // Call for converting one currency to another
-axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
-  .then(res => {
-    let exchange = res.data
-    console.log(exchange)
-    console.log(exchange.query)
-    console.log(exchange.result)
-  })
-  .catch(err => console.error(err))
+// axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
+//   .then(res => {
+//     let exchange = res.data
+//     console.log(exchange)
+//     console.log(exchange.query)
+//     console.log(exchange.result)
+//   })
+//   .catch(err => console.error(err))
 
 // LunarCrush API
 // Calling data on one crypto
