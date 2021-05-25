@@ -36,10 +36,74 @@
     </section>
   </header>
 
-<main>
-
-
-
+<!-- main -->
+<main class = "container">
+  <!-- row that contains the calculator itself -->
+  <br><br>
+  <section class = "row calcRow">
+    <!-- this section holds the actual content -->
+    <section class="col s12 calcContainer floralWhite">
+      <!-- section for "FROM" input fields -->
+        <section>
+          <br>
+          <form>
+            <p>
+              <label>
+                <input id="fromFiat" name="group1" type="radio" checked />
+                <span>Fiat</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input id="fromCrypto" name="group1" type="radio" />
+                <span>Crypto</span>
+              </label>
+            </p>
+          </form>
+        </section>
+        <section>
+          <br>
+          <!-- "From" input-->
+          <label for="from">From</label>
+          <input placeholder="Currency Code" id="from" type="text" class="validate calcInput">
+        </section>
+        <section>
+          <br>
+          <!-- "Amount" input-->
+          <label for="amount">Amount</label>
+          <input placeholder="Amount" id="amount" type="text" class="validate calcInput">
+        </section>
+      <!-- checkboxes for the "TO" side -->
+        <section>
+          <br>
+          <form>
+            <p>
+              <label>
+                <input id="toFiat" name="group2" type="radio" checked />
+                <span>Fiat</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input id="toCrypto" name="group2" type="radio" />
+                <span>Crypto</span>
+              </label>
+            </p>
+          </form>
+        </section>
+        <section>
+          <br>
+          <!-- "To" input-->
+          <label for="to">To</label>
+          <input placeholder="Currency Code" id="to" type="text" class="validate calcInput">
+        </section>
+    </section>
+    <div>
+      <button id = "convertCalc" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
+    </div>
+    <!-- end of column -->
+  </section>
+  <!-- end row -->
 </main>
 
 <!-- sticky footer -->
