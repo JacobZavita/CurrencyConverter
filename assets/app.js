@@ -200,11 +200,93 @@ fiatArray = [
   }
 ]
 
-// User lands on page and this loads:
+cryptoArray = [
+  {
+    code: 'BTC',
+    name: 'Bitcoin'
+  },
+  {
+    code: 'ETH',
+    name: 'Ethereum'
+  },
+  {
+    code: 'USDT',
+    name: 'Tether'
+  },
+  {
+    code: 'BNB',
+    name: 'Binance Coin'
+  },
+  {
+    code: 'ADA',
+    name: 'Cardano'
+  },
+  {
+    code: 'DOGE',
+    name: 'Dogecoin'
+  },
+  {
+    code: 'XRP',
+    name: 'XRP'
+  },
+  {
+    code: 'HEX',
+    name: 'HEX'
+  },
+  {
+    code: 'DOT',
+    name: 'Polkadot'
+  },
+  {
+    code: 'USDC',
+    name: 'USD Coin'
+  },
+  {
+    code: 'ICP',
+    name: 'Internet Computer'
+  },
+  {
+    code: 'UNI',
+    name: 'Uniswap'
+  },
+  {
+    code: 'BCH',
+    name: 'Bitcoin Cash'
+  },
+  {
+    code: 'LTC',
+    name: 'Litecoin'
+  },
+  {
+    code: 'LINK',
+    name: 'Chainlink'
+  },
+  {
+    code: 'MATIC',
+    name: 'Polygon'
+  },
+  {
+    code: 'ETC',
+    name: 'Ethereum Classic'
+  },
+  {
+    code: 'XLM',
+    name: 'Stellar'
+  },
+  {
+    code: 'SHIB',
+    name: 'Shiba Inu'
+  },
+  {
+    code: 'BUSD',
+    name: 'Binance USD'
+  }
+]
+
+// User lands on page and this loads for fiat currencies:
 axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
   .then(res => {
     let quotes = res.data.quotes
-    console.log(quotes)
     
     // Pull historical data from USD -- Week Ago
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
@@ -222,9 +304,6 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
 
               let shortCode = fiatArray[i].code
               let exchangeCode = 'USD' + shortCode
-              // console.log(quotes.exchangeCode)
-
-              console.log(quotes[exchangeCode])
 
               let dayChange = (dayAgo[exchangeCode] / quotes[exchangeCode]) - 1
               let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
@@ -248,6 +327,28 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
   .catch(err => console.error(err))
 })
 
+// User lands on page and this loads for crypto currencies:
+axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
+  .then(({ data: { data } }) => {
+    top20 = data
+    console.log(top20)
+    console.log(top20[0].as)
+
+    document.getElementById('cryptoChart').innerHTML = ''
+    cryptoArray.forEach((elem, i) => {
+      let cryptoElem = document.createElement('tr')
+      cryptoElem.innerHTML = `
+      <td>${top20[i].n}</td>
+          <td>$${top20[i].p}</td>
+          <td>24hr change</td>
+          <td>week change</td>
+          <td><button class="waves-effect waves-light btn green">Favorite</button></td>
+      `
+      document.getElementById('cryptoChart').append(cryptoElem)
+    })
+
+  })
+  .catch(err => console.error(err))
 // axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
 //   .then(res => {
 //     let source = res.data.source
@@ -270,22 +371,22 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
 
 // LunarCrush API
 // Calling data on one crypto
-axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=LTC`)
-  .then(res => {
-    let cryptoName = res.data.data[0].name
-    console.log(cryptoName)
-    let cryptoData = res.data.data[0]
-    console.log(cryptoData)
-  })
-  .catch(err => console.error(err))
+// axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=LTC`)
+//   .then(res => {
+//     let cryptoName = res.data.data[0].name
+//     console.log(cryptoName)
+//     let cryptoData = res.data.data[0]
+//     console.log(cryptoData)
+//   })
+//   .catch(err => console.error(err))
 
 // Calling exchange data. This brings back an array btc to ten other coins
-  axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
-    .then(({ data: { data } }) => {
-      top20 = data
-      console.log(top20)
-    })
-    .catch(err => console.error(err))
+  // axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
+  //   .then(({ data: { data } }) => {
+  //     top20 = data
+  //     console.log(top20)
+  //   })
+  //   .catch(err => console.error(err))
 
 // Javascript for dropdown picker in search
 document.addEventListener('DOMContentLoaded', function () {
