@@ -285,8 +285,10 @@ cryptoArray = [
   }
 ]
 
+let baseCurrency = "USD"
+
 // User lands on page and this loads for fiat currencies:
-axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
+axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
   .then(res => {
     let source = res.data.source
     // console.log(source)
@@ -296,6 +298,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
       .then(resp => {
         let weekAgo = resp.data.quotes
+        console.log(weekAgo)
 
         // Day Ago
         axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
@@ -351,7 +354,7 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
               <td>${oneWeek.data[0].percent_change_7d}%</td>
               <td><button class="waves-effect waves-light btn green">♡</button></td>
           `
-          // let cryptoList = document.createElement('option')
+          // let cryptoList = document.createElement('select')
           // cryptoList.innerHTML = `
           // <option value="${top20[i]}">${top20[i].s} - ${top20[i].n}</option>
           // `
@@ -365,12 +368,12 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
   .catch(err => console.error(err))
 
   // Javascript for materialize "dropdown" on homepage
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('.dropdown-trigger')
-  var instances = M.Dropdown.init(elems, {
-    closeOnClick: true
-  })
-})
+// document.addEventListener('DOMContentLoaded', function () {
+//   var elems = document.querySelectorAll('.dropdown-trigger')
+//   var instances = M.Dropdown.init(elems, {
+//     closeOnClick: true
+//   })
+// })
 
 // Javascript for materialize "select" option on homepage
 document.addEventListener('DOMContentLoaded', function () {
@@ -381,15 +384,82 @@ document.addEventListener('DOMContentLoaded', function () {
 // Dropdown visible/invisible
 document.getElementById('target').addEventListener('change', function () {
   'use strict';
-  let vis = document.querySelector('.inv'),
-    target = document.getElementById(this.value)
-  if (vis !== null) {
-    vis.className = 'vis'
-  }
-  if (target !== null) {
-    target.className = 'inv'
-  }
+    let vis = document.querySelector('.inv'),
+      target = document.getElementById(this.value)
+    if (vis !== null) {
+      vis.className = 'vis'
+    }
+    if (target !== null) {
+      target.className = 'inv'
+    }
 })
+
+// eventListener for convert button click on Homepage
+document.getElementById('convertButton').addEventListener('click', event =>{
+  event.preventDefault()
+  
+  // Grab currency type (fiat or crypto)
+  let a = document.getElementById("a")
+  let currencyType = a.options[a.selectedIndex].value
+
+  // Grab selected currency
+  let e = document.getElementById("f")
+  let selectedCurrency = e.options[e.selectedIndex].text
+
+  // Turn selected currency into 3-digit code
+  let baseCurrencyCode = selectedCurrency.substring(0, 3)
+
+  // Grab "Amount"
+  let baseAmount = document.getElementById('baseAmount').value
+
+if (currencyType === 'fiatList') {
+  console.log(selectedCurrency)
+  axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
+  .then(res => {
+    let source = res.data.source
+    let quotes = res.data.quotes
+    console.log(quotes)
+
+    document.getElementById('fiatChart').innerHTML = ''
+    for (let i = 0; i < fiatArray.length; i++) {
+      console.log('works')
+    }
+
+
+    
+  })
+  .catch(err => console.error(err))
+
+} else {
+  console.log('currency type is crypto')
+}
+
+})
+
+
+// document.getElementById('target').addEventListener('change', function () {
+//   if (value.select.option === "fiatList") {
+//     'use strict';
+//     let vis = document.querySelector('.inv'),
+//       target = document.getElementById(this.value)
+//     if (vis !== null) {
+//       vis.className = 'vis'
+//     }
+//     if (target !== null) {
+//       target.className = 'inv'
+//     }
+//   } else {
+//     'use strict';
+//     let vis = document.querySelector('.invi'),
+//       target = document.getElementById(this.value)
+//     if (vis !== null) {
+//       vis.className = 'vis'
+//     }
+//     if (target !== null) {
+//       target.className = 'invi'
+//     }
+//   }
+// })
 
 // The following are just axios calls that do different things for reference.
 
