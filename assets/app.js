@@ -403,6 +403,21 @@ document.addEventListener('click', event => {
   event.preventDefault()
   if (event.target.classList.contains('fav-btn')) {
     console.log(event.target.parentElement.dataset.test)
+    // get currency code
+    const curCode = event.target.parentElement.dataset.test
+    const favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
+    if (!favoriteArray.includes(
+      {
+        code: `${curCode}`
+      }
+    )) {
+      favoriteArray.push(
+        {
+          code: `${curCode}`
+        }
+      )
+    }
+    localStorage.setItem('favs', JSON.stringify(favoriteArray))
     // append that data to a local storage with variable 'favs'
   }
 })
