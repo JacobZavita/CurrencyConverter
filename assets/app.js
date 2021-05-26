@@ -159,7 +159,7 @@ fiatArray = [
     name: 'Swiss Franc'
   },
   {
-    code: 'RUR',
+    code: 'RUB',
     name: 'Russian Ruble'
   },
   {
@@ -328,7 +328,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
                 <td>${quotes[exchangeCode]}</td>
                 <td>${dayPercent}</td>
                 <td>${weekPercent}</td>
-                <td id ="btn${i}" data-test="${shortCode}"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                <td id ="btn${i}" data-test="${shortCode}" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
               `
               document.getElementById('fiatChart').append(fiatElem)
             })
@@ -347,7 +347,6 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
 
     document.getElementById('cryptoChart').innerHTML = ''
     cryptoArray.forEach((elem, i) => {
-
       axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${top20[i].s}&change=1w`)
         .then(resp => {
           let oneWeek = resp.data
@@ -357,8 +356,10 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
               <td>$${top20[i].p}</td>
               <td>${top20[i].pc}%</td>
               <td>${oneWeek.data[0].percent_change_7d}%</td>
-              <td><button class="waves-effect waves-light btn green">♡</button></td>
+              <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
           `
+          // log data stuff
+
           // let cryptoList = document.createElement('option')
           // cryptoList.innerHTML = `
           // <option value="${top20[i]}">${top20[i].s} - ${top20[i].n}</option>
@@ -403,8 +404,10 @@ document.addEventListener('click', event => {
   event.preventDefault()
   if (event.target.classList.contains('fav-btn')) {
     console.log(event.target.parentElement.dataset.test)
+    console.log(event.target.parentElement.dataset.fiat)
     // get currency code
     const curCode = event.target.parentElement.dataset.test
+    let isFiat = event.target.parentElement.dataset.test
     const favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
     if (!favoriteArray.includes(
       {
@@ -413,7 +416,8 @@ document.addEventListener('click', event => {
     )) {
       favoriteArray.push(
         {
-          code: `${curCode}`
+          code: `${curCode}`,
+          fiat: `${isFiat}`
         }
       )
     }
