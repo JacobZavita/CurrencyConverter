@@ -12,8 +12,9 @@ main {
 
 th {
   font-weight: bold;
-  color: #252422; 
+  color: #252422;
 }
+
 /*                             */
 
 .gitLogo {
@@ -61,8 +62,7 @@ th {
   margin-bottom: 10px;
   text-align: center;
   font-size: smaller;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-  url("./images/header.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/header.jpg");
 }
 
 #index-banner {
@@ -76,6 +76,7 @@ th {
   flex-wrap: nowrap;
   /* border and shadow */
 }
+
 .calcRow {
   border-radius: 25px;
   border: 2px solid #CBCADB;
@@ -100,6 +101,7 @@ th {
 .d-flex {
   display: flex;
 }
+
 .justify-flex-end {
   justify-content: space-around;
   flex-wrap: wrap;
@@ -131,4 +133,8 @@ th {
 
 .textWhite {
   color: #FFFCF2;
+}
+
+.inv {
+  display: none;
 }

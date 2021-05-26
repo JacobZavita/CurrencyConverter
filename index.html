@@ -47,22 +47,67 @@
         <form>
           <!-- start row -->
           <section class="row">
-            <section class="input-field col s12">
+            <section class="input-field">
               <!-- Test row with stuff in it -->
               <section class="row testRow">
                 <!-- dropdown button -->
-                <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>From</a>
+                <!-- <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>From</a>
                 <ul id='dropdown1' class='dropdown-content'>
                   <li><a href="#!">USD</a></li>
                   <li><a href="#!">CNY</a></li>
                   <li><a href="#!">JPY</a></li>
                   <li><a href="#!">EUR</a></li>
                   <li><a href="#!">BRL</a></li>
-                </ul>
+                </ul> -->
+                <div class="input-field" id="target">
+                  <select>
+                    <option value="" disabled selected>Type of currency</option>
+                    <option value="fiatList">Fiat Currency</option>
+                    <option value="crypto">Crypto Currency</option>
+                  </select>
+                  <label>Fiat or Crypto?</label>
+                </div>
+                
+                <div class="inv">
+                  <div class="input-field" id="fiatList">
+                    <select>
+                      <option value="" disabled selected>Fiat</option>
+                      <option value="1">USD - United States Dollar</option>
+                      <option value="2">CNY - Chinese Yuan</option>
+                      <option value="3">JPY - Japanese Yen</option>
+                      <option value="4">EUR - Euro</option>
+                      <option value="5">GBP - British Pound Sterling</option>
+                      <option value="6">INR - Indian Rupee</option>
+                      <option value="7">AUD - Australian Dollar</option>
+                      <option value="8">CAD - Canadian Dollar</option>
+                      <option value="9">CHF - Swiss Franc</option>
+                      <option value="10">HKD - Hong Kong Dollar</option>
+                      <option value="11">NZD - New Zealand Dollar</option>
+                      <option value="12">BRL - Brazilian Real</option>
+                      <option value="13">NGN - Nigerian Naira</option>
+                      <option value="14">KRW - Korean Won</option>
+                      <option value="15">IDR - Indonesean Rupah</option>
+                      <option value="16">SAR - Saudi Riyal</option>
+                      <option value="17">TRY - Turkish</option>
+                      <option value="18">KWD - Kuwait Dinar</option>
+                      <option value="19">KYD - Cayman Island Dollar</option>
+                    </select>
+                  <label>Which currency?</label>
+                  </div>
+                </div>
+
+                <!-- <div class="invi">
+                  <div class="input-field" id="fiatList">
+                    <select id="cryptoList">
+                    </select>
+                    <label>Which currency?</label>
+                  </div>
+                </div> -->
+
                 <!-- input field id: testInput -->
                 <section>
-                  <input placeholder="text" id="testInput" type="text" class="validate">
-                  <!-- <label for="testInput">Test Input</label> -->
+                  <input placeholder="$1" id="testInput" type="text" class="validate">
+                  <label for="testInput">Amount</label>
                 </section>
                 <!-- button id: testButton -->
                 <button id = "convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
@@ -75,41 +120,40 @@
         </form>
         <!-- figure for fiat table -->
         <figure id="fiatList">
-       
         </figure>
       </section>
 
       <section class="col s6">
-        <form>
+        <!-- <form> -->
           <!-- start row -->
-          <section class="row">
-            <section class="input-field col s12">
+          <!-- <section class="row">
+            <section class="input-field col s12"> -->
               <!-- Test row with stuff in it -->
-              <section class="row testRow">
+              <!-- <section class="row testRow"> -->
                 <!-- dropdown button -->
-                <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>From</a>
+                <!-- <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>From</a>
                 <ul id='dropdown1' class='dropdown-content'>
                   <li><a href="#!">USD</a></li>
                   <li><a href="#!">CNY</a></li>
                   <li><a href="#!">JPY</a></li>
                   <li><a href="#!">EUR</a></li>
                   <li><a href="#!">BRL</a></li>
-                </ul>
+                </ul> -->
                 <!-- input field id: testInput -->
-                <section>
-                  <input placeholder="text" id="testInput" type="text" class="validate">
+                <!-- <section>
+                  <input placeholder="text" id="testInput" type="text" class="validate"> -->
                   <!-- <label for="testInput">Test Input</label> -->
-                </section>
+                <!-- </section> -->
                 <!-- button id: testButton -->
-                <button id="convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
+                <!-- <button id="convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
 
               </section>
       
-            </section>
+            </section> -->
             <!-- end test Row -->
-          </section>
+          <!-- </section> -->
           <!-- end row -->
-        </form>
+        <!-- </form> -->
         <!-- figure for fiat table -->
         <figure id="fiatList">
           

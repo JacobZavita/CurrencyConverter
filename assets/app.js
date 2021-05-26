@@ -335,7 +335,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
 axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
   .then(({ data: { data } }) => {
     top20 = data
-    console.log(top20)
+    console.log(data)
 
     document.getElementById('cryptoChart').innerHTML = ''
     cryptoArray.forEach((elem, i) => {
@@ -351,15 +351,47 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
               <td>${oneWeek.data[0].percent_change_7d}%</td>
               <td><button class="waves-effect waves-light btn green">♡</button></td>
           `
+          // let cryptoList = document.createElement('option')
+          // cryptoList.innerHTML = `
+          // <option value="${top20[i]}">${top20[i].s} - ${top20[i].n}</option>
+          // `
+          // document.getElementById('cryptoList').append(cryptoList)
           document.getElementById('cryptoChart').append(cryptoElem)
+          console.log()
         })
         .catch(err => console.error(err))
     })
   })
   .catch(err => console.error(err))
 
+  // Javascript for materialize "dropdown" on homepage
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.querySelectorAll('.dropdown-trigger')
+  var instances = M.Dropdown.init(elems, {
+    closeOnClick: true
+  })
+})
 
+// Javascript for materialize "select" option on homepage
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems);
+});
 
+// Dropdown visible/invisible
+document.getElementById('target').addEventListener('change', function () {
+  'use strict';
+  let vis = document.querySelector('.inv'),
+    target = document.getElementById(this.value)
+  if (vis !== null) {
+    vis.className = 'vis'
+  }
+  if (target !== null) {
+    target.className = 'inv'
+  }
+})
+
+// The following are just axios calls that do different things for reference.
 
 // axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
 //   .then(res => {
@@ -399,11 +431,3 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
   //     console.log(top20)
   //   })
   //   .catch(err => console.error(err))
-
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('.dropdown-trigger')
-  var instances = M.Dropdown.init(elems, {
-    closeOnClick: true
-  })
-})
-
