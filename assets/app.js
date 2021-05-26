@@ -157,8 +157,8 @@ fiatArray = [
     name: 'Swiss Franc'
   },
   {
-    code: 'CNH',
-    name: 'Chinese Renminbi'
+    code: 'RUR',
+    name: 'Russian Ruble'
   },
   {
     code: 'HKD',
