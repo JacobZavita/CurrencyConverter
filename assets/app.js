@@ -1,3 +1,5 @@
+let quotes
+
 /*
 converts crypto to fiat currency
 accepts a base amount of crypto and the exchange rate
@@ -5,7 +7,7 @@ Pre-condition: The exchange rate matches the desired outcome
 */
 const cryptoToFiat = (baseCrypto, exchangeRate) => {
   //check parameters
-  if(NaN(baseCrypto) || NaN(exchangeRate)) {
+  if (NaN(baseCrypto) || NaN(exchangeRate)) {
     return -1 //invalid return value
   } else {
     return baseCrypto * exchangeRate
@@ -19,7 +21,7 @@ Pre-condition: The exchange rate matches the desired outcome
 */
 const fiatToCrypto = (baseFiat, exchangeRate) => {
   //check parameters
-  if(NaN(baseFiat) || NaN(exchangeRate)) {
+  if (NaN(baseFiat) || NaN(exchangeRate)) {
     return -1
   } else {
     return baseFiat * baseCrypto
@@ -27,9 +29,9 @@ const fiatToCrypto = (baseFiat, exchangeRate) => {
 }
 
 // converts the month to numerical value
-const monthToNumber = (month) =>{
+const monthToNumber = (month) => {
   let newMonth = ''
-  switch (month){
+  switch (month) {
     case ('Jan'):
       newMonth += '01'
       break
@@ -97,7 +99,7 @@ const weekAgo = _ => {
 // console.log(weekAgo())
 
 // returns formated date of one day ago
-const dayAgo = _ =>{
+const dayAgo = _ => {
   let formatedDate = ''
   // Get today's date using the JavaScript Date object.
   let ourDate = new Date()
@@ -290,8 +292,14 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
   .then(res => {
     let source = res.data.source
     // console.log(source)
-    let quotes = res.data.quotes
-    
+    quotes = res.data.quotes
+    console.log(res.data)
+    console.log('hi')
+    // quotes = res.data.quotes.map((quote, i) => ({
+    //   id: i,
+    //   ...quote
+    // }))
+
     // Pull historical data from USD -- Week Ago
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
       .then(resp => {
@@ -316,20 +324,20 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
               let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 
               fiatElem.innerHTML = `
-          <td>${fiatArray[i].name}</td>
-          <td>${quotes[exchangeCode]}</td>
-          <td>${dayPercent}</td>
-          <td>${weekPercent}</td>
-          <td><button class="waves-effect waves-light btn green">♡</button></td>
-          `
+                <td>${fiatArray[i].name}</td>
+                <td>${quotes[exchangeCode]}</td>
+                <td>${dayPercent}</td>
+                <td>${weekPercent}</td>
+                <td id ="btn${i}" data-test="${shortCode}"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+              `
               document.getElementById('fiatChart').append(fiatElem)
             })
-              .catch(err => console.error(err))
+          })
+          .catch(err => console.error(err))
       })
       .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
-})
 
 // User lands on page and this loads for crypto currencies:
 axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
@@ -357,14 +365,13 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
           // `
           // document.getElementById('cryptoList').append(cryptoList)
           document.getElementById('cryptoChart').append(cryptoElem)
-          console.log()
         })
         .catch(err => console.error(err))
     })
   })
   .catch(err => console.error(err))
 
-  // Javascript for materialize "dropdown" on homepage
+// Javascript for materialize "dropdown" on homepage
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('.dropdown-trigger')
   var instances = M.Dropdown.init(elems, {
@@ -388,6 +395,15 @@ document.getElementById('target').addEventListener('change', function () {
   }
   if (target !== null) {
     target.className = 'inv'
+  }
+})
+
+// Favorites button
+document.addEventListener('click', event => {
+  event.preventDefault()
+  if (event.target.classList.contains('fav-btn')) {
+    console.log(event.target.parentElement.dataset.test)
+    // append that data to a local storage with variable 'favs'
   }
 })
 
