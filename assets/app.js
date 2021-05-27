@@ -207,83 +207,103 @@ fiatArray = [
 cryptoArray = [
   {
     code: 'BTC',
-    name: 'Bitcoin'
+    name: 'Bitcoin',
+    position: '0'
   },
   {
     code: 'ETH',
-    name: 'Ethereum'
+    name: 'Ethereum',
+    position: '1'
   },
   {
     code: 'USDT',
-    name: 'Tether'
+    name: 'Tether',
+    position: '2'
   },
   {
     code: 'BNB',
-    name: 'Binance Coin'
+    name: 'Binance Coin',
+    position: '3'
   },
   {
     code: 'ADA',
-    name: 'Cardano'
-  },
-  {
-    code: 'DOGE',
-    name: 'Dogecoin'
+    name: 'Cardano',
+    position: '4'
   },
   {
     code: 'XRP',
-    name: 'XRP'
+    name: 'XRP',
+    position: '5'
+  },
+  {
+    code: 'DOGE',
+    name: 'Dogecoin',
+    position: '6'
   },
   {
     code: 'HEX',
-    name: 'HEX'
+    name: 'HEX',
+    position: '7'
   },
   {
     code: 'DOT',
-    name: 'Polkadot'
+    name: 'Polkadot',
+    position: '8'
   },
   {
     code: 'USDC',
-    name: 'USD Coin'
+    name: 'USD Coin',
+    position: '9'
   },
   {
     code: 'ICP',
-    name: 'Internet Computer'
+    name: 'Internet Computer',
+    position: '10'
   },
   {
     code: 'UNI',
-    name: 'Uniswap'
-  },
-  {
-    code: 'BCH',
-    name: 'Bitcoin Cash'
-  },
-  {
-    code: 'LTC',
-    name: 'Litecoin'
+    name: 'Uniswap',
+    position: '11'
   },
   {
     code: 'LINK',
-    name: 'Chainlink'
+    name: 'Chainlink',
+    position: '12'
+  },
+  {
+    code: 'BCH',
+    name: 'Bitcoin Cash',
+    position: '13'
   },
   {
     code: 'MATIC',
-    name: 'Polygon'
+    name: 'Polygon',
+    position: '14'
   },
   {
-    code: 'ETC',
-    name: 'Ethereum Classic'
+    code: 'LTC',
+    name: 'Litecoin',
+    position: '15'
   },
   {
     code: 'XLM',
-    name: 'Stellar'
+    name: 'Stellar',
+    position: '16'
   },
   {
-    code: 'SHIB',
-    name: 'Shiba Inu'
+    code: 'ETC',
+    name: 'Ethereum Classic',
+    position: '17'
   },
   {
     code: 'BUSD',
-    name: 'Binance USD'
+    name: 'Binance USD',
+    position: '18'
+  },
+  {
+    code: 'SOL',
+    name: 'Solana',
+    position: '19'
   }
 ]
 
@@ -346,7 +366,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
 axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
   .then(({ data: { data } }) => {
     top20 = data
-    // console.log(data)
+    console.log(data)
 
     document.getElementById('cryptoChart').innerHTML = ''
     cryptoArray.forEach((elem, i) => {
@@ -385,14 +405,14 @@ document.addEventListener('DOMContentLoaded', function () {
 // Dropdown visible/invisible
 document.getElementById('target').addEventListener('change', function () {
   'use strict';
-    let vis = document.querySelector('.inv'),
-      target = document.getElementById(this.value)
-    if (vis !== null) {
-      vis.className = 'vis'
-    }
-    if (target !== null) {
-      target.className = 'inv'
-    }
+    let options = ['fiatList', 'cryptoList']
+    options.forEach(option => {
+      if (option === document.getElementById('a').value) {
+        document.getElementById(option).parentNode.className = ''
+      } else {
+        document.getElementById(option).parentNode.className = 'inv'
+      }
+    })
 })
 
 // eventListener for convert button click on Homepage
@@ -402,19 +422,18 @@ document.getElementById('convertButton').addEventListener('click', event =>{
   // Grab currency type (fiat or crypto)
   let a = document.getElementById("a")
   let currencyType = a.options[a.selectedIndex].value
+  console.log(currencyType)
 
-  // Grab selected currency
-  let e = document.getElementById("f")
-  let selectedCurrency = e.options[e.selectedIndex].text
-
-  // Turn selected currency into 3-digit code
-  let baseCurrencyCode = selectedCurrency.substring(0, 3)
-
-  // Grab "Amount"
   let baseAmount = document.getElementById('baseAmount').value
 
 if (currencyType === 'fiatList') {
+  
+  let e = document.getElementById("f")
+  let selectedCurrency = e.options[e.selectedIndex].text
+  let baseCurrencyCode = selectedCurrency.substring(0, 3)
+  let baseAmount = document.getElementById('baseAmount').value
   console.log(selectedCurrency)
+
   axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
     let source = res.data.source
@@ -491,7 +510,78 @@ if (currencyType === 'fiatList') {
   .catch(err => console.error(err))
 
 } else {
-  
+  let g = document.getElementById("h")
+  let selectedCurrency = g.options[g.selectedIndex].text
+  let baseCurrencyCode = selectedCurrency.substring(0, 3)
+  let baseAmount = document.getElementById('baseAmount').value
+
+  axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
+    .then(res => {
+      let top20 = res.data
+      console.log(top20)
+
+      document.getElementById('cryptoChart').innerHTML = ''
+      document.getElementById('fiatChart').innerHTML = ''
+      for (let i = 0; i < 20; i++) {
+        let cryptoElem = document.createElement('tr')
+
+        let crypto2Crypto = (top20.data[i].p/top20.data[1].p) * baseAmount
+
+        cryptoElem.innerHTML = `
+                <td>${top20.data[i].n}</td>
+                <td>${crypto2Crypto}</td>
+                <td></td>
+                <td>%</td>
+                <td><button id ="crypto-btn${i}" data-test="FIX THIS" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                `
+        // so baseToBTC shows th price in bitcoin.
+        // Then I need to see the data in
+        document.getElementById('cryptoChart').append(cryptoElem)
+
+        console.log(selectedCurrency)
+        
+        axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=USD&format=1`)
+        .then(resp => {
+          let source = resp.data.source
+          let quotes = resp.data.quotes
+          let USDtoBTC = quotes.USDBTC
+
+          // console.log(quotes)
+
+          if (baseCurrencyCode === top20.data[i].s){
+            let baseCurrencyToBTC = top20.data[i].p_btc
+            let baseAmountToUSD = (baseCurrencyToBTC / quotes.USDBTC) * baseAmount
+            console.log(baseAmountToUSD)
+
+            let shortCode = fiatArray[i].code
+            let exchangeCode = 'USD' + shortCode
+
+            let conversionRate = quotes[exchangeCode] / baseAmountToUSD
+
+            console.log(conversionRate)
+
+            // for (i = 0; i < fiatArray.length; i++) {
+            //   baseAmountToUSD * quotes.
+            // }
+
+            let fiatElem = document.createElement('tr')
+
+            fiatElem.innerHTML = `
+                <td>${fiatArray[i].name}</td>
+                <td>Amount</td>
+                <td>%</td>
+                <td>%</td>
+                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                `
+            document.getElementById('fiatChart').append(fiatElem)
+
+          } else{}
+          
+        })
+        .catch(err => console.error(err))
+      }
+    })
+    .catch(err => console.error(err))
 }
 
 })
