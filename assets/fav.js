@@ -284,7 +284,7 @@ document.addEventListener('click', event => {
       for (let i = 0; i < favoriteArray.length; i++) {
         if (event.target.parentElement.parentElement.children[0].textContent === favoriteArray[i].code) {
           console.log(favoriteArray)
-          favoriteArray = favoriteArray.splice(i, 1)
+          favoriteArray.splice(i, 1)
           break
         }
       }

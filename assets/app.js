@@ -580,7 +580,7 @@ console.log(baseCurrencyCode)
 
 // Favorites button
 document.addEventListener('click', event => {
-  event.preventDefault()
+
   if (event.target.classList.contains('fav-btn')) {
     console.log(event.target.parentElement.dataset.test)
     console.log(event.target.parentElement.dataset.fiat)
