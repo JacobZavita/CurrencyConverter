@@ -295,8 +295,8 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
     let source = res.data.source
     // console.log(source)
     quotes = res.data.quotes
-    console.log(res.data)
-    console.log('hi')
+    // console.log(res.data)
+    // console.log('hi')
     // quotes = res.data.quotes.map((quote, i) => ({
     //   id: i,
     //   ...quote
@@ -306,7 +306,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
       .then(resp => {
         let weekAgo = resp.data.quotes
-        console.log(weekAgo)
+        // console.log(weekAgo)
 
         // Day Ago
         axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
@@ -346,7 +346,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
 axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
   .then(({ data: { data } }) => {
     top20 = data
-    console.log(data)
+    // console.log(data)
 
     document.getElementById('cryptoChart').innerHTML = ''
     cryptoArray.forEach((elem, i) => {
@@ -420,24 +420,83 @@ if (currencyType === 'fiatList') {
     let source = res.data.source
     let quotes = res.data.quotes
     console.log(quotes)
-
-    document.getElementById('fiatChart').innerHTML = ''
-    for (let i = 0; i < fiatArray.length; i++) {
-      console.log('works')
-    }
-
-
     
+    let baseToBTCCode = baseCurrencyCode + 'BTC'
+    let baseToBTC = quotes[baseToBTCCode]
+    console.log(baseToBTC)
+
+    axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&date=${weekAgo()}`)
+    // It's still pulling the data with USD as the base
+      .then(resp => {
+        let weekAgo = resp.data.quotes
+        console.log(weekAgo)
+
+        axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
+          .then(respo => {
+            let dayAgo = respo.data.quotes
+            
+            document.getElementById('fiatChart').innerHTML = ''
+            for (let i = 0; i < fiatArray.length; i++) {
+              let fiatElem = document.createElement('tr')
+
+              let shortCode = fiatArray[i].code
+              let exchangeCode = baseCurrencyCode + shortCode
+
+              let conversionRate = quotes[exchangeCode] * baseAmount
+
+              let dayChange = (dayAgo[exchangeCode] / quotes[exchangeCode]) - 1
+              let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              let weekChange = (weekAgo[exchangeCode] / quotes[exchangeCode]) - 1
+              let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              fiatElem.innerHTML = `
+                <td>${fiatArray[i].name}</td>
+                <td>${conversionRate}</td>
+                <td>${dayPercent}</td>
+                <td>${weekPercent}</td>
+                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+              `      
+            document.getElementById('fiatChart').append(fiatElem)
+
+            axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
+              .then(({ data: { data } }) => {
+                let top20 = data
+          
+                document.getElementById('cryptoChart').innerHTML = ''
+                for (let i = 0; i < cryptoArray.length; i++) {
+                let cryptoElem = document.createElement('tr')
+                
+                let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
+
+                cryptoElem.innerHTML = `
+                <td>${top20[i].n}</td>
+                <td>${cryptoResult}</td>
+                <td>${top20[i].pc}%</td>
+                <td>%</td>
+                <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                `
+          // so baseToBTC shows th price in bitcoin.
+          // Then I need to see the data in
+                document.getElementById('cryptoChart').append(cryptoElem)
+                }
+              })
+              .catch (err => console.error(err))
+          }
+        })
+      .catch(err => console.error(err))
+    })
+  .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
 
 } else {
-  console.log('currency type is crypto')
+  
 }
 
 })
 
-
+// Trying to figure out how to get the select/dropdown to render different lists based on what they pick first
 // document.getElementById('target').addEventListener('change', function () {
 //   if (value.select.option === "fiatList") {
 //     'use strict';
