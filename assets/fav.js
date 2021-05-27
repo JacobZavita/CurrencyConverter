@@ -108,7 +108,6 @@ const weekAgo = _ => {
 
   return formatedDate
 }
-
 // returns formated date of one day ago
 const dayAgo = _ => {
   let formatedDate = ''
@@ -130,12 +129,17 @@ const dayAgo = _ => {
   return formatedDate
 }
 
-//returns the change of fiat over a week or day
+// emptys the favorite table on the page
+const clearTable = _ =>{
+  document.getElementById('favdata').innerHTML = ''
+}
+
+// returns the change of fiat over a week or day
 const fiatChange = (past, today) => {
   return Number((past / today) - 1).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 }
 
-//give this guy the data from the axios, res
+// give this guy the data from the axios, res
 const renderCrypto = (cryDat) => {
   //render crypto
   let favRow = documet.createElement('tr')
@@ -209,7 +213,15 @@ const renderItem = (codeData) => {
   } else {
     console.error('Error with codeData.fiat in renderItem f(x) in fav.js')
   }
-
-// render all the data upon landing on fav page
-
 }
+
+// render data upon landing on page
+clearTable()
+let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
+if (favoriteArray.length !== 0) {
+  for (let i = 0; i < favoriteArray.length; i++) {
+    renderItem(favoriteArray[i])
+  }
+}
+
+// add remove button listeners

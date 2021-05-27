@@ -355,7 +355,7 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
           let oneWeek = resp.data
           let cryptoElem = document.createElement('tr')
           cryptoElem.innerHTML = `
-          <td>${top20[i].n}</td>
+              <td>${top20[i].n}</td>
               <td>$${top20[i].p}</td>
               <td>${top20[i].pc}%</td>
               <td>${oneWeek.data[0].percent_change_7d}%</td>
@@ -530,7 +530,7 @@ document.addEventListener('click', event => {
     // get currency code
     const curCode = event.target.parentElement.dataset.test
     let isFiat = event.target.parentElement.dataset.test
-    const favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
+    let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
     if (!favoriteArray.includes(
       {
         code: `${curCode}`,
