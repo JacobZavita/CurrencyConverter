@@ -243,9 +243,8 @@ const renderFiat = (fiDat) => {
     .catch(err => console.error(err))
 }
 
-// give this guy the uh data from the local storage array,
+// give this the data from the local storage array,
 // and object with attributes code(string) and fiat(string, contains 'true' or 'false')
-// maybe nest it all?
 // you can index the array at [i] to get "codeData"
 
 const renderItem = (codeData) => {
@@ -285,8 +284,15 @@ renderAll()
 // add remove button listeners
 document.addEventListener('click', event => {
   if (event.target.classList.contains('rm-btn')) {
+    let favoriteArray = JSON.parse(localStorage.getItem('favs'))
+    for (let i = 0; i < favoriteArray.length; i++) {
+      if (event.target.parentElement.children[0].textContent === favoriteArray[i].code) {
+
+        break
+      }
+    }
     // remove from local storage, render all.
+    clearTable()
+    renderAll()
   }
-  clearTable()
-  renderAll()
 })
