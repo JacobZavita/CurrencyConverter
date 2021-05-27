@@ -420,7 +420,6 @@ document.getElementById('target').addEventListener('change', function () {
 // eventListener for convert button click on Homepage
 document.getElementById('convertButton').addEventListener('click', event => {
   // event.preventDefault()
-  
   // Grab currency type (fiat or crypto)
   let a = document.getElementById("a")
   let currencyType = a.options[a.selectedIndex].value
@@ -514,13 +513,13 @@ if (currencyType === 'fiatList') {
   .catch(err => console.error(err))
 
 } else {
-  let g = document.getElementById("h")
-  let selectedCurrency = g.options[g.selectedIndex].text
-  let baseCurrencyCode = selectedCurrency.substring(0, 3)
-  let baseAmount = document.getElementById('baseAmount').value
+    let g = document.getElementById("h")
+    let selectedCurrency = g.options[g.selectedIndex].text
+    let baseCurrencyCode = selectedCurrency.substring(0, 3)
+    let baseAmount = document.getElementById('baseAmount').value
 
-
-  axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
+    //crypto to crypto
+    axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
     .then(res => {
       let top20 = res.data
       console.log(top20)
@@ -540,15 +539,18 @@ if (currencyType === 'fiatList') {
                 `
         document.getElementById('cryptoChart').append(cryptoElem)       
       }
+    })
+    .catch(err => console.error(err))
+    //end crypto-crypto
 
-
-      axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${selectedCurrency}`)
-        .then(res => {
+    //crypto to fiat
+    axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${selectedCurrency}`)
+    .then(res => {
           //get data on from crypto
           let fromData = res.data.data[0]
           //convert that amount to USD
           let amountUSD = parseFloat(fromData.price * baseAmount)
-          //call to convert fiat to fiat from currencylayer
+          //call to convert fiat to fiat through fiat array
           for (let i = 0; i < 20; i++) {
           axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${fiatArray[i].code}&amount=${amountUSD}`)
             .then(resp => {
@@ -564,46 +566,13 @@ if (currencyType === 'fiatList') {
                 <td>%</td>
                 <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
+              document.getElementById('fiatChart').append(fiatElem)
             })
             .catch(err => console.error(err))
           }
-        })
-        .catch(err => console.error(err))
-
-        // axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${selectedCurrency}`)
-        //     .then(resp => {
-
-          // let baseCurrencyValue = top20[i].s
-          // console.log(baseCurrencyValue)
-          //   console.log(top20.data[i].p)
-          //   console.log(top20.data[1].p)
-          //   console.log(baseAmount)
-          // let crypto2Fiat = (top20.data[i].p / top20.data[1].p) * baseAmount
-          // console.log(crypto2Fiat)
-          
-          // document.getElementById('fiatChart').append(fiatElem)
-
-          // for (let i = 0; i < 20; i++) {
-          //   if (baseCurrencyCode === top20.data[i].s) {
-          //     let baseCurrencyToBTC = top20.data[i].p_btc
-          //     let baseAmountToUSD = (baseCurrencyToBTC / quotes.USDBTC) * baseAmount
-          //     console.log(baseAmountToUSD)
-          //   }
-          // document.getElementById('fiatChart').innerHTML = ''
-          // let fiatElem = document.createElement('tr')
-          // fiatElem.innerHTML = `
-          //     <td>${fiatArray[i].name}</td>
-          //     <td>$</td>
-          //     <td>%</td>
-          //     <td>%</td>
-          //     <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
-          //     `
-          // document.getElementById('fiatChart').append(fiatElem)
-          // }
-        })
-      .catch(err => console.error(err))
     })
     .catch(err => console.error(err))
+    //end crypto to fiat
   }
 })
 
@@ -635,44 +604,3 @@ document.addEventListener('click', event => {
     // append that data to a local storage with variable 'favs'
   }
 })
-
-// The following are just axios calls that do different things for reference.
-
-// axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
-//   .then(res => {
-//     let source = res.data.source
-//     console.log(source)
-//     let quotes = res.data.quotes
-//     console.log(quotes)
-//   })
-//   .catch(err => console.error(err))
-
-
-// Call for converting one currency to another
-// axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
-//   .then(res => {
-//     let exchange = res.data
-//     console.log(exchange)
-//     console.log(exchange.query)
-//     console.log(exchange.result)
-//   })
-//   .catch(err => console.error(err))
-
-// LunarCrush API
-// Calling data on one crypto
-// axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=LTC`)
-//   .then(res => {
-//     let cryptoName = res.data.data[0].name
-//     console.log(cryptoName)
-//     let cryptoData = res.data.data[0]
-//     console.log(cryptoData)
-//   })
-//   .catch(err => console.error(err))
-
-// Calling exchange data. This brings back an array btc to ten other coins
-  // axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
-  //   .then(({ data: { data } }) => {
-  //     top20 = data
-  //     console.log(top20)
-  //   })
-  //   .catch(err => console.error(err))
