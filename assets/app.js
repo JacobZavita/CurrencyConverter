@@ -517,7 +517,7 @@ if (currencyType === 'fiatList') {
     let selectedCurrency = g.options[g.selectedIndex].text
     let baseCurrencyCode = selectedCurrency.substring(0, 3)
     let baseAmount = document.getElementById('baseAmount').value
-
+  // console.log(baseCurrencyCode)
     //crypto to crypto
     axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
     .then(res => {
@@ -542,26 +542,29 @@ if (currencyType === 'fiatList') {
     })
     .catch(err => console.error(err))
     //end crypto-crypto
-
+console.log(baseCurrencyCode)
     //crypto to fiat
-    axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${selectedCurrency}`)
+  axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${baseCurrencyCode}`)
     .then(res => {
+      document.getElementById('fiatChart').innerHTML = ''
           //get data on from crypto
           let fromData = res.data.data[0]
           //convert that amount to USD
+          console.log(fromData)
           let amountUSD = parseFloat(fromData.price * baseAmount)
+          console.log(amountUSD)
           //call to convert fiat to fiat through fiat array
           for (let i = 0; i < 20; i++) {
           axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${fiatArray[i].code}&amount=${amountUSD}`)
             .then(resp => {
               //convert usd to desired currency 
               let result = resp.data.result
+              console.log(result)
               // console.log(result)
-              printResult(result)
               let fiatElem = document.createElement('tr')
               fiatElem.innerHTML = `
                 <td>${fiatArray[i].name}</td>
-                <td>$</td>
+                <td>${result}</td>
                 <td>%</td>
                 <td>%</td>
                 <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
