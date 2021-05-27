@@ -541,26 +541,46 @@ if (currencyType === 'fiatList') {
         document.getElementById('cryptoChart').append(cryptoElem)       
       }
 
-      axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
-        .then(resp => {
-          for (let i = 0; i < 20; i++) {
-          let fiatElem = document.createElement('tr')
 
-          let baseCurrencyValue = top20[i].s
-          console.log(baseCurrencyValue)
+      axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${selectedCurrency}`)
+        .then(res => {
+          //get data on from crypto
+          let fromData = res.data.data[0]
+          //convert that amount to USD
+          let amountUSD = parseFloat(fromData.price * baseAmount)
+          //call to convert fiat to fiat from currencylayer
+          for (let i = 0; i < 20; i++) {
+          axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${fiatArray[i].code}&amount=${amountUSD}`)
+            .then(resp => {
+              //convert usd to desired currency 
+              let result = resp.data.result
+              // console.log(result)
+              printResult(result)
+              let fiatElem = document.createElement('tr')
+              fiatElem.innerHTML = `
+                <td>${fiatArray[i].name}</td>
+                <td>$</td>
+                <td>%</td>
+                <td>%</td>
+                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                `
+            })
+            .catch(err => console.error(err))
+          }
+        })
+        .catch(err => console.error(err))
+
+        // axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${selectedCurrency}`)
+        //     .then(resp => {
+
+          // let baseCurrencyValue = top20[i].s
+          // console.log(baseCurrencyValue)
           //   console.log(top20.data[i].p)
           //   console.log(top20.data[1].p)
           //   console.log(baseAmount)
           // let crypto2Fiat = (top20.data[i].p / top20.data[1].p) * baseAmount
           // console.log(crypto2Fiat)
-          fiatElem.innerHTML = `
-            <td>${fiatArray[i].name}</td>
-            <td>$</td>
-            <td>%</td>
-            <td>%</td>
-            <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
-            `
-          }
+          
           // document.getElementById('fiatChart').append(fiatElem)
 
           // for (let i = 0; i < 20; i++) {
