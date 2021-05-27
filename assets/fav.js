@@ -5,7 +5,7 @@
 
 // add option to delete items from favs with "X" button
 
-fiatArray = [
+const fiatArray = [
   {
     code: 'USD',
     name: 'United States Dollar'
@@ -189,11 +189,9 @@ const fiatChange = (past, today) => {
 
 // give this guy the data from the axios, res
 const renderCrypto = (cryDat) => {
-  //render crypto
+  // render crypto
   let favRow = document.createElement('tr')
   favRow.classList.add('testRow')
-  // test
-  console.log(cryDat[0])
   favRow.innerHTML = `
     <td>${cryDat[0].symbol}</td>
     <td>$${(cryDat[0].price).toFixed(2)}</td>
@@ -243,15 +241,11 @@ const renderFiat = (fiDat) => {
     .catch(err => console.error(err))
 }
 
-// give this guy the uh data from the local storage array,
+// give this the data from the local storage array,
 // and object with attributes code(string) and fiat(string, contains 'true' or 'false')
-// maybe nest it all?
 // you can index the array at [i] to get "codeData"
 
 const renderItem = (codeData) => {
-  // test
-  console.log(codeData)
-
   if (codeData.fiat === 'true') {
     // fiat request here
     renderFiat(codeData.code)
@@ -269,13 +263,37 @@ const renderItem = (codeData) => {
   }
 }
 
-// render data upon landing on page
-clearTable()
-let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
-if (favoriteArray.length !== 0) {
-  for (let i = 0; i < favoriteArray.length; i++) {
-    renderItem(favoriteArray[i])
+const renderAll = _ =>{
+  let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
+  if (favoriteArray.length !== 0) {
+    for (let i = 0; i < favoriteArray.length; i++) {
+      renderItem(favoriteArray[i])
+    }
   }
 }
 
+// render data upon landing on page
+clearTable()
+renderAll()
+
 // add remove button listeners
+document.addEventListener('click', event => {
+  if (event.target.classList.contains('rm-btn')) {
+    let favoriteArray = JSON.parse(localStorage.getItem('favs'))
+    if (favoriteArray.length > 1) {
+      for (let i = 0; i < favoriteArray.length; i++) {
+        if (event.target.parentElement.parentElement.children[0].textContent === favoriteArray[i].code) {
+          console.log(favoriteArray)
+          favoriteArray = favoriteArray.splice(i, 1)
+          break
+        }
+      }
+      localStorage.setItem('favs', JSON.stringify(favoriteArray))
+    } else {
+      localStorage.setItem('favs', JSON.stringify([]))
+    }
+
+    clearTable()
+    renderAll()
+  }
+})
