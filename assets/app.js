@@ -418,8 +418,8 @@ document.getElementById('target').addEventListener('change', function () {
 })
 
 // eventListener for convert button click on Homepage
-document.getElementById('convertButton').addEventListener('click', event =>{
-  event.preventDefault()
+document.getElementById('convertButton').addEventListener('click', event => {
+  // event.preventDefault()
   
   // Grab currency type (fiat or crypto)
   let a = document.getElementById("a")
