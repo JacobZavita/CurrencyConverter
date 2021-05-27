@@ -584,3 +584,31 @@ document.addEventListener('click', event => {
     // append that data to a local storage with variable 'favs'
   }
 })
+
+// //window stuff
+// $(window).on('resize', function() {
+//   if ($(window).width() > 800) {
+//     $('#fiatRowRow').addClass('s6')
+//     $('#fiatRowRow').removeClass('s12')
+//     $('#cryptoRowRow').addClass('s6')
+//     $('#cryptoRowRow').removeClass('s12')
+//   }else{
+//     $('#fiatRowRow').addClass('s12')
+//     $('#fiatRowRow').removeClass('s6')
+//     $('#cryptoRowRow').removeClass('s12')
+//     $('#cryptoRowRow').addClass('s6')
+//   }
+// })
+
+const resizeFunction = _ => {
+  console.log(window.outerWidth)
+  let thisWidth = window.outerWidth
+
+  if (thisWidth < 900) {
+    document.getElementById('fiatRowRow').classList = 'col s12'
+    document.getElementById('cryptoRowRow').classList = 'col s12'
+  } else {
+    document.getElementById('fiatRowRow').classList = 'col s6'
+    document.getElementById('cryptoRowRow').classList = 'col s6'
+  }
+}

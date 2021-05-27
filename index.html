@@ -12,7 +12,7 @@
   <!-- our style sheet -->
   <link rel="stylesheet" href="./assets/style.css">
 </head>
-<body>
+<body onresize="resizeFunction()">
   <!-- navbar -->
   <nav>
     <header class="nav-wrapper flame">
@@ -42,8 +42,10 @@
   <!-- Test Stuff -->
   <section class="container">
     <br><br>
-    <section class="row">
-      <section class="col s6">
+    <section class="row" style="display: flex; justify-content: flex-start !important">
+      <!-- keep this empty div here for alignment -->
+      <div class="col s2"></div>
+      <section class="col s8">
         <!-- <form> -->
           <!-- start row -->
           <section class="row">
@@ -51,7 +53,7 @@
               <!-- Test row with stuff in it -->
               <section class="row testRow">
 
-                <div class="input-field" id="target">
+                <div class="input-field downlists" id="target">
                   <select id="a">
                     <option value="" disabled selected>Type of currency</option>
                     <option value="fiatList">Fiat Currency</option>
@@ -119,7 +121,7 @@
 
 
                 <!-- input field id: testInput -->
-                <section>
+                <section class="downlists">
                   <input placeholder="$1" id="baseAmount" type="text" class="validate">
                   <label for="baseAmount">Amount</label>
                 </section>
@@ -136,49 +138,15 @@
         <figure id="fiatList">
         </figure>
       </section>
+      <!-- keep this empty div here for alignment -->
+      <div class="col s2"></div>
 
-      <section class="col s6">
-        <!-- <form> -->
-          <!-- start row -->
-          <!-- <section class="row">
-            <section class="input-field col s12"> -->
-              <!-- Test row with stuff in it -->
-              <!-- <section class="row testRow"> -->
-                <!-- dropdown button -->
-                <!-- <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>From</a>
-                <ul id='dropdown1' class='dropdown-content'>
-                  <li><a href="#!">USD</a></li>
-                  <li><a href="#!">CNY</a></li>
-                  <li><a href="#!">JPY</a></li>
-                  <li><a href="#!">EUR</a></li>
-                  <li><a href="#!">BRL</a></li>
-                </ul> -->
-                <!-- input field id: testInput -->
-                <!-- <section>
-                  <input placeholder="text" id="testInput" type="text" class="validate"> -->
-                  <!-- <label for="testInput">Test Input</label> -->
-                <!-- </section> -->
-                <!-- button id: testButton -->
-                <!-- <button id="convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
-
-              </section>
-      
-            </section> -->
-            <!-- end test Row -->
-          <!-- </section> -->
-          <!-- end row -->
-        <!-- </form> -->
-        <!-- figure for fiat table -->
-        <figure id="fiatList">
-          
-        </figure>
-      </section>
     </section>
     <!-- row end -->
 
     <!-- tables for fiat and crypto -->
     <section class="row">
-      <section class="col s6">
+      <section id="fiatRowRow" class="col s6">
         <!-- div id: testDiv -->
         <div id="testDiv">
           <!-- unordered list id: testUl -->
@@ -218,7 +186,7 @@
           </table>
         </div>
       </section>
-      <section class="col s6">
+      <section id="cryptoRowRow" class="col s6">
 
         <div id="testDiv">
           <table class="striped">
