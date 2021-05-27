@@ -189,7 +189,7 @@ const fiatChange = (past, today) => {
 
 // give this guy the data from the axios, res
 const renderCrypto = (cryDat) => {
-  //render crypto
+  // render crypto
   let favRow = document.createElement('tr')
   favRow.classList.add('testRow')
   // test
@@ -269,13 +269,24 @@ const renderItem = (codeData) => {
   }
 }
 
-// render data upon landing on page
-clearTable()
-let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
-if (favoriteArray.length !== 0) {
-  for (let i = 0; i < favoriteArray.length; i++) {
-    renderItem(favoriteArray[i])
+const renderAll = _ =>{
+  let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
+  if (favoriteArray.length !== 0) {
+    for (let i = 0; i < favoriteArray.length; i++) {
+      renderItem(favoriteArray[i])
+    }
   }
 }
 
+// render data upon landing on page
+clearTable()
+renderAll()
+
 // add remove button listeners
+document.addEventListener('click', event => {
+  if (event.target.classList.contains('rm-btn')) {
+    // remove from local storage, render all.
+  }
+  clearTable()
+  renderAll()
+})
