@@ -515,6 +515,7 @@ if (currencyType === 'fiatList') {
   let baseCurrencyCode = selectedCurrency.substring(0, 3)
   let baseAmount = document.getElementById('baseAmount').value
 
+
   axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
     .then(res => {
       let top20 = res.data
@@ -533,54 +534,53 @@ if (currencyType === 'fiatList') {
                 <td>%</td>
                 <td><button id ="crypto-btn${i}" data-test="FIX THIS" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
-        // so baseToBTC shows th price in bitcoin.
-        // Then I need to see the data in
-        document.getElementById('cryptoChart').append(cryptoElem)
-        
+        document.getElementById('cryptoChart').append(cryptoElem)       
       }
 
-      document.getElementById('fiatChart').innerHTML = ''
-
-        axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=USD&format=1`)
+      axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=EUR&to=GBP&amount=100`)
         .then(resp => {
-          let source = resp.data.source
-          let quotes = resp.data.quotes
-          let USDtoBTC = quotes.USDBTC
-          
-          for (i = 0; i < 20; i++) {
-          if (baseCurrencyCode === top20.data[i].s){
-            
-            let baseCurrencyToBTC = top20.data[i].p_btc
-            let baseAmountToUSD = (baseCurrencyToBTC / USDtoBTC) * baseAmount
-            console.log(baseAmountToUSD)
-          }
-        }
+          for (let i = 0; i < 20; i++) {
+          let fiatElem = document.createElement('tr')
 
-          for (i = 0; i < 20; i++){
-            let shortCode = fiatArray[i].code
-            axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${shortCode}&amount=${baseAmountToUSD}`)
-              .then(res => {
-                let result = res.data.result
-                console.log(result)
-              })
-              .catch(err => console.error(err))
-            
-              let fiatElem = document.createElement('tr')
-              fiatElem.innerHTML = `
-              <td>${fiatArray[i].name}</td>
-              <td>$Amount</td>
-              <td>%</td>
-              <td>%</td>
-              <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
-              `
-          document.getElementById('fiatChart').append(fiatElem)
+          let baseCurrencyValue = top20[i].s
+          console.log(baseCurrencyValue)
+          //   console.log(top20.data[i].p)
+          //   console.log(top20.data[1].p)
+          //   console.log(baseAmount)
+          // let crypto2Fiat = (top20.data[i].p / top20.data[1].p) * baseAmount
+          // console.log(crypto2Fiat)
+          fiatElem.innerHTML = `
+            <td>${fiatArray[i].name}</td>
+            <td>$</td>
+            <td>%</td>
+            <td>%</td>
+            <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+            `
           }
+          // document.getElementById('fiatChart').append(fiatElem)
+
+          // for (let i = 0; i < 20; i++) {
+          //   if (baseCurrencyCode === top20.data[i].s) {
+          //     let baseCurrencyToBTC = top20.data[i].p_btc
+          //     let baseAmountToUSD = (baseCurrencyToBTC / quotes.USDBTC) * baseAmount
+          //     console.log(baseAmountToUSD)
+          //   }
+          // document.getElementById('fiatChart').innerHTML = ''
+          // let fiatElem = document.createElement('tr')
+          // fiatElem.innerHTML = `
+          //     <td>${fiatArray[i].name}</td>
+          //     <td>$</td>
+          //     <td>%</td>
+          //     <td>%</td>
+          //     <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+          //     `
+          // document.getElementById('fiatChart').append(fiatElem)
+          // }
         })
-        .catch(err => console.error(err))
+      .catch(err => console.error(err))
     })
     .catch(err => console.error(err))
-}
-
+  }
 })
 
 // Favorites button
