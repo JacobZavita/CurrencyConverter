@@ -12,7 +12,8 @@ const fiatToFiat = () => {
   axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=${document.getElementById('from').value}&to=${document.getElementById('to').value}&amount=${document.getElementById('amount').value}`)
     .then(res => {
       let result = res.data.result
-      console.log(result)
+      // console.log(result)
+      printResult(result)
     })
     .catch(err => console.error(err))
   }
@@ -29,7 +30,8 @@ const fiatToCrypto = () => {
 
        //convert the amountUSD to the desired crypto currency
        let result = amountUSD / cryptoData.price
-       console.log(result)
+        //  console.log(result)
+        printResult(result)
      })
      .catch(err => console.error(err))
   })
@@ -53,8 +55,8 @@ const cryptoToCrypto = () => {
 
       //convert amountUSD to this crypto
       let result = amountUSD / toData.price
-      console.log(result)
-      //print result here
+      // console.log(result)
+      printResult(result)
     })
     .catch(err => console.error(err))
   })
@@ -74,12 +76,21 @@ const cryptoToFiat = () => {
     .then(resp => {
       //convert usd to desired currency 
       let result = resp.data.result
-      console.log(result)
-
+      // console.log(result)
+      printResult(result)
     })
     .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
+}
+
+const printResult = (answer) => {
+  //clear it first
+  document.getElementById('calcDiv').innerHTML = ''
+  document.getElementById('calcDiv').innerHTML = `
+  <h6>${document.getElementById('amount').value} ${document.getElementById('from').value}
+  = ${answer} ${document.getElementById('to').value}</h6>
+  `
 }
 
 //logic to decide functionality
