@@ -423,17 +423,16 @@ document.getElementById('convertButton').addEventListener('click', event => {
   // Grab currency type (fiat or crypto)
   let a = document.getElementById("a")
   let currencyType = a.options[a.selectedIndex].value
-  console.log(currencyType)
+  // console.log(currencyType)
 
   let baseAmount = document.getElementById('baseAmount').value
 
 if (currencyType === 'fiatList') {
   
   let e = document.getElementById("f")
-  let selectedCurrency = e.options[e.selectedIndex].text
-  let baseCurrencyCode = selectedCurrency.substring(0, 3)
+  let baseCurrencyCode = e.options[e.selectedIndex].text.substring(0, 3)
   let baseAmount = document.getElementById('baseAmount').value
-  console.log(selectedCurrency)
+  console.log(baseCurrencyCode)
 
   axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
