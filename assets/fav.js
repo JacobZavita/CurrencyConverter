@@ -248,9 +248,6 @@ const renderFiat = (fiDat) => {
 // you can index the array at [i] to get "codeData"
 
 const renderItem = (codeData) => {
-  // test
-  console.log(codeData)
-
   if (codeData.fiat === 'true') {
     // fiat request here
     renderFiat(codeData.code)
@@ -286,11 +283,12 @@ document.addEventListener('click', event => {
   if (event.target.classList.contains('rm-btn')) {
     let favoriteArray = JSON.parse(localStorage.getItem('favs'))
     for (let i = 0; i < favoriteArray.length; i++) {
-      if (event.target.parentElement.children[0].textContent === favoriteArray[i].code) {
-
+      if (event.target.parentElement.parentElement.children[0].textContent === favoriteArray[i].code) {
+        favoriteArray = favoriteArray.splice(i, 1)
         break
       }
     }
+    localStorage.setItem('favs', JSON.stringify(favoriteArray))
     // remove from local storage, render all.
     clearTable()
     renderAll()

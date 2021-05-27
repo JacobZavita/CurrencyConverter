@@ -74,7 +74,6 @@ th {
   justify-content: center;
   justify-content: space-evenly;
   flex-wrap: nowrap;
-  /* border and shadow */
 }
 
 .calcRow {
@@ -82,6 +81,7 @@ th {
   border: 2px solid #CBCADB;
   padding: 20px;
   box-shadow: 2px 2px 5px #CCC5B9;
+  /* border and shadow */
 }
 
 .calcButton {
