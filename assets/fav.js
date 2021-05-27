@@ -197,7 +197,10 @@ const renderFiat = (fiDat) => {
 // and object with attributes code(string) and fiat(string, contains 'true' or 'false')
 // maybe nest it all?
 // you can index the array at [i] to get "codeData"
+
+
 const renderItem = (codeData) => {
+  console.log(codeData)
   if (codeData.fiat === 'true') {
     // fiat request here
     renderFiat(codeData.code)
