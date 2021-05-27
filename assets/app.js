@@ -525,7 +525,6 @@ if (currencyType === 'fiatList') {
       console.log(top20)
 
       document.getElementById('cryptoChart').innerHTML = ''
-      document.getElementById('fiatChart').innerHTML = ''
       for (let i = 0; i < 20; i++) {
         let cryptoElem = document.createElement('tr')
 
@@ -541,79 +540,52 @@ if (currencyType === 'fiatList') {
         // so baseToBTC shows th price in bitcoin.
         // Then I need to see the data in
         document.getElementById('cryptoChart').append(cryptoElem)
-
-        console.log(selectedCurrency)
         
+      }
+
+      document.getElementById('fiatChart').innerHTML = ''
+
         axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=USD&format=1`)
         .then(resp => {
           let source = resp.data.source
           let quotes = resp.data.quotes
           let USDtoBTC = quotes.USDBTC
-
-          // console.log(quotes)
-
-          if (baseCurrencyCode === top20.data[i].s){
-            let baseCurrencyToBTC = top20.data[i].p_btc
-            let baseAmountToUSD = (baseCurrencyToBTC / quotes.USDBTC) * baseAmount
-            console.log(baseAmountToUSD)
-
-            let shortCode = fiatArray[i].code
-            let exchangeCode = 'USD' + shortCode
-
-            let conversionRate = quotes[exchangeCode] / baseAmountToUSD
-
-            console.log(conversionRate)
-
-            // for (i = 0; i < fiatArray.length; i++) {
-            //   baseAmountToUSD * quotes.
-            // }
-
-            let fiatElem = document.createElement('tr')
-
-            fiatElem.innerHTML = `
-                <td>${fiatArray[i].name}</td>
-                <td>Amount</td>
-                <td>%</td>
-                <td>%</td>
-                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
-                `
-            document.getElementById('fiatChart').append(fiatElem)
-
-          } else{}
           
+          for (i = 0; i < 20; i++) {
+          if (baseCurrencyCode === top20.data[i].s){
+            
+            let baseCurrencyToBTC = top20.data[i].p_btc
+            let baseAmountToUSD = (baseCurrencyToBTC / USDtoBTC) * baseAmount
+            console.log(baseAmountToUSD)
+          }
+        }
+
+          for (i = 0; i < 20; i++){
+            let shortCode = fiatArray[i].code
+            axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${shortCode}&amount=${baseAmountToUSD}`)
+              .then(res => {
+                let result = res.data.result
+                console.log(result)
+              })
+              .catch(err => console.error(err))
+            
+              let fiatElem = document.createElement('tr')
+              fiatElem.innerHTML = `
+              <td>${fiatArray[i].name}</td>
+              <td>$Amount</td>
+              <td>%</td>
+              <td>%</td>
+              <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+              `
+          document.getElementById('fiatChart').append(fiatElem)
+          }
         })
         .catch(err => console.error(err))
-      }
     })
     .catch(err => console.error(err))
 }
 
 })
-
-// Trying to figure out how to get the select/dropdown to render different lists based on what they pick first
-// document.getElementById('target').addEventListener('change', function () {
-//   if (value.select.option === "fiatList") {
-//     'use strict';
-//     let vis = document.querySelector('.inv'),
-//       target = document.getElementById(this.value)
-//     if (vis !== null) {
-//       vis.className = 'vis'
-//     }
-//     if (target !== null) {
-//       target.className = 'inv'
-//     }
-//   } else {
-//     'use strict';
-//     let vis = document.querySelector('.invi'),
-//       target = document.getElementById(this.value)
-//     if (vis !== null) {
-//       vis.className = 'vis'
-//     }
-//     if (target !== null) {
-//       target.className = 'invi'
-//     }
-//   }
-// })
 
 // Favorites button
 document.addEventListener('click', event => {
