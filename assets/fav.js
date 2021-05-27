@@ -5,7 +5,7 @@
 
 // add option to delete items from favs with "X" button
 
-fiatArray = [
+const fiatArray = [
   {
     code: 'USD',
     name: 'United States Dollar'
@@ -192,8 +192,6 @@ const renderCrypto = (cryDat) => {
   // render crypto
   let favRow = document.createElement('tr')
   favRow.classList.add('testRow')
-  // test
-  console.log(cryDat[0])
   favRow.innerHTML = `
     <td>${cryDat[0].symbol}</td>
     <td>$${(cryDat[0].price).toFixed(2)}</td>
@@ -282,14 +280,19 @@ renderAll()
 document.addEventListener('click', event => {
   if (event.target.classList.contains('rm-btn')) {
     let favoriteArray = JSON.parse(localStorage.getItem('favs'))
-    for (let i = 0; i < favoriteArray.length; i++) {
-      if (event.target.parentElement.parentElement.children[0].textContent === favoriteArray[i].code) {
-        favoriteArray = favoriteArray.splice(i, 1)
-        break
+    if (favoriteArray.length > 1) {
+      for (let i = 0; i < favoriteArray.length; i++) {
+        if (event.target.parentElement.parentElement.children[0].textContent === favoriteArray[i].code) {
+          console.log(favoriteArray)
+          favoriteArray = favoriteArray.splice(i, 1)
+          break
+        }
       }
+      localStorage.setItem('favs', JSON.stringify(favoriteArray))
+    } else {
+      localStorage.setItem('favs', JSON.stringify([]))
     }
-    localStorage.setItem('favs', JSON.stringify(favoriteArray))
-    // remove from local storage, render all.
+
     clearTable()
     renderAll()
   }
