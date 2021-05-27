@@ -88,6 +88,54 @@ fiatArray = [
   }
 ]
 
+// converts the month to numerical value
+const monthToNumber = (month) => {
+  let newMonth = ''
+  switch (month) {
+    case ('Jan'):
+      newMonth += '01'
+      break
+    case ('Feb'):
+      newMonth += '02'
+      break
+    case ('Mar'):
+      newMonth += '03'
+      break
+    case ('Apr'):
+      newMonth += '04'
+      break
+    case ('May'):
+      newMonth += '05'
+      break
+    case ('Jun'):
+      newMonth += '06'
+      break
+    case ('Jul'):
+      newMonth += '07'
+      break
+    case ('Aug'):
+      newMonth += '08'
+      break
+    case ('Sep'):
+      newMonth += '09'
+      break
+    case ('Oct'):
+      newMonth += '10'
+      break
+    case ('Nov'):
+      newMonth += '11'
+      break
+    case ('Dec'):
+      newMonth += '12'
+      break
+    default:
+      newMonth += '01'
+      console.log('error in the month to number function.')
+      break
+  }
+  return newMonth
+}
+
 // dayAgo and weekAgo f(x) I wrote before
 const weekAgo = _ => {
   let formatedDate = ''
@@ -108,7 +156,6 @@ const weekAgo = _ => {
 
   return formatedDate
 }
-
 // returns formated date of one day ago
 const dayAgo = _ => {
   let formatedDate = ''
@@ -130,21 +177,28 @@ const dayAgo = _ => {
   return formatedDate
 }
 
-//returns the change of fiat over a week or day
+// emptys the favorite table on the page
+const clearTable = _ =>{
+  document.getElementById('favData').innerHTML = ''
+}
+
+// returns the change of fiat over a week or day
 const fiatChange = (past, today) => {
   return Number((past / today) - 1).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 }
 
-//give this guy the data from the axios, res
+// give this guy the data from the axios, res
 const renderCrypto = (cryDat) => {
   //render crypto
-  let favRow = documet.createElement('tr')
+  let favRow = document.createElement('tr')
   favRow.classList.add('testRow')
+  // test
+  console.log(cryDat[0])
   favRow.innerHTML = `
-    <td>${cryDat.symbol}</td>
-    <td>$${cryDat.price}</td>
-    <td>${cryDat.percent_change_24h}%</td>
-    <td>${cryDat.percent_change_7d}%</td>
+    <td>${cryDat[0].symbol}</td>
+    <td>$${(cryDat[0].price).toFixed(2)}</td>
+    <td>${cryDat[0].percent_change_24h}%</td>
+    <td>${cryDat[0].percent_change_7d}%</td>
     <td><a class="rm-btn waves-effect waves-light btn red">X</a></td>
   `
   // append
@@ -174,7 +228,7 @@ const renderFiat = (fiDat) => {
               const weekPercent = fiatChange(fiatWeekAgo[exCode], fiat[exCode])
               favRow.innerHTML = `
                 <td>${fiDat}</td>
-                <td>$${fiat[exCode]}</td>
+                <td>$${(fiat[exCode]).toFixed(2)}</td>
                 <td>${dayPercent}%</td>
                 <td>${weekPercent}%</td>
                 <td><a class="rm-btn waves-effect waves-light btn red">X</a></td>
@@ -193,7 +247,11 @@ const renderFiat = (fiDat) => {
 // and object with attributes code(string) and fiat(string, contains 'true' or 'false')
 // maybe nest it all?
 // you can index the array at [i] to get "codeData"
+
 const renderItem = (codeData) => {
+  // test
+  console.log(codeData)
+
   if (codeData.fiat === 'true') {
     // fiat request here
     renderFiat(codeData.code)
@@ -209,7 +267,15 @@ const renderItem = (codeData) => {
   } else {
     console.error('Error with codeData.fiat in renderItem f(x) in fav.js')
   }
-
-// render all the data upon landing on fav page
-
 }
+
+// render data upon landing on page
+clearTable()
+let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
+if (favoriteArray.length !== 0) {
+  for (let i = 0; i < favoriteArray.length; i++) {
+    renderItem(favoriteArray[i])
+  }
+}
+
+// add remove button listeners

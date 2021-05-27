@@ -355,13 +355,15 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
           let oneWeek = resp.data
           let cryptoElem = document.createElement('tr')
           cryptoElem.innerHTML = `
-          <td>${top20[i].n}</td>
+              <td>${top20[i].n}</td>
               <td>$${top20[i].p}</td>
               <td>${top20[i].pc}%</td>
               <td>${oneWeek.data[0].percent_change_7d}%</td>
-              <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
+              <td id ="cryptobtn${i}" data-test="${top20[i].s}" data-fiat="false"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
           `
+
           document.getElementById('cryptoChart').append(cryptoElem)
+
         })
         .catch(err => console.error(err))
     })
@@ -456,7 +458,7 @@ if (currencyType === 'fiatList') {
                 <td>${dayPercent}</td>
                 <td>${weekPercent}</td>
                 <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
-              `      
+              `
             document.getElementById('fiatChart').append(fiatElem)
 
             axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
@@ -469,6 +471,7 @@ if (currencyType === 'fiatList') {
                 
                 let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
 
+
                 cryptoElem.innerHTML = `
                 <td>${top20[i].n}</td>
                 <td>${cryptoResult}</td>
@@ -476,6 +479,7 @@ if (currencyType === 'fiatList') {
                 <td>%</td>
                 <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
+                
           // so baseToBTC shows th price in bitcoin.
           // Then I need to see the data in
                 document.getElementById('cryptoChart').append(cryptoElem)
@@ -527,10 +531,11 @@ document.addEventListener('click', event => {
   if (event.target.classList.contains('fav-btn')) {
     console.log(event.target.parentElement.dataset.test)
     console.log(event.target.parentElement.dataset.fiat)
+    console.log(event.target.parentElement.id)
     // get currency code
     const curCode = event.target.parentElement.dataset.test
-    let isFiat = event.target.parentElement.dataset.test
-    const favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
+    let isFiat = event.target.parentElement.dataset.fiat
+    let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
     if (!favoriteArray.includes(
       {
         code: `${curCode}`,
