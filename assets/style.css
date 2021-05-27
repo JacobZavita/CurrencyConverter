@@ -74,6 +74,7 @@ th {
   justify-content: center;
   justify-content: space-evenly;
   flex-wrap: nowrap;
+  margin: auto;
   /* border and shadow */
 }
 
@@ -90,8 +91,13 @@ th {
   margin-top: 8%;
 }
 
-.calcDiv {
-  margin-left: 4%;
+#calcDiv {
+  border-radius: 25px;
+  border: 2px solid #CBCADB;
+  padding: 20px;
+  box-shadow: 2px 2px 5px #CCC5B9;
+  width: 60%;
+  margin: auto;
 }
 
 .calcInput {
