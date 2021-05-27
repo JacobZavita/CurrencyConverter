@@ -381,7 +381,6 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
               <td>${oneWeek.data[0].percent_change_7d}%</td>
               <td id ="cryptobtn${i}" data-test="${top20[i].s}" data-fiat="false"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
           `
-
           document.getElementById('cryptoChart').append(cryptoElem)
 
         })
@@ -487,7 +486,9 @@ if (currencyType === 'fiatList') {
                 let cryptoElem = document.createElement('tr')
                 
                 let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
-
+                  console.log(top20[i].p_btc)
+                  console.log(baseToBTC)
+                  console.log(baseAmount)
 
                 cryptoElem.innerHTML = `
                 <td>${top20[i].n}</td>
@@ -516,38 +517,45 @@ if (currencyType === 'fiatList') {
     let selectedCurrency = g.options[g.selectedIndex].text
     let baseCurrencyCode = selectedCurrency.substring(0, 3)
     let baseAmount = document.getElementById('baseAmount').value
-  // console.log(baseCurrencyCode)
+// console.log(baseCurrencyCode)
     //crypto to crypto
-    axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
+
+  axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${baseCurrencyCode}`)
     .then(res => {
-      let top20 = res.data
-      console.log(top20)
-
+      let data = res.data.data[0]
+      // console.log(data)
+      let amountUSD = parseFloat(data.price)
+      let amountBTC = data.p_btc
+      console.log(amountUSD)
       document.getElementById('cryptoChart').innerHTML = ''
-      for (let i = 0; i < 20; i++) {
-        let cryptoElem = document.createElement('tr')
-
-        let crypto2Crypto = (top20.data[i].p/top20.data[1].p) * baseAmount
-
-        cryptoElem.innerHTML = `
-                <td>${top20.data[i].n}</td>
+    
+      for (i = 0; i < 20; i++){
+        // axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${top20[i].s}`)
+        // .then(resp => {
+          console.log(top20[i].p)
+          let crypto2Crypto = (amountUSD/top20[i].p) * baseAmount
+          let cryptoElem = document.createElement('tr')
+          cryptoElem.innerHTML = `
+                <td>${cryptoArray[i].name}</td>
                 <td>${crypto2Crypto}</td>
-                <td></td>
                 <td>%</td>
-                <td><button id ="crypto-btn${i}" data-test="FIX THIS" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                <td>%</td>
+                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
-        document.getElementById('cryptoChart').append(cryptoElem)       
+          document.getElementById('cryptoChart').append(cryptoElem)
+        // })
+        // .catch(err => console.error(err))
+
       }
     })
     .catch(err => console.error(err))
-    //end crypto-crypto
-console.log(baseCurrencyCode)
-    //crypto to fiat
+
   axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${baseCurrencyCode}`)
     .then(res => {
       document.getElementById('fiatChart').innerHTML = ''
           //get data on from crypto
           let fromData = res.data.data[0]
+
           //convert that amount to USD
           console.log(fromData)
           let amountUSD = parseFloat(fromData.price * baseAmount)
