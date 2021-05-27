@@ -1,33 +1,5 @@
 let quotes
 
-/*
-converts crypto to fiat currency
-accepts a base amount of crypto and the exchange rate
-Pre-condition: The exchange rate matches the desired outcome
-*/
-const cryptoToFiat = (baseCrypto, exchangeRate) => {
-  //check parameters
-  if (NaN(baseCrypto) || NaN(exchangeRate)) {
-    return -1 //invalid return value
-  } else {
-    return baseCrypto * exchangeRate
-  }
-}
-
-/*
-converts fiat to crypto
-accepts base amount of fiat and multiplies by the exchange rate
-Pre-condition: The exchange rate matches the desired outcome
-*/
-const fiatToCrypto = (baseFiat, exchangeRate) => {
-  //check parameters
-  if (NaN(baseFiat) || NaN(exchangeRate)) {
-    return -1
-  } else {
-    return baseFiat * baseCrypto
-  }
-}
-
 // converts the month to numerical value
 const monthToNumber = (month) => {
   let newMonth = ''
@@ -389,14 +361,6 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
   })
   .catch(err => console.error(err))
 
-  // Javascript for materialize "dropdown" on homepage
-// document.addEventListener('DOMContentLoaded', function () {
-//   var elems = document.querySelectorAll('.dropdown-trigger')
-//   var instances = M.Dropdown.init(elems, {
-//     closeOnClick: true
-//   })
-// })
-
 // Javascript for materialize "select" option on homepage
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('select');
@@ -422,16 +386,16 @@ document.getElementById('convertButton').addEventListener('click', event => {
   // Grab currency type (fiat or crypto)
   let a = document.getElementById("a")
   let currencyType = a.options[a.selectedIndex].value
-  // console.log(currencyType)
 
   let baseAmount = document.getElementById('baseAmount').value
 
 if (currencyType === 'fiatList') {
   
   let e = document.getElementById("f")
-  let baseCurrencyCode = e.options[e.selectedIndex].text.substring(0, 3)
-  let baseAmount = document.getElementById('baseAmount').value
-  console.log(baseCurrencyCode)
+
+  let selectedCurrency = e.options[e.selectedIndex].text
+  let baseCurrencyCode = selectedCurrency.substring(0, 3)
+
 
   axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
@@ -523,8 +487,13 @@ if (currencyType === 'fiatList') {
   axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${baseCurrencyCode}`)
     .then(res => {
       let data = res.data.data[0]
-      // console.log(data)
-      let amountUSD = parseFloat(data.price)
+      let position = 0
+      for (let i = 0; i < cryptoArray.length; i++){
+        if(baseCurrencyCode === cryptoArray[i].code){
+          position = parseInt(cryptoArray[i].position)
+        }
+      }
+      let amountUSD = top20[position].p
       let amountBTC = data.p_btc
       console.log(amountUSD)
       document.getElementById('cryptoChart').innerHTML = ''
@@ -533,6 +502,7 @@ if (currencyType === 'fiatList') {
         // axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${top20[i].s}`)
         // .then(resp => {
           console.log(top20[i].p)
+          console.log(data.price)
           let crypto2Crypto = (amountUSD/top20[i].p) * baseAmount
           let cryptoElem = document.createElement('tr')
           cryptoElem.innerHTML = `
