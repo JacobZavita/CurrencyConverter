@@ -533,7 +533,8 @@ document.addEventListener('click', event => {
     const favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
     if (!favoriteArray.includes(
       {
-        code: `${curCode}`
+        code: `${curCode}`,
+        fiat: `${isFiat}`
       }
     )) {
       favoriteArray.push(
