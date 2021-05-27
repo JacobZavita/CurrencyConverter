@@ -392,8 +392,10 @@ document.getElementById('convertButton').addEventListener('click', event => {
 if (currencyType === 'fiatList') {
   
   let e = document.getElementById("f")
+
   let selectedCurrency = e.options[e.selectedIndex].text
   let baseCurrencyCode = selectedCurrency.substring(0, 3)
+
 
   axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
@@ -556,7 +558,7 @@ if (currencyType === 'fiatList') {
 
 // Favorites button
 document.addEventListener('click', event => {
-  event.preventDefault()
+
   if (event.target.classList.contains('fav-btn')) {
     console.log(event.target.parentElement.dataset.test)
     console.log(event.target.parentElement.dataset.fiat)
