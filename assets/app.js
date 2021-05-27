@@ -456,7 +456,7 @@ if (currencyType === 'fiatList') {
                 <td>${dayPercent}</td>
                 <td>${weekPercent}</td>
                 <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
-              `      
+              `
             document.getElementById('fiatChart').append(fiatElem)
 
             axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
@@ -476,6 +476,7 @@ if (currencyType === 'fiatList') {
                 <td>%</td>
                 <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
+                console.log('hello')
           // so baseToBTC shows th price in bitcoin.
           // Then I need to see the data in
                 document.getElementById('cryptoChart').append(cryptoElem)

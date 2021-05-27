@@ -131,7 +131,7 @@ const dayAgo = _ => {
 
 // emptys the favorite table on the page
 const clearTable = _ =>{
-  document.getElementById('favdata').innerHTML = ''
+  document.getElementById('favData').innerHTML = ''
 }
 
 // returns the change of fiat over a week or day
