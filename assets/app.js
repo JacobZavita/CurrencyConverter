@@ -287,14 +287,16 @@ cryptoArray = [
   }
 ]
 
+let baseCurrency = "USD"
+
 // User lands on page and this loads for fiat currencies:
-axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1`)
+axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
   .then(res => {
     let source = res.data.source
     // console.log(source)
     quotes = res.data.quotes
-    console.log(res.data)
-    console.log('hi')
+    // console.log(res.data)
+    // console.log('hi')
     // quotes = res.data.quotes.map((quote, i) => ({
     //   id: i,
     //   ...quote
@@ -304,6 +306,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
       .then(resp => {
         let weekAgo = resp.data.quotes
+        // console.log(weekAgo)
 
         // Day Ago
         axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
@@ -343,7 +346,7 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
 axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
   .then(({ data: { data } }) => {
     top20 = data
-    console.log(data)
+    // console.log(data)
 
     document.getElementById('cryptoChart').innerHTML = ''
     cryptoArray.forEach((elem, i) => {
@@ -358,13 +361,6 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
               <td>${oneWeek.data[0].percent_change_7d}%</td>
               <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
           `
-          // log data stuff
-
-          // let cryptoList = document.createElement('option')
-          // cryptoList.innerHTML = `
-          // <option value="${top20[i]}">${top20[i].s} - ${top20[i].n}</option>
-          // `
-          // document.getElementById('cryptoList').append(cryptoList)
           document.getElementById('cryptoChart').append(cryptoElem)
         })
         .catch(err => console.error(err))
@@ -372,13 +368,13 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
   })
   .catch(err => console.error(err))
 
-// Javascript for materialize "dropdown" on homepage
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('.dropdown-trigger')
-  var instances = M.Dropdown.init(elems, {
-    closeOnClick: true
-  })
-})
+  // Javascript for materialize "dropdown" on homepage
+// document.addEventListener('DOMContentLoaded', function () {
+//   var elems = document.querySelectorAll('.dropdown-trigger')
+//   var instances = M.Dropdown.init(elems, {
+//     closeOnClick: true
+//   })
+// })
 
 // Javascript for materialize "select" option on homepage
 document.addEventListener('DOMContentLoaded', function () {
@@ -389,15 +385,141 @@ document.addEventListener('DOMContentLoaded', function () {
 // Dropdown visible/invisible
 document.getElementById('target').addEventListener('change', function () {
   'use strict';
-  let vis = document.querySelector('.inv'),
-    target = document.getElementById(this.value)
-  if (vis !== null) {
-    vis.className = 'vis'
-  }
-  if (target !== null) {
-    target.className = 'inv'
-  }
+    let vis = document.querySelector('.inv'),
+      target = document.getElementById(this.value)
+    if (vis !== null) {
+      vis.className = 'vis'
+    }
+    if (target !== null) {
+      target.className = 'inv'
+    }
 })
+
+// eventListener for convert button click on Homepage
+document.getElementById('convertButton').addEventListener('click', event =>{
+  event.preventDefault()
+  
+  // Grab currency type (fiat or crypto)
+  let a = document.getElementById("a")
+  let currencyType = a.options[a.selectedIndex].value
+
+  // Grab selected currency
+  let e = document.getElementById("f")
+  let selectedCurrency = e.options[e.selectedIndex].text
+
+  // Turn selected currency into 3-digit code
+  let baseCurrencyCode = selectedCurrency.substring(0, 3)
+
+  // Grab "Amount"
+  let baseAmount = document.getElementById('baseAmount').value
+
+if (currencyType === 'fiatList') {
+  console.log(selectedCurrency)
+  axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
+  .then(res => {
+    let source = res.data.source
+    let quotes = res.data.quotes
+    console.log(quotes)
+    
+    let baseToBTCCode = baseCurrencyCode + 'BTC'
+    let baseToBTC = quotes[baseToBTCCode]
+    console.log(baseToBTC)
+
+    axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&date=${weekAgo()}`)
+    // It's still pulling the data with USD as the base
+      .then(resp => {
+        let weekAgo = resp.data.quotes
+        console.log(weekAgo)
+
+        axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
+          .then(respo => {
+            let dayAgo = respo.data.quotes
+            
+            document.getElementById('fiatChart').innerHTML = ''
+            for (let i = 0; i < fiatArray.length; i++) {
+              let fiatElem = document.createElement('tr')
+
+              let shortCode = fiatArray[i].code
+              let exchangeCode = baseCurrencyCode + shortCode
+
+              let conversionRate = quotes[exchangeCode] * baseAmount
+
+              let dayChange = (dayAgo[exchangeCode] / quotes[exchangeCode]) - 1
+              let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              let weekChange = (weekAgo[exchangeCode] / quotes[exchangeCode]) - 1
+              let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
+              fiatElem.innerHTML = `
+                <td>${fiatArray[i].name}</td>
+                <td>${conversionRate}</td>
+                <td>${dayPercent}</td>
+                <td>${weekPercent}</td>
+                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+              `      
+            document.getElementById('fiatChart').append(fiatElem)
+
+            axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
+              .then(({ data: { data } }) => {
+                let top20 = data
+          
+                document.getElementById('cryptoChart').innerHTML = ''
+                for (let i = 0; i < cryptoArray.length; i++) {
+                let cryptoElem = document.createElement('tr')
+                
+                let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
+
+                cryptoElem.innerHTML = `
+                <td>${top20[i].n}</td>
+                <td>${cryptoResult}</td>
+                <td>${top20[i].pc}%</td>
+                <td>%</td>
+                <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                `
+          // so baseToBTC shows th price in bitcoin.
+          // Then I need to see the data in
+                document.getElementById('cryptoChart').append(cryptoElem)
+                }
+              })
+              .catch (err => console.error(err))
+          }
+        })
+      .catch(err => console.error(err))
+    })
+  .catch(err => console.error(err))
+  })
+  .catch(err => console.error(err))
+
+} else {
+  
+}
+
+})
+
+// Trying to figure out how to get the select/dropdown to render different lists based on what they pick first
+// document.getElementById('target').addEventListener('change', function () {
+//   if (value.select.option === "fiatList") {
+//     'use strict';
+//     let vis = document.querySelector('.inv'),
+//       target = document.getElementById(this.value)
+//     if (vis !== null) {
+//       vis.className = 'vis'
+//     }
+//     if (target !== null) {
+//       target.className = 'inv'
+//     }
+//   } else {
+//     'use strict';
+//     let vis = document.querySelector('.invi'),
+//       target = document.getElementById(this.value)
+//     if (vis !== null) {
+//       vis.className = 'vis'
+//     }
+//     if (target !== null) {
+//       target.className = 'invi'
+//     }
+//   }
+// })
 
 // Favorites button
 document.addEventListener('click', event => {

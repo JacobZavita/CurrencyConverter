@@ -60,17 +60,17 @@
                   <li><a href="#!">BRL</a></li>
                 </ul> -->
                 <div class="input-field" id="target">
-                  <select>
+                  <select id="a">
                     <option value="" disabled selected>Type of currency</option>
                     <option value="fiatList">Fiat Currency</option>
-                    <option value="crypto">Crypto Currency</option>
+                    <option value="cryptoList">Crypto Currency</option>
                   </select>
                   <label>Fiat or Crypto?</label>
                 </div>
                 
                 <div class="inv">
                   <div class="input-field" id="fiatList">
-                    <select>
+                    <select id="f">
                       <option value="" disabled selected>Fiat</option>
                       <option value="1">USD - United States Dollar</option>
                       <option value="2">CNY - Chinese Yuan</option>
@@ -96,18 +96,24 @@
                   </div>
                 </div>
 
-                <!-- <div class="invi">
-                  <div class="input-field" id="fiatList">
-                    <select id="cryptoList">
+                <div class="inv">
+                  <div class="input-field" id="cryptoList">
+                    <select>
+                        <option value="" disabled selected>Crypto</option>
+                        <option value="1">BTC - Bitcoin</option>
+                        <option value="2">ETH - Ethereum</option>
+                        <option value="3">USDT - Tether</option>
+                        <option value="4">BNB - Binance</option>
+                        <option value="5">ADA - Cardano</option>
                     </select>
                     <label>Which currency?</label>
                   </div>
-                </div> -->
+                </div>
 
                 <!-- input field id: testInput -->
                 <section>
-                  <input placeholder="$1" id="testInput" type="text" class="validate">
-                  <label for="testInput">Amount</label>
+                  <input placeholder="$1" id="baseAmount" type="text" class="validate">
+                  <label for="baseAmount">Amount</label>
                 </section>
                 <!-- button id: testButton -->
                 <button id = "convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>

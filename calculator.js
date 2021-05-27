@@ -6,29 +6,83 @@ Calculator:
 4. depending on the steps do 4 different functions
 */
 
-/***************************************************************************************
- * Conversion functions
-*/
 //fiat to fiat(easy)
 const fiatToFiat = () => {
   //get fiat results(includes exchange rates)
-  axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&format=1&source=${document.getElementById('from').value}`)
+  axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=${document.getElementById('from').value}&to=${document.getElementById('to').value}&amount=${document.getElementById('amount').value}`)
     .then(res => {
-      //get the conversions dictionary
-      let conversions = res.data.quotes
-
-      //get key string of the "from" str and the "to" str
-      str = document.getElementById('from').value + document.getElementById('to').value
-      
-      //multiply the amount by conversion rate
-      let result = parseFloat(document.getElementById('amount').value) * conversions[str.toUpperCase()]
-      
+      let result = res.data.result
+      console.log(result)
     })
     .catch(err => console.error(err))
   }
 
-//logic for type conversion
+const fiatToCrypto = () => {
+  //get fiat conversion first
+  axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=${document.getElementById('from').value}&to=USD&amount=${document.getElementById('amount').value}`)
+  .then(res => {
+    //get conversion chart
+    let amountUSD = res.data.result
+    axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${document.getElementById('to').value}`)
+    .then(resp => {
+       let cryptoData = resp.data.data[0]
 
+       //convert the amountUSD to the desired crypto currency
+       let result = amountUSD / cryptoData.price
+       console.log(result)
+     })
+     .catch(err => console.error(err))
+  })
+  .catch(err => console.error(err))
+}
+
+const cryptoToCrypto = () => {
+  //convert to usd first
+  axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${document.getElementById('from').value}`)
+  .then(res => {
+    //get data on from crypto
+    let fromData = res.data.data[0]
+    //convert that amount to USD
+    let amountUSD = parseFloat(fromData.price * document.getElementById('amount').value)
+
+    //get data on second crypto
+    axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${document.getElementById('to').value}`)
+    .then(resp => {
+      //get data on tocrypto
+      let toData = resp.data.data[0]
+
+      //convert amountUSD to this crypto
+      let result = amountUSD / toData.price
+      console.log(result)
+      //print result here
+    })
+    .catch(err => console.error(err))
+  })
+  .catch(err => console.error(err))
+}
+
+const cryptoToFiat = () => {
+  //get data on fromcrypto
+  axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${document.getElementById('from').value}`)
+  .then(res => {
+    //get data on from crypto
+    let fromData = res.data.data[0]
+    //convert that amount to USD
+    let amountUSD = parseFloat(fromData.price * document.getElementById('amount').value)
+    //call to convert fiat to fiat from currencylayer
+    axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${document.getElementById('to').value}&amount=${amountUSD}`)
+    .then(resp => {
+      //convert usd to desired currency 
+      let result = resp.data.result
+      console.log(result)
+
+    })
+    .catch(err => console.error(err))
+  })
+  .catch(err => console.error(err))
+}
+
+//logic to decide functionality
 document.getElementById('convertCalc').addEventListener('click', event => {
   //determine which checkboxes are checked
   //fiat to fiat
@@ -36,9 +90,16 @@ document.getElementById('convertCalc').addEventListener('click', event => {
     fiatToFiat()
   }
   //fiat to crypto
-
+  if (document.getElementById('fromFiat').checked && document.getElementById('toCrypto').checked) {
+    fiatToCrypto()
+  }
   //crypto to crypto
-
+  if (document.getElementById('fromCrypto').checked && document.getElementById('toCrypto').checked) {
+    cryptoToCrypto()
+  }
   //crypto to fiat
+  if (document.getElementById('fromCrypto').checked && document.getElementById('toFiat').checked) {
+    cryptoToFiat()
+  }
 })
 
