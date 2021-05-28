@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <!-- reset file -->
-    
     <link rel="stylesheet" href="./assets/reset.css">
+    <!-- fonts  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS for Materlialize-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- our style sheet -->
@@ -17,7 +18,9 @@
     <!-- navbar -->
     <nav>
       <header class="nav-wrapper flame">
+        <!-- can change the logo later -->
         <a href="./index.html" class="brand-logo" style="padding-left: 3%; margin-top: .35%;"><img src="assets/images/logo.png" alt="Logo" style="height: 50px;"/></a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="./index.html">Home</a></li>
           <li><a href="./favorites.html">Favorites</a></li>
@@ -25,6 +28,11 @@
         </ul>
       </header>
     </nav>
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./favorites.html">Favorites</a></li>
+      <li><a href="./calculator.html">Calculate</a></li>
+    </ul>
 
   <header class="section no-pad-bot" id="index-banner">
     <section class="container">
