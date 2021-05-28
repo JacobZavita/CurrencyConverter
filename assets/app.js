@@ -1,5 +1,9 @@
 let quotes
 
+let dayPercent
+
+let weekPercent
+
 // converts the month to numerical value
 const monthToNumber = (month) => {
   let newMonth = ''
@@ -313,10 +317,10 @@ axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de3
               let exchangeCode = 'USD' + shortCode
 
               let dayChange = (dayAgo[exchangeCode] / quotes[exchangeCode]) - 1
-              let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+              dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 
               let weekChange = (weekAgo[exchangeCode] / quotes[exchangeCode]) - 1
-              let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+              weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 
               fiatElem.innerHTML = `
                 <td>${fiatArray[i].name}</td>
@@ -396,7 +400,6 @@ if (currencyType === 'fiatList') {
   let selectedCurrency = e.options[e.selectedIndex].text
   let baseCurrencyCode = selectedCurrency.substring(0, 3)
 
-
   axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
     let source = res.data.source
@@ -411,11 +414,12 @@ if (currencyType === 'fiatList') {
     // It's still pulling the data with USD as the base
       .then(resp => {
         let weekAgo = resp.data.quotes
-        console.log(weekAgo)
+        // console.log(weekAgo)
 
-        axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
+        axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&date=${dayAgo()}`)
           .then(respo => {
             let dayAgo = respo.data.quotes
+            console.log(dayAgo)
             
             document.getElementById('fiatChart').innerHTML = ''
             for (let i = 0; i < fiatArray.length; i++) {
@@ -427,10 +431,12 @@ if (currencyType === 'fiatList') {
               let conversionRate = quotes[exchangeCode] * baseAmount
 
               let dayChange = (dayAgo[exchangeCode] / quotes[exchangeCode]) - 1
+              // console.log(quotes[exchangeCode])
               let dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
 
               let weekChange = (weekAgo[exchangeCode] / quotes[exchangeCode]) - 1
               let weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+              // console.log(dayPercent)
 
               fiatElem.innerHTML = `
                 <td>${fiatArray[i].name}</td>
@@ -450,15 +456,15 @@ if (currencyType === 'fiatList') {
                 let cryptoElem = document.createElement('tr')
                 
                 let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
-                  console.log(top20[i].p_btc)
-                  console.log(baseToBTC)
-                  console.log(baseAmount)
+                  // console.log(top20[i].p_btc)
+                  // console.log(baseToBTC)
+                  // console.log(baseAmount)
 
                 cryptoElem.innerHTML = `
                 <td>${top20[i].n}</td>
                 <td>${cryptoResult}</td>
                 <td>${top20[i].pc}%</td>
-                <td>%</td>
+                <td>${top20[i].pc}%</td>
                 <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
                 
@@ -501,15 +507,15 @@ if (currencyType === 'fiatList') {
       for (i = 0; i < 20; i++){
         // axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${top20[i].s}`)
         // .then(resp => {
-          console.log(top20[i].p)
-          console.log(data.price)
+          // console.log(top20[i].p)
+          // console.log(data.price)
           let crypto2Crypto = (amountUSD/top20[i].p) * baseAmount
           let cryptoElem = document.createElement('tr')
           cryptoElem.innerHTML = `
                 <td>${cryptoArray[i].name}</td>
                 <td>${crypto2Crypto}</td>
-                <td>%</td>
-                <td>%</td>
+                <td>${top20[i].pc}%</td>
+                <td>${data.percent_change_7d}%</td>
                 <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
           document.getElementById('cryptoChart').append(cryptoElem)
@@ -542,8 +548,8 @@ if (currencyType === 'fiatList') {
               fiatElem.innerHTML = `
                 <td>${fiatArray[i].name}</td>
                 <td>${result}</td>
-                <td>%</td>
-                <td>%</td>
+                <td>${dayPercent}</td>
+                <td>${weekPercent}</td>
                 <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
               document.getElementById('fiatChart').append(fiatElem)
