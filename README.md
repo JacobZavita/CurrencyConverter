@@ -13,4 +13,4 @@ We used a combination of calls to convert back and forth between the currencies
 
 The following image demonstrates the application functionality:
 
-[!home page](./assets/images/index.png)
+![home page](./assets/images/index.png)
