@@ -463,7 +463,7 @@ if (currencyType === 'fiatList') {
                 for (let i = 0; i < cryptoArray.length; i++) {
                 let cryptoElem = document.createElement('tr')
                 
-                let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
+                  let cryptoResult = (baseAmount / (top20[i].p_btc / baseToBTC))
                   // console.log(top20[i].p_btc)
                   // console.log(baseToBTC)
                   // console.log(baseAmount)
@@ -543,15 +543,14 @@ if (currencyType === 'fiatList') {
           //convert that amount to USD
           console.log(fromData)
           let amountUSD = parseFloat(fromData.price * baseAmount)
-          console.log(amountUSD)
+
           //call to convert fiat to fiat through fiat array
           for (let i = 0; i < 20; i++) {
           axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${fiatArray[i].code}&amount=${amountUSD}`)
             .then(resp => {
               //convert usd to desired currency 
               let result = resp.data.result
-              console.log(result)
-              // console.log(result)
+
               let fiatElem = document.createElement('tr')
               fiatElem.innerHTML = `
                 <td>${fiatArray[i].name}</td>
