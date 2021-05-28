@@ -206,7 +206,7 @@ const renderCrypto = (cryDat) => {
 // render fiat data
 const renderFiat = (fiDat) => {
   const baseCurrency = 'USD'
-  axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
+  axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
     .then(res => {
       const fiat = res.data.quotes // same as quotes in app.js
       // one week ago data

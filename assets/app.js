@@ -289,7 +289,7 @@ cryptoArray = [
 let baseCurrency = "USD"
 
 // User lands on page and this loads for fiat currencies:
-axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
+axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
   .then(res => {
     let source = res.data.source
     // console.log(source)
@@ -408,7 +408,7 @@ if (currencyType === 'fiatList') {
   let selectedCurrency = e.options[e.selectedIndex].text
   let baseCurrencyCode = selectedCurrency.substring(0, 3)
 
-  axios.get(`http://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
+  axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
     let source = res.data.source
     let quotes = res.data.quotes
