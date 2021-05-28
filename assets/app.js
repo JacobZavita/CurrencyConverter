@@ -613,3 +613,8 @@ const resizeFunction = _ => {
     document.getElementById('cryptoRowRow').classList = 'col s6'
   }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.sidenav');
+  var instances = M.Sidenav.init(elems);
+});
