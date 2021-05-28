@@ -366,7 +366,6 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
               <td id ="cryptobtn${i}" data-test="${top20[i].s}" data-fiat="false"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
           `
           document.getElementById('cryptoChart').append(cryptoElem)
-
         })
         .catch(err => console.error(err))
     })
@@ -451,7 +450,7 @@ if (currencyType === 'fiatList') {
                 <td>${conversionRate}</td>
                 <td>${dayPercent}</td>
                 <td>${weekPercent}</td>
-                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                <td id ="btn${i}" data-test="${shortCode}" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
               `
             document.getElementById('fiatChart').append(fiatElem)
 
@@ -468,13 +467,15 @@ if (currencyType === 'fiatList') {
                   // console.log(baseToBTC)
                   // console.log(baseAmount)
 
-                cryptoElem.innerHTML = `
-                <td>${top20[i].n}</td>
-                <td>${cryptoResult}</td>
-                <td>${dayPercentChangeToCrypto[i]}%</td>
-                <td>${weekPercentChangeToCrypto[i]}%</td>
-                <td><button id ="crypto-btn${i}" data-test="${top20[i].s}" data-fiat="false" class="fav-btn waves-effect waves-light btn green">♡</button></td>
-                `
+                    // fiat to crypto
+                    cryptoElem.innerHTML = `
+                    <td>${top20[i].n}</td>
+                    <td>${cryptoResult}</td>
+                    <td>${dayPercentChangeToCrypto[i]}%</td>
+                    <td>${weekPercentChangeToCrypto[i]}%</td>
+                    <td id ="cryptobtn${i}" data-test="${top20[i].s}" data-fiat="false"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                    `
+
                 
           // so baseToBTC shows th price in bitcoin.
           // Then I need to see the data in
@@ -524,7 +525,7 @@ if (currencyType === 'fiatList') {
                 <td>${crypto2Crypto}</td>
                 <td>${dayPercentChangeToCrypto[i]}%</td>
                 <td>${weekPercentChangeToCrypto[i]}%</td>
-                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                <td id ="cryptobtn${i}" data-test="${top20[i].s}" data-fiat="false"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
           document.getElementById('cryptoChart').append(cryptoElem)
         // })
@@ -557,7 +558,7 @@ if (currencyType === 'fiatList') {
                 <td>${result}</td>
                 <td>${dayPercentChangeToFiat[i]}</td>
                 <td>${weekPercentChangeToFiat[i]}</td>
-                <td id ="btn" data-test="" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                <td id ="btn${i}" data-test="${fiatArray[i].code}" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
                 `
               document.getElementById('fiatChart').append(fiatElem)
             })
@@ -580,41 +581,51 @@ document.addEventListener('click', event => {
     const curCode = event.target.parentElement.dataset.test
     let isFiat = event.target.parentElement.dataset.fiat
     let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
-    if (!favoriteArray.includes(
-      {
-        code: `${curCode}`,
-        fiat: `${isFiat}`
-      }
-    )) {
+    // if (!favoriteArray.includes(
+    //   {
+    //     code: `${curCode}`,
+    //     fiat: `${isFiat}`
+    //   }
+    // )) {
+    //   favoriteArray.push(
+    //     {
+    //       code: `${curCode}`,
+    //       fiat: `${isFiat}`
+    //     }
+    //   )
+    // }
+    if (favoriteArray.length < 1) {
       favoriteArray.push(
         {
           code: `${curCode}`,
           fiat: `${isFiat}`
         }
       )
+    } else {
+      let duplicate = false
+      for (let i = 0; i < favoriteArray.length; i++) {
+        if (favoriteArray[i].code === curCode) {
+          duplicate = true
+        }
+      }
+      if (!duplicate) {
+        favoriteArray.push(
+          {
+            code: `${curCode}`,
+            fiat: `${isFiat}`
+          }
+        )
+      } else {
+        console.log('duplicate entry')
+      }
     }
+
     localStorage.setItem('favs', JSON.stringify(favoriteArray))
     // append that data to a local storage with variable 'favs'
   }
 })
 
-// //window stuff
-// $(window).on('resize', function() {
-//   if ($(window).width() > 800) {
-//     $('#fiatRowRow').addClass('s6')
-//     $('#fiatRowRow').removeClass('s12')
-//     $('#cryptoRowRow').addClass('s6')
-//     $('#cryptoRowRow').removeClass('s12')
-//   }else{
-//     $('#fiatRowRow').addClass('s12')
-//     $('#fiatRowRow').removeClass('s6')
-//     $('#cryptoRowRow').removeClass('s12')
-//     $('#cryptoRowRow').addClass('s6')
-//   }
-// })
-
 const resizeFunction = _ => {
-  console.log(window.outerWidth)
   let thisWidth = window.outerWidth
 
   if (thisWidth < 900) {
