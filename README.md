@@ -10,3 +10,7 @@ We used the CurrencyLayer API for all real currency data
 We used a combination of calls to convert back and forth between the currencies
 
 # ScreenShots
+
+The following image demonstrates the application functionality:
+
+[!home page](./assets/images/index.png)
