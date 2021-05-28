@@ -88,8 +88,8 @@ const printResult = (answer) => {
   //clear it first
   document.getElementById('calcDiv').innerHTML = ''
   document.getElementById('calcDiv').innerHTML = `
-  <h6>${document.getElementById('amount').value} ${document.getElementById('from').value}
-  = ${answer} ${document.getElementById('to').value}</h6>
+  <h6>${document.getElementById('amount').value} ${document.getElementById('from').value.toUpperCase()}
+  = ${answer} ${document.getElementById('to').value.toUpperCase()}</h6>
   `
 }
 
