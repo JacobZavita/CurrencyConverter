@@ -448,8 +448,9 @@ if (currencyType === 'fiatList') {
                 document.getElementById('cryptoChart').innerHTML = ''
                 for (let i = 0; i < cryptoArray.length; i++) {
                 let cryptoElem = document.createElement('tr')
-                
-                let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
+                //test
+                let cryptoResult = (baseAmount / (top20[i].p_btc / baseToBTC))
+                // let cryptoResult = ((top20[i].p_btc / baseToBTC) / baseAmount)
                   console.log(top20[i].p_btc)
                   console.log(baseToBTC)
                   console.log(baseAmount)
