@@ -614,7 +614,6 @@ document.addEventListener('click', event => {
 // })
 
 const resizeFunction = _ => {
-  console.log(window.outerWidth)
   let thisWidth = window.outerWidth
 
   if (thisWidth < 900) {
