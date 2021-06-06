@@ -341,6 +341,7 @@ axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de
 grabAndRenderFiat()
 
 // User lands on page and this loads for crypto currencies:
+const grabAndRenderCrypto = () => {
 axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
   .then(({ data: { data } }) => {
     top20 = data
@@ -368,7 +369,8 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
     })
   })
   .catch(err => console.error(err))
-
+}
+grabAndRenderCrypto()
 // Javascript for materialize "select" option on homepage
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('select');

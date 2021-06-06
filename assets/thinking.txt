@@ -1,12 +1,3 @@
-Lines 1-8 we declare global variables that will be used later.
-
-Then we have three global functions that:
-1 - converts the month in the date for historical data to an integer
-2 - function for grabbing the date a week ago
-3 - function for grabbing the date a week ago
-
-An array for fiat and crypto currencies
-
 line 291+
 user lands on page and we axios call with our baseCurrency set to USD by default.
 *** I could give the user an option to change their base Currency of choice.
