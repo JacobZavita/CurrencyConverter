@@ -291,7 +291,6 @@ cryptoArray = [
 const grabAndRenderFiat = () => {
 axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
   .then(res => {
-    let source = res.data.source
     quotes = res.data.quotes
 
     // Pull historical data from USD -- Week Ago
@@ -371,13 +370,14 @@ axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&l
   .catch(err => console.error(err))
 }
 grabAndRenderCrypto()
+
 // Javascript for materialize "select" option on homepage
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('select');
   var instances = M.FormSelect.init(elems);
 });
 
-// Dropdown visible/invisible
+// Dropdown picker in Convert visible/invisible
 document.getElementById('target').addEventListener('change', function () {
   'use strict';
     let options = ['fiatList', 'cryptoList']
@@ -407,7 +407,6 @@ if (currencyType === 'fiatList') {
 
   axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
-    let source = res.data.source
     let quotes = res.data.quotes
     // console.log(quotes)
     
@@ -602,6 +601,7 @@ document.addEventListener('click', event => {
   }
 })
 
+// Responsive management
 const resizeFunction = _ => {
   let thisWidth = window.outerWidth
 
@@ -614,6 +614,7 @@ const resizeFunction = _ => {
   }
 }
 
+// Something to help the navbar
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.sidenav');
   var instances = M.Sidenav.init(elems);

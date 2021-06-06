@@ -8,11 +8,6 @@ Then we call axios again and grab data from a week ago and a day ago.
 
 Then we target the fiatChart innerHTML and set it to blank.
 For each item in the fiatArray we do a bunch of things
-  
-
-I wrapped that up in a function called grabAndRenderFiat
-
-On to landing, grabbing, and rendering for cryptos
 
 Why did I call it top20? What does that do differently than data?
 
@@ -25,4 +20,4 @@ May be able to turn dayChange/weekChange into functions. Or jsut define them glo
 
 I should definitely be able to make the rending of the elements a function that gets the data passed in.
 
-I'd also benefit from jkeeping the variables the same across the whole application.
+I'd also benefit from keeping the variables the same across the whole application.
