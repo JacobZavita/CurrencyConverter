@@ -21,3 +21,7 @@ May be able to turn dayChange/weekChange into functions. Or jsut define them glo
 I should definitely be able to make the rending of the elements a function that gets the data passed in.
 
 I'd also benefit from keeping the variables the same across the whole application.
+
+Something might be wrong with the dayAgo data on landing for fiat. Yeah something's definitely broken there. It's not rendering right on convert either.
+
+Add a way to visually indicate the favorite button has been clicked.

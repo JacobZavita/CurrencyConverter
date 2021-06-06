@@ -292,6 +292,7 @@ const grabAndRenderFiat = () => {
 axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
   .then(res => {
     quotes = res.data.quotes
+    console.log(quotes)
 
     // Pull historical data from USD -- Week Ago
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
