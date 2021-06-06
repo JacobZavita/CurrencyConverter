@@ -1,0 +1,37 @@
+Lines 1-8 we declare global variables that will be used later.
+
+Then we have three global functions that:
+1 - converts the month in the date for historical data to an integer
+2 - function for grabbing the date a week ago
+3 - function for grabbing the date a week ago
+
+An array for fiat and crypto currencies
+
+line 291+
+user lands on page and we axios call with our baseCurrency set to USD by default.
+*** I could give the user an option to change their base Currency of choice.
+
+we grab that data from currency layer and declare source and quotes
+
+Then we call axios again and grab data from a week ago and a day ago.
+
+Then we target the fiatChart innerHTML and set it to blank.
+For each item in the fiatArray we do a bunch of things
+  
+
+I wrapped that up in a function called grabAndRenderFiat
+
+On to landing, grabbing, and rendering for cryptos
+
+Why did I call it top20? What does that do differently than data?
+
+***Find a way to 
+
+Could I just create a constructor for the innerHTML? They're all (currency, amount, change24, change 7, favorites)
+So how do I get to that data from each api?
+
+May be able to turn dayChange/weekChange into functions. Or jsut define them globally once.
+
+I should definitely be able to make the rending of the elements a function that gets the data passed in.
+
+I'd also benefit from jkeeping the variables the same across the whole application.

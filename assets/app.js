@@ -1,11 +1,11 @@
 let quotes
 let dayPercent
 let weekPercent
-
-let weekPercentChangeToFiat = []
+let baseCurrency = "USD"
 let dayPercentChangeToFiat = []
-let weekPercentChangeToCrypto = []
+let weekPercentChangeToFiat = []
 let dayPercentChangeToCrypto = []
+let weekPercentChangeToCrypto = []
 
 // converts the month to numerical value
 const monthToNumber = (month) => {
@@ -286,26 +286,18 @@ cryptoArray = [
   }
 ]
 
-let baseCurrency = "USD"
 
 // User lands on page and this loads for fiat currencies:
+const grabAndRenderFiat = () => {
 axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrency}&format=1`)
   .then(res => {
     let source = res.data.source
-    // console.log(source)
     quotes = res.data.quotes
-    // console.log(res.data)
-    // console.log('hi')
-    // quotes = res.data.quotes.map((quote, i) => ({
-    //   id: i,
-    //   ...quote
-    // }))
 
     // Pull historical data from USD -- Week Ago
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${weekAgo()}`)
       .then(resp => {
         let weekAgo = resp.data.quotes
-        // console.log(weekAgo)
 
         // Day Ago
         axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
@@ -316,15 +308,18 @@ axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de
             fiatArray.forEach((elem, i) => {
               let fiatElem = document.createElement('tr')
 
-              let shortCode = fiatArray[i].code
-              let exchangeCode = 'USD' + shortCode
+              let exchangeCode = 'USD' + fiatArray[i].code
 
               let dayChange = (dayAgo[exchangeCode] / quotes[exchangeCode]) - 1
+
               dayPercent = Number(dayChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
               dayPercentChangeToFiat.push(dayPercent)
 
               let weekChange = (weekAgo[exchangeCode] / quotes[exchangeCode]) - 1
+
               weekPercent = Number(weekChange).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })
+
               weekPercentChangeToFiat.push(weekPercent)
 
               fiatElem.innerHTML = `
@@ -332,7 +327,7 @@ axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de
                 <td>${quotes[exchangeCode]}</td>
                 <td>${dayPercent}</td>
                 <td>${weekPercent}</td>
-                <td id ="btn${i}" data-test="${shortCode}" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
+                <td id ="btn${i}" data-test="${fiatArray[i].code}" data-fiat="true"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
               `
               document.getElementById('fiatChart').append(fiatElem)
             })
@@ -342,6 +337,8 @@ axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de
       .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
+}
+grabAndRenderFiat()
 
 // User lands on page and this loads for crypto currencies:
 axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
@@ -404,18 +401,17 @@ if (currencyType === 'fiatList') {
   
   let e = document.getElementById("f")
 
-  let selectedCurrency = e.options[e.selectedIndex].text
-  let baseCurrencyCode = selectedCurrency.substring(0, 3)
+  let baseCurrencyCode = e.options[e.selectedIndex].text.substring(0, 3)
 
   axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&format=1`)
   .then(res => {
     let source = res.data.source
     let quotes = res.data.quotes
-    console.log(quotes)
+    // console.log(quotes)
     
     let baseToBTCCode = baseCurrencyCode + 'BTC'
     let baseToBTC = quotes[baseToBTCCode]
-    console.log(baseToBTC)
+    // console.log(baseToBTC)
 
     axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&date=${weekAgo()}`)
     // It's still pulling the data with USD as the base
@@ -426,7 +422,7 @@ if (currencyType === 'fiatList') {
         axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&date=${dayAgo()}`)
           .then(respo => {
             let dayAgo = respo.data.quotes
-            console.log(dayAgo)
+            // console.log(dayAgo)
             
             document.getElementById('fiatChart').innerHTML = ''
             for (let i = 0; i < fiatArray.length; i++) {
@@ -475,10 +471,6 @@ if (currencyType === 'fiatList') {
                     <td>${weekPercentChangeToCrypto[i]}%</td>
                     <td id ="cryptobtn${i}" data-test="${top20[i].s}" data-fiat="false"><button class="fav-btn waves-effect waves-light btn green">♡</button></td>
                     `
-
-                
-          // so baseToBTC shows th price in bitcoin.
-          // Then I need to see the data in
                 document.getElementById('cryptoChart').append(cryptoElem)
                 }
               })
@@ -490,7 +482,6 @@ if (currencyType === 'fiatList') {
   .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
-
 } else {
     let g = document.getElementById("h")
     let selectedCurrency = g.options[g.selectedIndex].text
@@ -514,10 +505,6 @@ if (currencyType === 'fiatList') {
       document.getElementById('cryptoChart').innerHTML = ''
     
       for (i = 0; i < 20; i++){
-        // axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${top20[i].s}`)
-        // .then(resp => {
-          // console.log(top20[i].p)
-          // console.log(data.price)
           let crypto2Crypto = (amountUSD/top20[i].p) * baseAmount
           let cryptoElem = document.createElement('tr')
           cryptoElem.innerHTML = `
@@ -581,19 +568,7 @@ document.addEventListener('click', event => {
     const curCode = event.target.parentElement.dataset.test
     let isFiat = event.target.parentElement.dataset.fiat
     let favoriteArray = JSON.parse(localStorage.getItem('favs')) || []
-    // if (!favoriteArray.includes(
-    //   {
-    //     code: `${curCode}`,
-    //     fiat: `${isFiat}`
-    //   }
-    // )) {
-    //   favoriteArray.push(
-    //     {
-    //       code: `${curCode}`,
-    //       fiat: `${isFiat}`
-    //     }
-    //   )
-    // }
+
     if (favoriteArray.length < 1) {
       favoriteArray.push(
         {
