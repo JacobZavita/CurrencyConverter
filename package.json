@@ -1,0 +1,33 @@
+{
+  "name": "currency_converter",
+  "version": "1.0.0",
+  "description": "a javascript application that utilizes APIs to convert currencies across one another The top 20 currencies for crypto and fiat are displayed in relation to USD when you load the page You have the option to favorite currencies and watch their progress according to the USD You also have the option to specifically calculate any exchange between real and crypto currencies",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobZavita/CurrencyConverter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JacobZavita/CurrencyConverter/issues"
+  },
+  "homepage": "https://github.com/JacobZavita/CurrencyConverter#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local-sequelize": "^0.9.0",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {}
+}
