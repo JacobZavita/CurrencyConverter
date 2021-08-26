@@ -1,5 +1,7 @@
 # CurrencyConverter
-a javascript application that utilizes APIs to convert currencies across one another
+https://jacobzavita.github.io/CurrencyConverter/
+
+A javascript application that utilizes APIs to convert currencies across one another
 The top 20 currencies for crypto and fiat are displayed in relation to USD when you load the page
 You have the option to favorite currencies and watch their progress according to the USD
 You also have the option to specifically calculate any exchange between real and crypto currencies
