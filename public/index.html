@@ -1,237 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Currency Converter</title>
-  <!-- reset css for compatability -->
-  <link rel="stylesheet" href="./assets/reset.css">
-  <!-- fonts  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Compiled and minified CSS for Materlialize-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <!-- our style sheet -->
-  <link rel="stylesheet" href="./assets/style.css">
-</head>
-<body onresize="resizeFunction()">
-  <!-- navbar -->
-  <nav>
-    <header class="nav-wrapper flame">
-      <!-- can change the logo later -->
-      <a href="./index.html" class="brand-logo" style="padding-left: 3%; margin-top: .35%;"><img src="assets/images/logo.png" alt="Logo" style="height: 50px;"/></a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="./index.html">Home</a></li>
-        <li><a href="./favorites.html">Favorites</a></li>
-        <li><a href="./calculator.html">Calculate</a></li>
-      </ul>
-    </header>
-  </nav>
-  <ul class="sidenav" id="mobile-demo">
-    <li><a href="./index.html">Home</a></li>
-    <li><a href="./favorites.html">Favorites</a></li>
-    <li><a href="./calculator.html">Calculate</a></li>
-  </ul>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-  <!--Header  -->
-  <header class="section no-pad-bot" id="index-banner">
-    <section class="container">
-      <h1 class="header center textWhite">Currency Converter</h1>
-      <div class="row center">
-        <h5 class="header col s12 light white-text">See exchange rates between fiat and crypto currencies</h5>
-      </div>
-      <br><br>
-    </section>
-  </header>
-  <!-- end Header -->
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-<main>
-  <!-- Test Stuff -->
-  <section class="container">
-    <br><br>
-    <section class="row" style="display: flex; justify-content: flex-start !important">
-      <!-- keep this empty div here for alignment -->
-      <div class="col s2"></div>
-      <section class="col s8">
-        <!-- <form> -->
-          <!-- start row -->
-          <section class="row">
-            <section class="input-field">
-              <!-- Test row with stuff in it -->
-              <section class="row testRow">
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-                <div class="input-field downlists" id="target">
-                  <select id="a">
-                    <option value="" disabled selected>Type of currency</option>
-                    <option value="fiatList">Fiat Currency</option>
-                    <option value="cryptoList">Crypto Currency</option>
-                  </select>
-                  <label>Fiat or Crypto?</label>
-                </div>
-                
-                <div class="inv">
-                  <div class="input-field" id="cryptoList">
-                    <select id="h">
-                      <option value="" disabled selected>Crypto</option>
-                      <option value="1">BTC - Bitcoin</option>
-                      <option value="2">ETH - Ethereum</option>
-                      <option value="3">USDT - Tether</option>
-                      <option value="4">BNB - Binance Coin</option>
-                      <option value="5">ADA - Cardano</option>
-                      <option value="6">XRP - XRP</option>
-                      <option value="7">DOGE - Dogecoin</option>
-                      <option value="8">HEX - HEX</option>
-                      <option value="9">DOT - Polkadot</option>
-                      <option value="10">USDC - USD Coin</option>
-                      <option value="11">ICP - Internet Computer</option>
-                      <option value="12">UNI - Uniswap</option>
-                      <option value="13">BCH - Bitcoin Cash</option>
-                      <option value="14">LINK - Chainlink</option>
-                      <option value="15">LTC - Litecoin</option>
-                      <option value="16">MATIC - Polygon</option>
-                      <option value="17">XLM - Stellar</option>
-                      <option value="18">ETC - Ethereum Classic</option>
-                      <option value="19">BUSD - Binance USD</option>
-                      <option value="20">SHIB - Shiba Inu</option>
-                    </select>
-                    <label>Which currency?</label>
-                  </div>
-                </div>
-                
-                <div class="inv">
-                  <div class="input-field" id="fiatList">
-                    <select id="f">
-                      <option value="" disabled selected>Fiat</option>
-                      <option value="1">USD - United States Dollar</option>
-                      <option value="2">CNY - Chinese Yuan</option>
-                      <option value="3">JPY - Japanese Yen</option>
-                      <option value="4">EUR - Euro</option>
-                      <option value="5">GBP - British Pound Sterling</option>
-                      <option value="6">INR - Indian Rupee</option>
-                      <option value="7">AUD - Australian Dollar</option>
-                      <option value="8">CAD - Canadian Dollar</option>
-                      <option value="9">CHF - Swiss Franc</option>
-                      <option value="10">HKD - Hong Kong Dollar</option>
-                      <option value="11">NZD - New Zealand Dollar</option>
-                      <option value="12">BRL - Brazilian Real</option>
-                      <option value="13">NGN - Nigerian Naira</option>
-                      <option value="14">KRW - Korean Won</option>
-                      <option value="15">IDR - Indonesean Rupah</option>
-                      <option value="16">SAR - Saudi Riyal</option>
-                      <option value="17">TRY - Turkish</option>
-                      <option value="18">KWD - Kuwait Dinar</option>
-                      <option value="19">KYD - Cayman Island Dollar</option>
-                    </select>
-                    <label>Which currency?</label>
-                  </div>
-                </div>
-                
-                <!-- input field id: testInput -->
-                <section class="downlists">
-                  <input placeholder="$1" id="baseAmount" type="text" class="validate">
-                  <label for="baseAmount">Amount</label>
-                </section>
-                <!-- button id: testButton -->
-                <button id= "convertButton" class="waves-effect waves-light btn-small deep-orange darken-3">Convert</button>
-              </section>
-              
-            </section>
-            <!-- end test Row -->
-          </section>
-          <!-- end row -->
-        <!-- </form> -->
-        <!-- figure for fiat table -->
-        <figure id="fiatList">
-        </figure>
-      </section>
-      <!-- keep this empty div here for alignment -->
-      <div class="col s2"></div>
-
-    </section>
-    <!-- row end -->
-
-    <!-- tables for fiat and crypto -->
-    <section class="row">
-      <section id="fiatRowRow" class="col s6">
-        <h4>Fiat Currencies</h4>
-        <!-- div id: testDiv -->
-        <div id="testDiv">
-          <!-- unordered list id: testUl -->
-          <table class="striped">
-            <thead>
-              <tr>
-                <th>Currency</th>
-                <th>Amount</th>
-                <th>Change (24hr)</th>
-                <th>Change (7d)</th>
-                <th>Add to Favorites</th>
-              </tr>
-            </thead>
-                
-            <tbody id="fiatChart">
-          <tr>
-                <td>Euro</td>
-                <td>$1.22</td>
-                <td>-0.014%</td>
-                <td><button>Favorite</button></td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </section>
-      
-      <section id="cryptoRowRow" class="col s6">
-        <h4>Crypto Currencies</h4>
-
-        <div id="testDiv">
-          <table class="striped">
-            <thead>
-              <tr>
-                <th>Currency</th>
-                <th>Amount</th>
-                <th>Change (24hr)</th>
-                <th>Change (7d)</th>
-                <th>Add to Favorites</th>
-              </tr>
-            </thead>
-      
-            <tbody id="cryptoChart">
-              <tr>
-                <td>Bitcoin</td>
-                <td>$38,273.77</td>
-                <td>-0.014%</td>
-                <td>0.14%</td>
-                <td><a class="waves-effect waves-light btn green">♡</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </section>
-  </section>
-
-
-</main>
-<!-- end Main -->
-
-  <!-- sticky footer -->
-  <footer id="index-banner" style="text-align: center; height: 40px;">
-      <a href="https://github.com/CharlotteFrancis/CurrencyConverter">
-        <!-- makes a chip for github link-->
-        <div class="gitLogo chip">
-            <img src="./assets/images/GitHub-Mark-64px.png" alt="github">
-            Github 
-        </div>
-      </a>
-  </footer>
-
-  <!-- Compiled and minified JavaScript for Materialize-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <!-- axios -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <!-- our js -->
-  <script src="./assets/app.js"></script>
-</body>
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
 </html>

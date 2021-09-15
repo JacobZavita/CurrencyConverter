@@ -1,33 +1,42 @@
 {
   "name": "currency_converter",
-  "version": "1.0.0",
-  "description": "a javascript application that utilizes APIs to convert currencies across one another The top 20 currencies for crypto and fiat are displayed in relation to USD when you load the page You have the option to favorite currencies and watch their progress according to the USD You also have the option to specifically calculate any exchange between real and crypto currencies",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JacobZavita/CurrencyConverter.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JacobZavita/CurrencyConverter/issues"
-  },
-  "homepage": "https://github.com/JacobZavita/CurrencyConverter#readme",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "axios": "^0.21.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mysql2": "^2.2.5",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local-sequelize": "^0.9.0",
-    "sequelize": "^6.6.5"
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
   },
-  "devDependencies": {}
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
