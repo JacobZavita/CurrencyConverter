@@ -33,6 +33,7 @@ function App() {
   let exchange
   let dayHist
   let baseCurrency = 'USD'
+  let arrayifiedCryptoData
 
   // array for the currency codes and names for fiats
   // there has got to be a better api to get this from included with the data
@@ -293,12 +294,27 @@ function App() {
   }
 
   // function for getting data from lunar crush and adds to cryptoData state
+  // const getCryptoData = () => {
+  //   Axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
+  //     .then(({ data: { data } }) => {
+  //       setCryptoData(data)
+  //     })
+  //     .catch(err => console.error(err))
+  // }
+
+  // mapping through cryptoArray for data
   const getCryptoData = () => {
-    Axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
-      .then(({ data: { data } }) => {
-        setCryptoData(data)
+    cryptoArray.map((data, i) => {
+      Axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${cryptoArray[i].code}`)
+      .then(({ data }) => {
+        let response = data.data[0]
+        cryptoData.push(response)
+        arrayifiedCryptoData = Object.entries(cryptoData)
+        // arrayifiedCryptoData = Object.keys(cryptoData).map((key) => [Number(key), cryptoData[key]])
+        setCryptoData(arrayifiedCryptoData)
       })
       .catch(err => console.error(err))
+    })
   }
 
   // function for getting data from currency layer and adds to fiatData state

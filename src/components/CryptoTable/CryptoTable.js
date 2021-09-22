@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tab } from '@material-ui/core'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
@@ -24,16 +24,17 @@ export default function BasicTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
+          {/* {console.log(props.cryptoData)} */}
           {props.cryptoData.map((row, i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
-                {props.cryptoData[i].n}
+                {props.cryptoData[i][1].name}
               </TableCell>
               <TableCell align="right">
-                {'$' + (Number(props.cryptoData[i].p).toLocaleString(undefined, { minimumFractionDigits: 1}))}
+                 {'$' + props.cryptoData[i][1].price}
               </TableCell>
               <TableCell align="right">
-                {props.cryptoData[i].pc + '%'}
+                {props.cryptoData[i][1].percent_change_24h + '%'}
               </TableCell>
               <TableCell align="right">
                 <FavoriteBorderIcon />
@@ -45,3 +46,4 @@ export default function BasicTable(props) {
     </TableContainer>
   );
 }
+

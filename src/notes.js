@@ -20,3 +20,24 @@
 // https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&date=${weekAgo()}
 // https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${baseCurrencyCode}&date=${dayAgo()}
 // https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=${fiatArray[i].code}&amount=${amountUSD}
+
+
+
+// OLD CRYPTOTABLE ROW MAPPING
+
+{/* {props.cryptoData.map((row, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {props.cryptoData[i].n}
+              </TableCell>
+              <TableCell align="right">
+                {'$' + (Number(props.cryptoData[i].p).toLocaleString(undefined, { minimumFractionDigits: 1}))}
+              </TableCell>
+              <TableCell align="right">
+                {props.cryptoData[i].pc + '%'}
+              </TableCell>
+              <TableCell align="right">
+                <FavoriteBorderIcon />
+              </TableCell>
+            </TableRow>
+          ))} */}
