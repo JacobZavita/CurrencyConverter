@@ -21,6 +21,9 @@ const Main = props => {
   return (
     <div className={classes.root}>
       <Form 
+        input={props.input}
+        handleInputChange={props.handleInputChange}
+        handleConversion={props.handleConversion}
         fiatArray={props.fiatArray}
         fiatData={props.fiatData}
         getFiatData={props.getFiatData}
@@ -28,7 +31,6 @@ const Main = props => {
         cryptoData={props.cryptoData}
         getCryptoData={props.getCryptoData}
         cryptoWeek={props.cryptoWeek}
-
       />
       <Grid container spacing={2} className={classes.container}>
         <Grid item sm={6}>

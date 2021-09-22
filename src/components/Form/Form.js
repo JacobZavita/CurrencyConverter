@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography, Card, CardContent, Grid, FormControl, RadioGroup, FormControlLabel, Radio, Button, TextField, InputAdornment } from '@material-ui/core'
+import { Typography, Card, CardContent, Grid, FormControl, RadioGroup, FormControlLabel, Radio, Button, TextField } from '@material-ui/core'
 
 import Select from '../Select'
 
@@ -48,14 +48,14 @@ const Form = props => {
 
   const [currencyFamily, setCurrencyFamily] = useState('fiat')
 
-  const handleChange = ({ target }) => {
+  const handleChangeCurrencyFamily = ({ target }) => {
     setCurrencyFamily(target.value)
-    // console.log(target.value)
   }
 
   const clickTest = () => {
     // console.log(props.fiatData)
     console.log(props.cryptoData)
+    console.log(props.input)
   }
 
   return (
@@ -79,7 +79,7 @@ const Form = props => {
                       aria-label="currency-family"
                       name="currency-family"
                       value={currencyFamily}
-                      onChange={handleChange}
+                      onChange={handleChangeCurrencyFamily}
                     >
                       <FormControlLabel value="fiat" control={<Radio />} label="Fiat" />
                       <FormControlLabel value="crypto" control={<Radio />} label="Crypto" />
@@ -93,13 +93,22 @@ const Form = props => {
                     getFiatData={props.getFiatData}
                     fiatArray={props.fiatArray}
                     cryptoArray={props.cryptoArray}
+                    input={props.input}
+                    handleInputChange={props.handleInputChange}
                   />
                   <TextField
                     id="standard-basic"
                     label="Amount"
+                    name='amount'
                     className={classes.amount}
+                    value={props.input.amount}
+                    onChange={props.handleInputChange}
                   />
-                  <Button className={classes.button} onClick={clickTest}>
+                  <Button
+                    className={classes.button}
+                    // onClick={clickTest}
+                    onClick={props.handleConversion}
+                  >
                     Convert
                   </Button>
                 </Grid>

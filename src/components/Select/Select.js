@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core'
-import { FormControl, InputLabel, NativeSelect, FormHelperText, Button, Grid } from '@material-ui/core'
+import { FormControl, InputLabel, NativeSelect, FormHelperText, Grid } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Select = props => {
   const classes = useStyles();
-  const [state, setState] = useState([]);
 
   let type = null
   let options = null
@@ -45,27 +43,16 @@ const Select = props => {
     options = type.map((el, i) => <option key={i}>{el.code} - {el.name}</option>)
   }
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
-
   return (
     <FormControl className={classes.formControl}>
       <Grid container spacing={1}>
         <Grid item className={classes.row}>
           <InputLabel htmlFor="age-native-helper">From Currency</InputLabel>
           <NativeSelect
-            value={state.age}
+            value={props.input.base}
             className={classes.nativeSelect}
-            onChange={handleChange}
-            inputProps={{
-              name: 'age',
-              id: 'age-native-helper',
-            }}
+            onChange={props.handleInputChange}
+            inputProps={{ name: 'base' }}
           >
             <option aria-label="Currency Options" value="Currency Options">
               Currency Options

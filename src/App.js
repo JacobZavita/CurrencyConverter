@@ -11,12 +11,11 @@ import Appbar from './components/Appbar'
 import logo from './logo.svg';
 import './App.css';
 
-
 function App() {
   // state for handling the query input
   const [input, setInput] = useState({
     base: 'USD',
-    amount: 1
+    amount: ''
   })
   // state for handling data from currency layer
   const [fiatData, setFiatData] = useState({
@@ -29,11 +28,21 @@ function App() {
   const [favorites, setFavorites] = useState([])
  
   let quoteData
-  let quotes
   let exchange
   let dayHist
-  let baseCurrency = 'USD'
   let arrayifiedCryptoData
+
+  const handleInputChange = ({ target }) => {
+    setInput({ ...input, [target.name]: target.value })
+  }
+
+  // assign this to the onClick of the button in Form.js
+  const handleConversion = event => {
+    event.preventDefault()
+    console.log(fiatData)
+    console.log(cryptoData)
+    console.log(input)
+  }
 
   // array for the currency codes and names for fiats
   // there has got to be a better api to get this from included with the data
@@ -293,15 +302,6 @@ function App() {
     return formatedDate
   }
 
-  // function for getting data from lunar crush and adds to cryptoData state
-  // const getCryptoData = () => {
-  //   Axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
-  //     .then(({ data: { data } }) => {
-  //       setCryptoData(data)
-  //     })
-  //     .catch(err => console.error(err))
-  // }
-
   // mapping through cryptoArray for data
   const getCryptoData = () => {
     cryptoArray.map((data, i) => {
@@ -351,6 +351,8 @@ function App() {
             <Route exact path='/'>
               <Main
                 input={input}
+                handleInputChange={handleInputChange}
+                handleConversion={handleConversion}
                 fiatArray={fiatArray}
                 cryptoArray={cryptoArray}
                 setInput={setInput}
