@@ -54,8 +54,8 @@ const Form = props => {
   }
 
   const clickTest = () => {
-    console.log(props.fiatData)
-    // console.log(props.cryptoData)
+    // console.log(props.fiatData)
+    console.log(props.cryptoData)
   }
 
   return (

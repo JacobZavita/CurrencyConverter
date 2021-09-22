@@ -5,26 +5,27 @@ import {
   Route
 } from 'react-router-dom'
 import Axios from 'axios'
-
 import Main from './pages/Main'
 import Favorites from './pages/Favorites'
-
 import Appbar from './components/Appbar'
-
 import logo from './logo.svg';
 import './App.css';
 
 
 function App() {
+  // state for handling the query input
   const [input, setInput] = useState({
-    base: '',
-    amount: ''
+    base: 'USD',
+    amount: 1
   })
+  // state for handling data from currency layer
   const [fiatData, setFiatData] = useState({
     exchange: [],
     dayHist: []
   })
+  // state for handling data from lunar crush
   const [cryptoData, setCryptoData] = useState([])
+  // state for handling favorites
   const [favorites, setFavorites] = useState([])
  
   let quoteData
@@ -33,6 +34,8 @@ function App() {
   let dayHist
   let baseCurrency = 'USD'
 
+  // array for the currency codes and names for fiats
+  // there has got to be a better api to get this from included with the data
   const fiatArray = [
     {
       code: 'USD',
@@ -116,6 +119,7 @@ function App() {
     }
   ]
 
+  // array for the currency codes and name for cryptos
   const cryptoArray = [
     {
       code: 'BTC',
@@ -219,6 +223,7 @@ function App() {
     }
   ]
 
+  // function for converting a month string (jan, feb) to a number (01, 02)
   const monthToNumber = (month) => {
   let newMonth = ''
   switch (month) {
@@ -266,6 +271,7 @@ function App() {
   return newMonth
 }
 
+  // function for getting a formatted date of yesterday
   const dayAgo = _ => {
     let formatedDate = ''
     // Get today's date using the JavaScript Date object.
@@ -286,16 +292,18 @@ function App() {
     return formatedDate
   }
 
+  // function for getting data from lunar crush and adds to cryptoData state
   const getCryptoData = () => {
-    Axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true&percent_change_24h,7d`)
+    Axios.get(`https://api.lunarcrush.com/v2?data=market&key=nocqsi30btftgtw6lbaol&limit=20&sort=mc&desc=true`)
       .then(({ data: { data } }) => {
         setCryptoData(data)
       })
       .catch(err => console.error(err))
   }
 
+  // function for getting data from currency layer and adds to fiatData state
   const getFiatData = () => {
-    Axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e`)
+    Axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${input.base}`)
       .then(res => {
         quoteData = res.data.quotes
         exchange = Object.entries(quoteData)
@@ -312,6 +320,7 @@ function App() {
       .catch(err => console.error(err))
   }
   
+  // get data from both apis on page load
   useEffect(() => {
     getCryptoData()
     getFiatData()
