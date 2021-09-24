@@ -40,7 +40,7 @@ const Select = props => {
   }
 
   if (type) {
-    options = type.map((el, i) => <option key={i}>{el.code} - {el.name}</option>)
+    options = type.map((el, i) => <option key={i}>{el}</option>)
   }
 
   return (

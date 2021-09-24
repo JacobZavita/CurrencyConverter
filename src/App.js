@@ -37,8 +37,6 @@ function App() {
   let toUSD
   let conversionMultiple
   let test = []
-  // let intermediary = []
-  let exchangeArray = []
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
@@ -73,8 +71,6 @@ function App() {
       console.log("crypto!")
     }
 
-
-
     // IF FROM FIAT
     // find match of input in fiatArray - done
     // find match of input in fiatdata - done
@@ -86,91 +82,7 @@ function App() {
   }
 
   // array for the currency codes and names for fiats
-  // there has got to be a better api to get this from included with the data
-  const fiatArray = [
-    {
-      code: 'USD',
-      name: 'United States Dollar'
-    },
-    {
-      code: 'CNY',
-      name: 'Chinese Yuan'
-    },
-    {
-      code: 'JPY',
-      name: 'Japanese Yen'
-    },
-    {
-      code: 'EUR',
-      name: 'Euro'
-    },
-    {
-      code: 'GBP',
-      name: 'British Pound Sterling'
-    },
-    {
-      code: 'INR',
-      name: 'Indian Rupee'
-    },
-    {
-      code: 'AUD',
-      name: 'Australian Dollar'
-    },
-    {
-      code: 'CAD',
-      name: 'Canadian Dollar'
-    },
-    {
-      code: 'CHF',
-      name: 'Swiss Franc'
-    },
-    {
-      code: 'RUB',
-      name: 'Russian Ruble'
-    },
-    {
-      code: 'HKD',
-      name: 'Hong Kong Dollar'
-    },
-    {
-      code: 'NZD',
-      name: 'New Zealand Dollar'
-    },
-    {
-      code: 'BRL',
-      name: 'Brazilian Real'
-    },
-    {
-      code: 'NGN',
-      name: 'Nigerian Naira'
-    },
-    {
-      code: 'KRW',
-      name: 'Korean Won'
-    },
-    {
-      code: 'IDR',
-      name: 'Indonesean Rupah'
-    },
-    {
-      code: 'SAR',
-      name: 'Saudi Riyal'
-    },
-    {
-      code: 'TRY',
-      name: 'Turkish'
-    },
-    {
-      code: 'KWD',
-      name: 'Kuwait Dinar'
-    },
-    {
-      code: 'KYD',
-      name: 'Cayman Island Dollar'
-    }
-  ]
-
-  const fiatArray1 = ['USD - United States Dollar', 'CNY - Chinese Yuan', 'JPY - Japanese Yen', 'EUR - Euro', 'GBP - British Pound Sterling', 'INR - Indian Rupee', 'AUD - Australian Dollar', 'CAD - Canadian Dollar', 'CHF - Sqiss Franc', 'RUB - Russian Ruble', 'HKD - Hong Kong Dollar', 'NZD - New Zealand Dollar', 'BRL - Brazillian Real', 'NGN - Nigerian Naira', 'KRW - Korean Won', 'IDR - Indonesean Rupah', 'SAR - Saudi Riyal', 'TRY - Turkish', 'KWD - Kuwait Dinar', 'KYD - Cayman Island Dollar']
+  const fiatArray = ['USD - United States Dollar', 'CNY - Chinese Yuan', 'JPY - Japanese Yen', 'EUR - Euro', 'GBP - British Pound Sterling', 'INR - Indian Rupee', 'AUD - Australian Dollar', 'CAD - Canadian Dollar', 'CHF - Sqiss Franc', 'RUB - Russian Ruble', 'HKD - Hong Kong Dollar', 'NZD - New Zealand Dollar', 'BRL - Brazillian Real', 'NGN - Nigerian Naira', 'KRW - Korean Won', 'IDR - Indonesean Rupah', 'SAR - Saudi Riyal', 'TRY - Turkish', 'KWD - Kuwait Dinar', 'KYD - Cayman Island Dollar']
 
   // array for the currency codes and name for cryptos
   const cryptoArray = [
@@ -368,11 +280,9 @@ function App() {
         exchangeData = Object.entries(quoteData)
         // let filteredExchangeData
         for (let i = 0; i < exchangeData.length; i++) {
-          for (let j = 0; j < fiatArray1.length; j++) {
-            if (exchangeData[i][0].substring(3) === fiatArray1[j].substring(0, 3)) {
+          for (let j = 0; j < fiatArray.length; j++) {
+            if (exchangeData[i][0].substring(3) === fiatArray[j].substring(0, 3)) {
               fiatData.exchange.push(exchangeData[i])
-            } else {
-              console.log('not a match')
             }
           }
         }
@@ -389,13 +299,6 @@ function App() {
       })
       .catch(err => console.error(err))
   }
-  
-  const testFunction = () => {
-    console.log(fiatArray1[0].substring(0, 2))
-    // for (let i = 0; i < fiatArray1.length; i++) {
-    //   console.log(fiatArray1[i].substring(3))
-    // }
-  } 
 
   // get data from both apis on page load
   useEffect(() => {
