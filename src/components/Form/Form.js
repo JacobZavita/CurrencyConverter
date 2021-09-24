@@ -46,10 +46,9 @@ const useStyles = makeStyles((theme) => ({
 const Form = props => {
   const classes = useStyles()
 
-  const [currencyFamily, setCurrencyFamily] = useState('fiat')
 
   const handleChangeCurrencyFamily = ({ target }) => {
-    setCurrencyFamily(target.value)
+    props.setCurrencyFamily(target.value)
   }
 
   const clickTest = () => {
@@ -78,7 +77,7 @@ const Form = props => {
                     <RadioGroup
                       aria-label="currency-family"
                       name="currency-family"
-                      value={currencyFamily}
+                      value={props.currencyFamily}
                       onChange={handleChangeCurrencyFamily}
                     >
                       <FormControlLabel value="fiat" control={<Radio />} label="Fiat" />
@@ -86,7 +85,8 @@ const Form = props => {
                     </RadioGroup>
                   </FormControl>
                   <Select
-                    currencyFamily={currencyFamily}
+                    currencyFamily={props.currencyFamily}
+                    setCurrencyFamily={props.setCurrencyFamily}
                     cryptoData={props.cryptoData}
                     getCryptoData={props.getCryptoData}
                     fiatData={props.fiatData}

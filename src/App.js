@@ -17,6 +17,9 @@ function App() {
     base: 'USD',
     amount: ''
   })
+
+  const [currencyFamily, setCurrencyFamily] = useState('fiat')
+
   // state for handling data from currency layer
   const [fiatData, setFiatData] = useState({
     exchange: [],
@@ -28,9 +31,14 @@ function App() {
   const [favorites, setFavorites] = useState([])
  
   let quoteData
-  let exchange
+  let exchangeData
   let dayHist
   let arrayifiedCryptoData
+  let toUSD
+  let conversionMultiple
+  let test = []
+  // let intermediary = []
+  let exchangeArray = []
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
@@ -40,8 +48,41 @@ function App() {
   const handleConversion = event => {
     event.preventDefault()
     console.log(fiatData)
-    console.log(cryptoData)
-    console.log(input)
+    // console.log(fiatArray)
+    // console.log(cryptoData)
+    // console.log(input)
+    // console.log(currencyFamily)
+    if (currencyFamily === 'fiat') {
+      let baseCode = input.base.substring(0, 3)
+      console.log(baseCode)
+
+      for (let i = 0; i < fiatData.exchange.length; i++) {
+        // console.log(fiatData.exchange[i][0].substring(3))
+        if (fiatData.exchange[i][0].substring(3) === baseCode) {
+          toUSD = fiatData.exchange[i][1]
+        }
+      }
+      console.log(toUSD)
+
+      conversionMultiple = 1 / toUSD
+
+      console.log(conversionMultiple)
+
+      // fiat-to-crypto
+    } else {
+      console.log("crypto!")
+    }
+
+
+
+    // IF FROM FIAT
+    // find match of input in fiatArray - done
+    // find match of input in fiatdata - done
+
+    // divide 1 by that value and save to a var (conversionMultiple)
+    // multiply toUSD by the other rates to get fiat-to-fiat
+    // for fiat-to-crypto, 
+
   }
 
   // array for the currency codes and names for fiats
@@ -128,6 +169,8 @@ function App() {
       name: 'Cayman Island Dollar'
     }
   ]
+
+  const fiatArray1 = ['USD - United States Dollar', 'CNY - Chinese Yuan', 'JPY - Japanese Yen', 'EUR - Euro', 'GBP - British Pound Sterling', 'INR - Indian Rupee', 'AUD - Australian Dollar', 'CAD - Canadian Dollar', 'CHF - Sqiss Franc', 'RUB - Russian Ruble', 'HKD - Hong Kong Dollar', 'NZD - New Zealand Dollar', 'BRL - Brazillian Real', 'NGN - Nigerian Naira', 'KRW - Korean Won', 'IDR - Indonesean Rupah', 'SAR - Saudi Riyal', 'TRY - Turkish', 'KWD - Kuwait Dinar', 'KYD - Cayman Island Dollar']
 
   // array for the currency codes and name for cryptos
   const cryptoArray = [
@@ -322,24 +365,43 @@ function App() {
     Axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${input.base}`)
       .then(res => {
         quoteData = res.data.quotes
-        exchange = Object.entries(quoteData)
+        exchangeData = Object.entries(quoteData)
+        // let filteredExchangeData
+        for (let i = 0; i < exchangeData.length; i++) {
+          for (let j = 0; j < fiatArray1.length; j++) {
+            if (exchangeData[i][0].substring(3) === fiatArray1[j].substring(0, 3)) {
+              fiatData.exchange.push(exchangeData[i])
+            } else {
+              console.log('not a match')
+            }
+          }
+        }
+        console.log(test)
         // setFiatData({...fiatData, exchange})
         
         Axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
           .then(resp => {
             let dayData = resp.data.quotes
             dayHist = Object.entries(dayData)
-            setFiatData({...fiatData, exchange, dayHist})
+            setFiatData({...fiatData, dayHist})
           })
           .catch(err => console.error(err))
       })
       .catch(err => console.error(err))
   }
   
+  const testFunction = () => {
+    console.log(fiatArray1[0].substring(0, 2))
+    // for (let i = 0; i < fiatArray1.length; i++) {
+    //   console.log(fiatArray1[i].substring(3))
+    // }
+  } 
+
   // get data from both apis on page load
   useEffect(() => {
     getCryptoData()
     getFiatData()
+    // testFunction()
   }, [])
 
   return (
@@ -351,6 +413,8 @@ function App() {
             <Route exact path='/'>
               <Main
                 input={input}
+                currencyFamily={currencyFamily}
+                setCurrencyFamily={setCurrencyFamily}
                 handleInputChange={handleInputChange}
                 handleConversion={handleConversion}
                 fiatArray={fiatArray}

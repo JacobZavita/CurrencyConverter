@@ -22,6 +22,8 @@ const Main = props => {
     <div className={classes.root}>
       <Form 
         input={props.input}
+        currencyFamily={props.currencyFamily}
+        setCurrencyFamily={props.setCurrencyFamily}
         handleInputChange={props.handleInputChange}
         handleConversion={props.handleConversion}
         fiatArray={props.fiatArray}
