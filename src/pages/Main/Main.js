@@ -40,6 +40,7 @@ const Main = props => {
             cryptoArray={props.cryptoArray}
             cryptoData={props.cryptoData}
             getCryptoData={props.getCryptoData}
+            conversionMultiple={props.conversionMultiple}
           />
         </Grid>
         <Grid item sm={6}>
@@ -47,6 +48,7 @@ const Main = props => {
             fiatArray={props.fiatArray}
             fiatData={props.fiatData}
             getFiatData={props.getFiatData}
+            conversionMultiple={props.conversionMultiple}
           />
         </Grid>
       </Grid>

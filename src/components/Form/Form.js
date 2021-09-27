@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Card, CardContent, Grid, FormControl, RadioGroup, FormControlLabel, Radio, Button, TextField } from '@material-ui/core'
 
@@ -46,15 +45,8 @@ const useStyles = makeStyles((theme) => ({
 const Form = props => {
   const classes = useStyles()
 
-
   const handleChangeCurrencyFamily = ({ target }) => {
     props.setCurrencyFamily(target.value)
-  }
-
-  const clickTest = () => {
-    // console.log(props.fiatData)
-    console.log(props.cryptoData)
-    console.log(props.input)
   }
 
   return (

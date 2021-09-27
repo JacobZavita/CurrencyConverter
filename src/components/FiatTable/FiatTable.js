@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -11,6 +12,10 @@ const useStyles = makeStyles({
 
 export default function BasicTable(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log('uesEffect fiatData')
+  }, [props.FiatData])
 
   return (
     <TableContainer component={Paper}>
@@ -27,7 +32,7 @@ export default function BasicTable(props) {
           {props.fiatData.exchange.map((row, i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
-                {props.fiatData.exchange[i][0]}
+                {props.fiatData.exchange[i][0].substring(3)}
               </TableCell>
               <TableCell align="right">
                 {'$' + props.fiatData.exchange[i][1]}
@@ -38,7 +43,7 @@ export default function BasicTable(props) {
               <TableCell align="right">
                 <FavoriteBorderIcon />
               </TableCell>
-            </TableRow>
+           </TableRow>
           ))}
         </TableBody>
       </Table>

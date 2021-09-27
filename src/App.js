@@ -8,7 +8,6 @@ import Axios from 'axios'
 import Main from './pages/Main'
 import Favorites from './pages/Favorites'
 import Appbar from './components/Appbar'
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -32,11 +31,12 @@ function App() {
  
   let quoteData
   let exchangeData
-  let dayHist
+  let historyData
   let arrayifiedCryptoData
   let toUSD
   let conversionMultiple
-  let test = []
+  let toUSDHist
+  let historicMultiple
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
@@ -45,40 +45,38 @@ function App() {
   // assign this to the onClick of the button in Form.js
   const handleConversion = event => {
     event.preventDefault()
-    console.log(fiatData)
-    // console.log(fiatArray)
-    // console.log(cryptoData)
-    // console.log(input)
-    // console.log(currencyFamily)
+
     if (currencyFamily === 'fiat') {
       let baseCode = input.base.substring(0, 3)
-      console.log(baseCode)
 
+      // this grabs the conversion rate from USD to the base currency 
       for (let i = 0; i < fiatData.exchange.length; i++) {
-        // console.log(fiatData.exchange[i][0].substring(3))
         if (fiatData.exchange[i][0].substring(3) === baseCode) {
           toUSD = fiatData.exchange[i][1]
         }
       }
-      console.log(toUSD)
-
       conversionMultiple = 1 / toUSD
+      
+      for (let i = 0; i < fiatData.dayHist.length; i++) {
+        if (fiatData.dayHist[i][0].substring(3) === baseCode) {
+          toUSDHist = fiatData.dayHist[i][1]
+        }
+      }      
+      historicMultiple = 1 / toUSDHist
 
-      console.log(conversionMultiple)
-
+      // we need to update the fiatData state with these
+      for (let i = 0; i < fiatData.exchange.length; i++) {
+        fiatData.exchange[i][1] = (fiatData.exchange[i][1] * conversionMultiple) * input.amount
+      }
+      for (let i = 0; i <fiatData.dayHist.length; i++) {
+        fiatData.dayHist[i][1] = (fiatData.dayHist[i][1] * historicMultiple) * input.amount
+      }
+      console.log(fiatData)
+      setFiatData({...fiatData})
       // fiat-to-crypto
     } else {
       console.log("crypto!")
     }
-
-    // IF FROM FIAT
-    // find match of input in fiatArray - done
-    // find match of input in fiatdata - done
-
-    // divide 1 by that value and save to a var (conversionMultiple)
-    // multiply toUSD by the other rates to get fiat-to-fiat
-    // for fiat-to-crypto, 
-
   }
 
   // array for the currency codes and names for fiats
@@ -286,14 +284,21 @@ function App() {
             }
           }
         }
-        console.log(test)
-        // setFiatData({...fiatData, exchange})
-        
+
         Axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
           .then(resp => {
             let dayData = resp.data.quotes
-            dayHist = Object.entries(dayData)
-            setFiatData({...fiatData, dayHist})
+            historyData = Object.entries(dayData)
+
+            for (let i = 0; i < historyData.length; i++) {
+              for (let j = 0; j < fiatArray.length; j++) {
+                if (historyData[i][0].substring(3) === fiatArray[j].substring(0, 3)) {
+                  fiatData.dayHist.push(historyData[i])
+                }
+              }
+            }
+            setFiatData({...fiatData})
+            console.log(fiatData)
           })
           .catch(err => console.error(err))
       })
@@ -304,7 +309,6 @@ function App() {
   useEffect(() => {
     getCryptoData()
     getFiatData()
-    // testFunction()
   }, [])
 
   return (
@@ -320,6 +324,7 @@ function App() {
                 setCurrencyFamily={setCurrencyFamily}
                 handleInputChange={handleInputChange}
                 handleConversion={handleConversion}
+                conversionMultiple={conversionMultiple}
                 fiatArray={fiatArray}
                 cryptoArray={cryptoArray}
                 setInput={setInput}
