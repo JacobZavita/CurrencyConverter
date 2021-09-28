@@ -30,18 +30,13 @@ const useStyles = makeStyles((theme) => ({
 const Select = props => {
   const classes = useStyles();
 
-  let type = null
   let options = null
 
-  if (props.currencyFamily === 'crypto') {
-    type = props.cryptoArray
-  } else if (props.currencyFamily === 'fiat') {
-    type = props.fiatArray
-  }
-
-  if (type) {
-    options = type.map((el, i) => <option key={i}>{el}</option>)
-  }
+    if (props.currencyFamily === 'crypto') {
+      options = props.cryptoArray.map((el, i) => <option key={i}>{el.code} - {el.name}</option>)
+    } else if (props.currencyFamily === 'fiat') {
+      options = props.fiatArray.map((el, i) => <option key={i}>{el}</option>)
+    }
 
   return (
     <FormControl className={classes.formControl}>
