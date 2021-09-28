@@ -37,6 +37,9 @@ function App() {
   let conversionMultiple
   let toUSDHist
   let historicMultiple
+  let basetoUSD4BTC
+  let USDtoBTC
+  let test
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
@@ -72,8 +75,15 @@ function App() {
         fiatData.dayHist[i][1] = (fiatData.dayHist[i][1] * historicMultiple) * input.amount
       }
       console.log(fiatData)
+      console.log(cryptoData)
       setFiatData({...fiatData})
-      // fiat-to-crypto
+
+      basetoUSD4BTC = fiatData.exchange[19][1]
+
+      for (let i = 0; i < cryptoData.length; i++) {
+        cryptoData[i][1].price = basetoUSD4BTC / cryptoData[i][1].price
+        console.log(cryptoData[i][1].name, cryptoData[i][1].price)
+      }
     } else {
       console.log("crypto!")
     }
