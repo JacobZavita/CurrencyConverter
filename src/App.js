@@ -38,8 +38,9 @@ function App() {
   let toUSDHist
   let historicMultiple
   let basetoUSD4BTC
-  let USDtoBTC
-  let test
+  let baseCode
+  let baseToBTC
+  let USDToBTC
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
@@ -50,7 +51,7 @@ function App() {
     event.preventDefault()
 
     if (currencyFamily === 'fiat') {
-      let baseCode = input.base.substring(0, 3)
+      baseCode = input.base.substring(0, 3)
 
       // this grabs the conversion rate from USD to the base currency 
       for (let i = 0; i < fiatData.exchange.length; i++) {
@@ -74,18 +75,35 @@ function App() {
       for (let i = 0; i <fiatData.dayHist.length; i++) {
         fiatData.dayHist[i][1] = (fiatData.dayHist[i][1] * historicMultiple) * input.amount
       }
-      console.log(fiatData)
-      console.log(cryptoData)
       setFiatData({...fiatData})
 
       basetoUSD4BTC = fiatData.exchange[19][1]
 
       for (let i = 0; i < cryptoData.length; i++) {
         cryptoData[i][1].price = basetoUSD4BTC / cryptoData[i][1].price
-        console.log(cryptoData[i][1].name, cryptoData[i][1].price)
       }
     } else {
-      console.log("crypto!")
+      // 1 - BASE TO BTC - done
+      // 2 - BTC TO OTHER CRYPTOS - done
+      // 3 - BTC TO FIATS
+
+      // 1 - base to btc
+      for (let i = 0; i < cryptoData.length; i++) {
+        if (input.base.includes(cryptoData[i][1].name)) {
+          baseToBTC = cryptoData[i][1].price_btc * input.amount
+        }
+      }
+      console.log(baseToBTC)
+      // 2 - btc to other cryptos
+      for (let i = 0; i<cryptoData.length; i++) {
+        cryptoData[i][1].price = baseToBTC / cryptoData[i][1].price_btc
+        console.log(cryptoData[i][1].name, cryptoData[i][1].price)
+      }
+      setCryptoData([...cryptoData])
+      console.log(cryptoData)
+
+      // 3 - BTC to fiats
+
     }
   }
 
@@ -313,6 +331,12 @@ function App() {
           .catch(err => console.error(err))
       })
       .catch(err => console.error(err))
+
+    Axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=BTC&amount=1`)
+    .then(respo => {
+      console.log(respo)
+    })
+    .catch(err => console.error(err))
   }
 
   // get data from both apis on page load

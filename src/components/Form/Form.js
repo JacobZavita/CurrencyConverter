@@ -98,7 +98,6 @@ const Form = props => {
                   />
                   <Button
                     className={classes.button}
-                    // onClick={clickTest}
                     onClick={props.handleConversion}
                   >
                     Convert

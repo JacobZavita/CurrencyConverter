@@ -13,10 +13,6 @@ const useStyles = makeStyles({
 export default function BasicTable(props) {
   const classes = useStyles();
 
-  useEffect(() => {
-    console.log('uesEffect fiatData')
-  }, [props.FiatData])
-
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
