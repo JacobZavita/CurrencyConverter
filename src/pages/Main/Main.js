@@ -2,13 +2,15 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Grid } from '@material-ui/core'
 
 import Form from '../../components/Form'
-import BasicTable from '../../components/CryptoTable'
+import CryptoTable from '../../components/CryptoTable'
 import FiatTable from '../../components/FiatTable'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // display: 'flex',
-    // alignContent: 'center'
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   container: {
     maxWidth: '90vw',
@@ -36,7 +38,7 @@ const Main = props => {
       />
       <Grid container spacing={2} className={classes.container}>
         <Grid item sm={6}>
-          <BasicTable
+          <CryptoTable
             cryptoArray={props.cryptoArray}
             cryptoData={props.cryptoData}
             getCryptoData={props.getCryptoData}

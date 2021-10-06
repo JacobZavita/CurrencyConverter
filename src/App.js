@@ -30,30 +30,21 @@ function App() {
   // state for handling favorites
   const [favorites, setFavorites] = useState([])
  
-  let quoteData
-  let exchangeData
-  let historyData
-  let arrayifiedCryptoData
+  // globals
   let toUSD
   let conversionMultiple
   let toUSDHist
   let historicMultiple
-  let basetoUSD4BTC
-  let baseCode
   let baseToBTC
-  let c2fResult
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
   }
 
-  // assign this to the onClick of the button in Form.js
   const handleConversion = event => {
     event.preventDefault()
-
     if (currencyFamily === 'fiat') {
-      baseCode = input.base.substring(0, 3)
-
+      const baseCode = input.base.substring(0, 3)
       // this grabs the conversion rate from USD to the base currency returning one value
       for (let i = 0; i < fiatData.exchange.length; i++) {
         if (fiatData.exchange[i][0].substring(3) === baseCode) {
@@ -81,7 +72,7 @@ function App() {
       // set fiat data with updated info
       setFiatData({...fiatData})
 
-      basetoUSD4BTC = fiatData.exchange[19][1]
+      const basetoUSD4BTC = fiatData.exchange[19][1]
 
       for (let i = 0; i < cryptoData.length; i++) {
         cryptoData[i][1].price = basetoUSD4BTC / cryptoData[i][1].price
@@ -298,7 +289,7 @@ function App() {
       .then(({ data }) => {
         let response = data.data[0]
         cryptoData.push(response)
-        arrayifiedCryptoData = Object.entries(cryptoData)
+        const arrayifiedCryptoData = Object.entries(cryptoData)
         setCryptoData(arrayifiedCryptoData)
       })
       .catch(err => console.error(err))
@@ -309,9 +300,8 @@ function App() {
   const getFiatData = () => {
     Axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${input.base}`)
       .then(res => {
-        quoteData = res.data.quotes
-        exchangeData = Object.entries(quoteData)
-        // let filteredExchangeData
+        const quoteData = res.data.quotes
+        const exchangeData = Object.entries(quoteData)
         for (let i = 0; i < exchangeData.length; i++) {
           for (let j = 0; j < fiatArray.length; j++) {
             if (exchangeData[i][0].substring(3) === fiatArray[j].substring(0, 3)) {
@@ -323,7 +313,7 @@ function App() {
         Axios.get(`https://api.currencylayer.com/historical?access_key=34eca9d22b34a8f77ebe7de351ba880e&date=${dayAgo()}`)
           .then(resp => {
             let dayData = resp.data.quotes
-            historyData = Object.entries(dayData)
+            const historyData = Object.entries(dayData)
 
             for (let i = 0; i < historyData.length; i++) {
               for (let j = 0; j < fiatArray.length; j++) {

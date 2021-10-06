@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 800,
     margin: '0 auto',
     padding: '20px 5px',
-    boxShadow: '0 3px 5px 2px'
+    boxShadow: '0 1px 1px hsl(0deg 0% 0% / 0.065), 0 2px 2px hsl(0deg 0% 0% / 0.065), 0 4px 4px hsl(0deg 0% 0% / 0.065), 0 8px 8px hsl(0deg 0% 0% / 0.065), 0 16px 16px hsl(0deg 0% 0% / 0.065)'
   },
   radioGroup: {
     marginRight: '10px'
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     border: 0,
     borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    boxShadow: '0 1px 1px hsl(0deg 0% 0% / 0.065), 0 2px 2px hsl(0deg 0% 0% / 0.065), 0 4px 4px hsl(0deg 0% 0% / 0.065), 0 8px 8px hsl(0deg 0% 0% / 0.065), 0 16px 16px hsl(0deg 0% 0% / 0.065)',
     color: 'white',
     height: 48,
     padding: '0 30px',
@@ -52,63 +52,56 @@ const Form = props => {
   return (
     <div className={classes.root}>
       <Grid>
-        <Grid>
-          <Typography>
-            Currency Converter
-          </Typography>
-        </Grid>
-        <Grid>
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography>
-                Pick your base currency and amount
-              </Typography>
-              <Grid container spacing={1}>
-                <Grid item>
-                  <form>
-                    <FormControl>
-                      <RadioGroup
-                        aria-label="currency-family"
-                        name="currency-family"
-                        value={props.currencyFamily}
-                        onChange={handleChangeCurrencyFamily}
-                      >
-                        <FormControlLabel value="fiat" control={<Radio />} label="Fiat" />
-                        <FormControlLabel value="crypto" control={<Radio />} label="Crypto" />
-                      </RadioGroup>
-                    </FormControl>
-                    <Select
-                      currencyFamily={props.currencyFamily}
-                      setCurrencyFamily={props.setCurrencyFamily}
-                      cryptoData={props.cryptoData}
-                      getCryptoData={props.getCryptoData}
-                      fiatData={props.fiatData}
-                      getFiatData={props.getFiatData}
-                      fiatArray={props.fiatArray}
-                      cryptoArray={props.cryptoArray}
-                      input={props.input}
-                      handleInputChange={props.handleInputChange}
-                    />
-                    <TextField
-                      id="standard-basic"
-                      label="Amount"
-                      name='amount'
-                      className={classes.amount}
-                      value={props.input.amount}
-                      onChange={props.handleInputChange}
-                    />
-                    <Button
-                      className={classes.button}
-                      onClick={props.handleConversion}
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography>
+              Pick your base currency and amount
+            </Typography>
+            <Grid container spacing={1}>
+              <Grid item>
+                <form>
+                  <FormControl>
+                    <RadioGroup
+                      aria-label="currency-family"
+                      name="currency-family"
+                      value={props.currencyFamily}
+                      onChange={handleChangeCurrencyFamily}
                     >
-                      Convert
-                    </Button>
-                  </form>
-                </Grid>
+                      <FormControlLabel value="fiat" control={<Radio />} label="Fiat" />
+                      <FormControlLabel value="crypto" control={<Radio />} label="Crypto" />
+                    </RadioGroup>
+                  </FormControl>
+                  <Select
+                    currencyFamily={props.currencyFamily}
+                    setCurrencyFamily={props.setCurrencyFamily}
+                    cryptoData={props.cryptoData}
+                    getCryptoData={props.getCryptoData}
+                    fiatData={props.fiatData}
+                    getFiatData={props.getFiatData}
+                    fiatArray={props.fiatArray}
+                    cryptoArray={props.cryptoArray}
+                    input={props.input}
+                    handleInputChange={props.handleInputChange}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Amount"
+                    name='amount'
+                    className={classes.amount}
+                    value={props.input.amount}
+                    onChange={props.handleInputChange}
+                  />
+                  <Button
+                    className={classes.button}
+                    onClick={props.handleConversion}
+                  >
+                    Convert
+                  </Button>
+                </form>
               </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
       </Grid>
     </div>
   )

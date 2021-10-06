@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -6,7 +5,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    // minWidth: 650,
   },
 });
 
@@ -31,7 +30,7 @@ export default function BasicTable(props) {
                 {props.fiatData.exchange[i][0].substring(3)}
               </TableCell>
               <TableCell align="right">
-                {'$' + props.fiatData.exchange[i][1]}
+                {props.fiatData.exchange[i][1]}
               </TableCell>
               <TableCell align="right">
                 {Number((props.fiatData.dayHist[i][1] / props.fiatData.exchange[i][1]) - 1).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })}
