@@ -334,7 +334,7 @@ function App() {
 
     Axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=BTC&amount=1`)
     .then(respo => {
-      console.log(respo)
+      USDToBTC = respo.data.result
     })
     .catch(err => console.error(err))
   }
