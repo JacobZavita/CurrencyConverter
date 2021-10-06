@@ -2,6 +2,7 @@ const { model, Schema } = require('mongoose')
 
 const User = new Schema({
   email: String,
+  username: String,
   favorites: [{
     type: Schema.Types.ObjectId,
     ref: 'Favorite'
