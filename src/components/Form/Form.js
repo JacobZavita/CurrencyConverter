@@ -65,43 +65,45 @@ const Form = props => {
               </Typography>
               <Grid container spacing={1}>
                 <Grid item>
-                  <FormControl>
-                    <RadioGroup
-                      aria-label="currency-family"
-                      name="currency-family"
-                      value={props.currencyFamily}
-                      onChange={handleChangeCurrencyFamily}
+                  <form>
+                    <FormControl>
+                      <RadioGroup
+                        aria-label="currency-family"
+                        name="currency-family"
+                        value={props.currencyFamily}
+                        onChange={handleChangeCurrencyFamily}
+                      >
+                        <FormControlLabel value="fiat" control={<Radio />} label="Fiat" />
+                        <FormControlLabel value="crypto" control={<Radio />} label="Crypto" />
+                      </RadioGroup>
+                    </FormControl>
+                    <Select
+                      currencyFamily={props.currencyFamily}
+                      setCurrencyFamily={props.setCurrencyFamily}
+                      cryptoData={props.cryptoData}
+                      getCryptoData={props.getCryptoData}
+                      fiatData={props.fiatData}
+                      getFiatData={props.getFiatData}
+                      fiatArray={props.fiatArray}
+                      cryptoArray={props.cryptoArray}
+                      input={props.input}
+                      handleInputChange={props.handleInputChange}
+                    />
+                    <TextField
+                      id="standard-basic"
+                      label="Amount"
+                      name='amount'
+                      className={classes.amount}
+                      value={props.input.amount}
+                      onChange={props.handleInputChange}
+                    />
+                    <Button
+                      className={classes.button}
+                      onClick={props.handleConversion}
                     >
-                      <FormControlLabel value="fiat" control={<Radio />} label="Fiat" />
-                      <FormControlLabel value="crypto" control={<Radio />} label="Crypto" />
-                    </RadioGroup>
-                  </FormControl>
-                  <Select
-                    currencyFamily={props.currencyFamily}
-                    setCurrencyFamily={props.setCurrencyFamily}
-                    cryptoData={props.cryptoData}
-                    getCryptoData={props.getCryptoData}
-                    fiatData={props.fiatData}
-                    getFiatData={props.getFiatData}
-                    fiatArray={props.fiatArray}
-                    cryptoArray={props.cryptoArray}
-                    input={props.input}
-                    handleInputChange={props.handleInputChange}
-                  />
-                  <TextField
-                    id="standard-basic"
-                    label="Amount"
-                    name='amount'
-                    className={classes.amount}
-                    value={props.input.amount}
-                    onChange={props.handleInputChange}
-                  />
-                  <Button
-                    className={classes.button}
-                    onClick={props.handleConversion}
-                  >
-                    Convert
-                  </Button>
+                      Convert
+                    </Button>
+                  </form>
                 </Grid>
               </Grid>
             </CardContent>

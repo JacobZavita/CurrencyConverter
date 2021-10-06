@@ -41,7 +41,7 @@ function App() {
   let basetoUSD4BTC
   let baseCode
   let baseToBTC
-  let cryptoToFiat
+  let c2fResult
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
@@ -87,39 +87,31 @@ function App() {
         cryptoData[i][1].price = basetoUSD4BTC / cryptoData[i][1].price
       }
     } else {
-      // 1 - BASE TO BTC - done
-      // 2 - BTC TO OTHER CRYPTOS - done
-      // 3 - BTC TO FIATS
+
       // 1 - base to btc
       for (let i = 0; i < cryptoData.length; i++) {
         if (input.base.includes(cryptoData[i][1].name)) {
           baseToBTC = cryptoData[i][1].price_btc * input.amount
-          // cryptoConversionToBTC = cryptoData[i][1].price_btc
         }
       }
-      // console.log(baseToBTC)
       // 2 - btc to other cryptos
       for (let i = 0; i < cryptoData.length; i++) {
         cryptoData[i][1].price = baseToBTC / cryptoData[i][1].price_btc
-        // console.log(cryptoData[i][1].name, cryptoData[i][1].price)
         
       }
       setCryptoData([...cryptoData])
-      // console.log(fiatData.exchange)
-      // console.log(cryptoData)
 
-      // 3 - BTC to fiats
+      // 3 - BTC to fiats. I used the axios call since the values in cryptoData were changed. Couldn't pull price after changing it. I'm thinking I'll refactor the code to have two levels of state - an unmanipulated true state and a converted state.
       for (let i = 0; i < fiatData.exchange.length; i++) {
         let conversionCode = fiatData.exchange[i][0].substring(3)
         Axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=${conversionCode}&to=BTC&amount=1`)
           .then(respo => {
-            cryptoToFiat = respo.data.result
-            console.log(conversionCode, baseToBTC / cryptoToFiat)
+            const cryptoToFiat = respo.data.result
             fiatData.exchange[i][1] = baseToBTC / cryptoToFiat
           })
           .catch(err => console.error(err))
-          setFiatData({...fiatData})
-      }
+        }
+        setFiatData({...fiatData})
     }
   }
 

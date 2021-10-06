@@ -25,7 +25,6 @@ export default function BasicTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* {console.log(props.cryptoData)} */}
           {props.cryptoData.map((row, i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
