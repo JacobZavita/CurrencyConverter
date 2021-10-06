@@ -26,6 +26,7 @@ function App() {
   })
   // state for handling data from lunar crush
   const [cryptoData, setCryptoData] = useState([])
+
   // state for handling favorites
   const [favorites, setFavorites] = useState([])
  
@@ -40,7 +41,7 @@ function App() {
   let basetoUSD4BTC
   let baseCode
   let baseToBTC
-  let USDToBTC
+  let cryptoToFiat
 
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
@@ -53,7 +54,7 @@ function App() {
     if (currencyFamily === 'fiat') {
       baseCode = input.base.substring(0, 3)
 
-      // this grabs the conversion rate from USD to the base currency 
+      // this grabs the conversion rate from USD to the base currency returning one value
       for (let i = 0; i < fiatData.exchange.length; i++) {
         if (fiatData.exchange[i][0].substring(3) === baseCode) {
           toUSD = fiatData.exchange[i][1]
@@ -61,6 +62,7 @@ function App() {
       }
       conversionMultiple = 1 / toUSD
       
+      // get the value of base to usd historic value returning one value
       for (let i = 0; i < fiatData.dayHist.length; i++) {
         if (fiatData.dayHist[i][0].substring(3) === baseCode) {
           toUSDHist = fiatData.dayHist[i][1]
@@ -72,9 +74,11 @@ function App() {
       for (let i = 0; i < fiatData.exchange.length; i++) {
         fiatData.exchange[i][1] = (fiatData.exchange[i][1] * conversionMultiple) * input.amount
       }
+      // same with dayhist
       for (let i = 0; i <fiatData.dayHist.length; i++) {
         fiatData.dayHist[i][1] = (fiatData.dayHist[i][1] * historicMultiple) * input.amount
       }
+      // set fiat data with updated info
       setFiatData({...fiatData})
 
       basetoUSD4BTC = fiatData.exchange[19][1]
@@ -86,29 +90,41 @@ function App() {
       // 1 - BASE TO BTC - done
       // 2 - BTC TO OTHER CRYPTOS - done
       // 3 - BTC TO FIATS
-
       // 1 - base to btc
       for (let i = 0; i < cryptoData.length; i++) {
         if (input.base.includes(cryptoData[i][1].name)) {
           baseToBTC = cryptoData[i][1].price_btc * input.amount
+          // cryptoConversionToBTC = cryptoData[i][1].price_btc
         }
       }
-      console.log(baseToBTC)
+      // console.log(baseToBTC)
       // 2 - btc to other cryptos
-      for (let i = 0; i<cryptoData.length; i++) {
+      for (let i = 0; i < cryptoData.length; i++) {
         cryptoData[i][1].price = baseToBTC / cryptoData[i][1].price_btc
-        console.log(cryptoData[i][1].name, cryptoData[i][1].price)
+        // console.log(cryptoData[i][1].name, cryptoData[i][1].price)
+        
       }
       setCryptoData([...cryptoData])
-      console.log(cryptoData)
+      // console.log(fiatData.exchange)
+      // console.log(cryptoData)
 
       // 3 - BTC to fiats
-
+      for (let i = 0; i < fiatData.exchange.length; i++) {
+        let conversionCode = fiatData.exchange[i][0].substring(3)
+        Axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=${conversionCode}&to=BTC&amount=1`)
+          .then(respo => {
+            cryptoToFiat = respo.data.result
+            console.log(conversionCode, baseToBTC / cryptoToFiat)
+            fiatData.exchange[i][1] = baseToBTC / cryptoToFiat
+          })
+          .catch(err => console.error(err))
+          setFiatData({...fiatData})
+      }
     }
   }
 
   // array for the currency codes and names for fiats
-  const fiatArray = ['USD - United States Dollar', 'CNY - Chinese Yuan', 'JPY - Japanese Yen', 'EUR - Euro', 'GBP - British Pound Sterling', 'INR - Indian Rupee', 'AUD - Australian Dollar', 'CAD - Canadian Dollar', 'CHF - Sqiss Franc', 'RUB - Russian Ruble', 'HKD - Hong Kong Dollar', 'NZD - New Zealand Dollar', 'BRL - Brazillian Real', 'NGN - Nigerian Naira', 'KRW - Korean Won', 'IDR - Indonesean Rupah', 'SAR - Saudi Riyal', 'TRY - Turkish', 'KWD - Kuwait Dinar', 'KYD - Cayman Island Dollar']
+  const fiatArray = ['USD - United States Dollar', 'CNY - Chinese Yuan', 'JPY - Japanese Yen', 'EUR - Euro', 'GBP - British Pound Sterling', 'INR - Indian Rupee', 'AUD - Australian Dollar', 'CAD - Canadian Dollar', 'CHF - Swiss Franc', 'RUB - Russian Ruble', 'HKD - Hong Kong Dollar', 'NZD - New Zealand Dollar', 'BRL - Brazillian Real', 'NGN - Nigerian Naira', 'KRW - Korean Won', 'IDR - Indonesean Rupah', 'SAR - Saudi Riyal', 'TRY - Turkish', 'KWD - Kuwait Dinar', 'KYD - Cayman Island Dollar']
 
   // array for the currency codes and name for cryptos
   const cryptoArray = [
@@ -291,7 +307,6 @@ function App() {
         let response = data.data[0]
         cryptoData.push(response)
         arrayifiedCryptoData = Object.entries(cryptoData)
-        // arrayifiedCryptoData = Object.keys(cryptoData).map((key) => [Number(key), cryptoData[key]])
         setCryptoData(arrayifiedCryptoData)
       })
       .catch(err => console.error(err))
@@ -326,17 +341,11 @@ function App() {
               }
             }
             setFiatData({...fiatData})
-            console.log(fiatData)
+            // console.log(fiatData)
           })
           .catch(err => console.error(err))
       })
       .catch(err => console.error(err))
-
-    Axios.get(`https://api.currencylayer.com/convert?access_key=34eca9d22b34a8f77ebe7de351ba880e&from=USD&to=BTC&amount=1`)
-    .then(respo => {
-      USDToBTC = respo.data.result
-    })
-    .catch(err => console.error(err))
   }
 
   // get data from both apis on page load
