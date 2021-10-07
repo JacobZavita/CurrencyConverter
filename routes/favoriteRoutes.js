@@ -4,7 +4,7 @@ const passport = require('passport')
 
 router.get('/favorites', passport.authenticate('jwt'), (req, res) => {
   Favorite.find({})
-    .then(favorites = > res.json(favorites))
+    .then(favorites => res.json(favorites))
     .catch(err => console.log(err))
 })
 

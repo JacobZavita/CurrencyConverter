@@ -18,15 +18,8 @@ router.post('/users/login', (req, res) => {
   })
 })
 
-router.get('/users', passport.authenticate('jwt'), (req, res) => {
+router.get('/users/me', passport.authenticate('jwt'), (req, res) => {
   res.json(req.user)
-})
-
-router.get('/user/:username', passport.authenticate('jwt'), (req, res) => {
-  User.findByIdAndRemove({ username: req.params.username })
-    .populate('favorites')
-    .then(user => res.json(user))
-    .catch(err => console.log(err))
 })
 
 module.exports = router
