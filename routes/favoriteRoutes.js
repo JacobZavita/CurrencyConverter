@@ -19,7 +19,7 @@ router.post('/favorites', passport.authenticate('jwt'), (req, res) => {
       User.findByIdAndUpdate(req.user._id, { $push: { favorites: favorite._id } })
         .then(() => {
           res.json({
-            id: post._id,
+            id: favorite._id,
             label: req.body.label,
             code: req.body.code,
             type: req.body.type,
