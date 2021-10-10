@@ -5,12 +5,35 @@ import {
   Route
 } from 'react-router-dom'
 import Axios from 'axios'
+import User from './utils/userAPI'
+import Favorite from './utils/favoriteAPI'
 import Main from './pages/Main'
+import Login from './pages/Login'
 import Favorites from './pages/Favorites'
 import Appbar from './components/Appbar'
 import './App.css';
 
 function App() {
+  const [meState, setMeState] = useState({
+    me: {},
+    isLoggedIn: true
+  })
+
+  const getMe = () => {
+    User.me()
+      .then(({ data: me }) => {
+        if (me) {
+          setMeState({ me, isLoggedIn: true })
+        } else {
+          getMe()
+        }
+      })
+      .catch(err => {
+        console.error(err)
+        setMeState({ ...meState, isLoggedIn: false })
+      })
+  }
+
   // state for handling the query input
   const [input, setInput] = useState({
     base: 'USD',
@@ -340,7 +363,10 @@ function App() {
     <>
       <Router>
         <div>
-          <Appbar />
+          <Appbar 
+            me={meState.me}
+            isLoggedIn={meState.isLoggedIn}
+          />
           <Switch>
             <Route exact path='/'>
               <Main
@@ -360,10 +386,19 @@ function App() {
               />
             </Route>
             <Route path='/favorites'>
-              <Favorites
-                favorites={favorites}
-                setFavorites={setFavorites}
-              />
+              {meState.isLoggedIn ?
+                <Favorites
+                  favorites={favorites}
+                  setFavorites={setFavorites}
+                /> : null
+                //  <Redirect to='/login' />
+              }
+            </Route>
+            <Route path='/login'>
+              <Login />
+            </Route>
+            <Route path='users/me'>
+              {/* add profile page */}
             </Route>
           </Switch>
         </div>

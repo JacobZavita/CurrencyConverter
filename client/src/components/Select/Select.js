@@ -1,19 +1,17 @@
-import { makeStyles } from '@material-ui/core'
-import { FormControl, InputLabel, NativeSelect, FormHelperText, Grid } from '@material-ui/core'
+import { makeStyles } from '@mui/styles';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import NativeSelect from '@mui/material/NativeSelect'
+import FormHelperText from '@mui/material/FormHelperText'
+import Grid from '@mui/material/Grid'
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
   row: {
     display: 'inline'
   },
   nativeSelect: {
     minWidth: 200,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
   },
   button: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -39,7 +37,7 @@ const Select = props => {
     }
 
   return (
-    <FormControl className={classes.formControl}>
+    <FormControl fullWidth>
       <Grid container spacing={1}>
         <Grid item className={classes.row}>
           <InputLabel htmlFor="age-native-helper">From Currency</InputLabel>
