@@ -8,6 +8,7 @@ import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import LoginForm from '../../components/LoginForm'
 import RegisterForm from '../../components/RegisterForm';
+import User from '../../utils/userAPI'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,6 +45,27 @@ function a11yProps(index) {
 
 
 const Login = () => {
+  const [registerState, setRegisterState] = useState({
+    name: '',
+    email: '',
+    username: '',
+    password: ''
+  })
+
+  const handleRegisterInputChange = ({ target }) => {
+    setRegisterState({...registerState, [target.name]: target.value })
+  }
+
+  const handleRegisterUser = event => {
+    event.preventDefault()
+    User.register(registerState)
+      .then(() => {
+        alert('user registered')
+        handleChangeIndex({}, 0)
+      })
+      .catch(err => console.error(err))
+  }
+
   const [index, setIndex] = useState(0)
 
   const handleChangeIndex = (event, newIndex) => {
@@ -54,7 +76,7 @@ const Login = () => {
     <>
       <CssBaseline />
       <Container maxWidth="sm">
-        <Box sx={{ bgcolor: '#cfe8fc', height: '60vh', marginTop: '20px' }}>
+        <Box sx={{ bgcolor: '#cfe8fc', height: '50vh', marginTop: '20px', justifyContent: 'center', alignContent: 'center' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs 
               aria-label="basic tabs example"
@@ -71,7 +93,11 @@ const Login = () => {
             <LoginForm />
           </TabPanel>
           <TabPanel value={index} index={1}>
-            <RegisterForm />
+            <RegisterForm
+              state={registerState}
+              onChange={handleRegisterInputChange}
+              onClick={handleRegisterUser}
+            />
           </TabPanel>
         </Box>
       </Container>

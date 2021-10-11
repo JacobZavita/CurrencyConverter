@@ -9,27 +9,29 @@ const LoginForm = () => {
       noValidate
       autoComplete="off"
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          p: 1,
-        }}
-      >
-        <TextField
-          id="outlined-basic"
-          label="Username"
-          variant="outlined"
-          sx={{ flexGrow: 1, m: 1 }}
-        />
-        <TextField
-          id="outlined-basic"
-          label="password"
-          variant="outlined"
-          sx={{ flexGrow: 1, m: 1 }}
-        />
-      </Box>
-      <Button fullWidth variant="contained">Login</Button>
+      <form>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            p: 1,
+          }}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Username"
+            variant="outlined"
+            sx={{ flexGrow: 1, m: 1 }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
+            sx={{ flexGrow: 1, m: 1 }}
+          />
+        </Box>
+        <Button fullWidth variant="contained">Login</Button>
+      </form>
     </Box>
   )
 }
