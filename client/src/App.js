@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
 import Axios from 'axios'
 import User from './utils/userAPI'
@@ -33,6 +34,26 @@ function App() {
         setMeState({ ...meState, isLoggedIn: false })
       })
   }
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token')
+    setMeState({ me: {}, isLoggedIn: false })
+    window.location = '/'
+  }
+
+  const updateMe = () => {
+    User.me()
+      .then(({ data: me }) => {
+        console.log(me)
+        setMeState({ me, isLoggedIn: true })
+      })
+      .catch(err => {
+        console.error(err)
+        setMeState({ ...meState, isLoggedIn: false })
+      })
+  }
+
+  const [loading, setLoading] = useState(false)
 
   // state for handling the query input
   const [input, setInput] = useState({
@@ -321,6 +342,7 @@ function App() {
 
   // function for getting data from currency layer and adds to fiatData state
   const getFiatData = () => {
+    // setLoading(true)
     Axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${input.base}`)
       .then(res => {
         const quoteData = res.data.quotes
@@ -349,6 +371,7 @@ function App() {
             // console.log(fiatData)
           })
           .catch(err => console.error(err))
+        // setLoading(false)
       })
       .catch(err => console.error(err))
   }
@@ -357,6 +380,7 @@ function App() {
   useEffect(() => {
     getCryptoData()
     getFiatData()
+    getMe()
   }, [])
 
   return (
@@ -366,6 +390,7 @@ function App() {
           <Appbar 
             me={meState.me}
             isLoggedIn={meState.isLoggedIn}
+            handleLogOut={handleLogOut}
           />
           <Switch>
             <Route exact path='/'>
@@ -383,6 +408,7 @@ function App() {
                 getCryptoData={getCryptoData}
                 fiatData={fiatData}
                 getFiatData={getFiatData}
+                loading={loading}
               />
             </Route>
             <Route path='/favorites'>
@@ -390,12 +416,11 @@ function App() {
                 <Favorites
                   favorites={favorites}
                   setFavorites={setFavorites}
-                /> : null
-                //  <Redirect to='/login' />
+                /> : <Redirect to='/login' />
               }
             </Route>
             <Route path='/login'>
-              <Login />
+              <Login updateMe={updateMe} />
             </Route>
             <Route path='users/me'>
               {/* add profile page */}

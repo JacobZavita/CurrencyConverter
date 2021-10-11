@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Skeleton from '@mui/material/Skeleton';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
@@ -17,7 +18,8 @@ const useStyles = makeStyles({
 
 export default function BasicTable(props) {
   const classes = useStyles();
-
+  console.log('.exchange', props.fiatData.exchange)
+  console.log('.dayHist', props.fiatData.dayHist)
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -29,24 +31,24 @@ export default function BasicTable(props) {
             <TableCell align="right">Favorites</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {props.fiatData.exchange.map((row, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-                {props.fiatData.exchange[i][0].substring(3)}
-              </TableCell>
-              <TableCell align="right">
-                {props.fiatData.exchange[i][1]}
-              </TableCell>
-              <TableCell align="right">
-                {Number((props.fiatData.dayHist[i][1] / props.fiatData.exchange[i][1]) - 1).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })}
-              </TableCell>
-              <TableCell align="right">
-                <FavoriteBorderIcon />
-              </TableCell>
-           </TableRow>
-          ))}
-        </TableBody>
+          <TableBody>
+            {props.fiatData.exchange.map((row, i) => (
+              <TableRow key={i}>
+                <TableCell component="th" scope="row">
+                  {props.fiatData.exchange[i][0].substring(3)}
+                </TableCell>
+                <TableCell align="right">
+                  {props.fiatData.exchange[i][1]}
+                </TableCell>
+                <TableCell align="right">
+                  {Number((props.fiatData.dayHist[i][1] / props.fiatData.exchange[i][1]) - 1).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })}
+                </TableCell>
+                <TableCell align="right">
+                  <FavoriteBorderIcon />
+                </TableCell>
+            </TableRow>
+            ))}
+          </TableBody>
       </Table>
     </TableContainer>
   );

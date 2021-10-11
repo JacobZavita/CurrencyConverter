@@ -51,6 +51,7 @@ const Main = props => {
             fiatData={props.fiatData}
             getFiatData={props.getFiatData}
             conversionMultiple={props.conversionMultiple}
+            loading={props.loading}
           />
         </Grid>
       </Grid>

@@ -44,7 +44,7 @@ function a11yProps(index) {
 }
 
 
-const Login = () => {
+const Login = props => {
   const [registerState, setRegisterState] = useState({
     name: '',
     email: '',
@@ -53,7 +53,7 @@ const Login = () => {
   })
 
   const handleRegisterInputChange = ({ target }) => {
-    setRegisterState({...registerState, [target.name]: target.value })
+    setRegisterState({ ...registerState, [target.name]: target.value })
   }
 
   const handleRegisterUser = event => {
@@ -90,7 +90,7 @@ const Login = () => {
             </Tabs>
           </Box>
           <TabPanel value={index} index={0}>
-            <LoginForm />
+            <LoginForm updateMe={props.updateMe}/>
           </TabPanel>
           <TabPanel value={index} index={1}>
             <RegisterForm

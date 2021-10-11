@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,15 +7,12 @@ import Typography from '@mui/material/Typography';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom'
 
-
-const Appbar = (props) => {
+const Appbar = props => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -59,6 +55,15 @@ const Appbar = (props) => {
       <Link to={`/profile/${props.me.username}`}>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </Link>
+      {
+        !props.isLoggedIn ? (
+          <Link to='/login'>
+            <MenuItem>Login</MenuItem>
+          </Link>
+        ) : (
+          <MenuItem onClick={props.handleLogOut}>Logout</MenuItem>
+        )
+      }
     </Menu>
   );
 
@@ -73,14 +78,6 @@ const Appbar = (props) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
@@ -107,24 +104,16 @@ const Appbar = (props) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            {/* does nothing right now */}
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            Currency Converter
-          </Typography>
+          <Link to='/' style={{ textDecoration: 'none', color:'inherit' }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              Currency Converter
+            </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton aria-label="show 17 new notifications" color="inherit">

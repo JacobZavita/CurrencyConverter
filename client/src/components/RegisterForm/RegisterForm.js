@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 
 const RegisterForm = props => {
 
-
   return (
     <Box
       component="form"
