@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Favorite from '../../utils/favoriteAPI'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,6 +30,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
+const handleAddToFavorites = event => {
+  const targetCurrency = event.target.parentElement.parentElement.children[0].innerHTML
+  console.log(targetCurrency)
+  const newFavorite = {
+    code: targetCurrency,
+    type: 'fiat'
+  }
+  Favorite.create(newFavorite)
+    .then(console.log('added to favorites'))
+    .catch(err => console.log(err))
+}
 
 export default function BasicTable(props) {
 
@@ -56,7 +69,7 @@ export default function BasicTable(props) {
                   {Number((props.fiatData.dayHist[i][1] / props.fiatData.exchange[i][1]) - 1).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 3 })}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  <FavoriteBorderIcon />
+                  <FavoriteBorderIcon onClick={handleAddToFavorites}/>
                 </StyledTableCell>
             </StyledTableRow>
             ))}

@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Favorite from '../../utils/favoriteAPI'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,6 +29,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
+const handleAddToFavorites = event => {
+  const targetCurrency = event.target.parentElement.parentElement.children[0].innerHTML
+  console.log(targetCurrency)
+  const newFavorite = {
+    code: targetCurrency,
+    type: 'crypto'
+  }
+  Favorite.create(newFavorite)
+    .then(console.log('added to favorites'))
+    .catch(err => console.log(err))
+}
 
 export default function CryptoTable(props) {
 
@@ -55,7 +68,7 @@ export default function CryptoTable(props) {
                 {props.cryptoData[i][1].percent_change_24h + '%'}
               </StyledTableCell>
               <StyledTableCell align="right">
-                <FavoriteBorderIcon />
+                <FavoriteBorderIcon onClick={handleAddToFavorites}/>
               </StyledTableCell>
             </StyledTableRow>
           ))}
