@@ -11,7 +11,8 @@ const Favorite = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
-  } )
+  }),
+  find: () => axios.get('/api/favorites/')
 }
 
 export default Favorite

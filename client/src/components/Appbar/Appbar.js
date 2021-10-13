@@ -52,7 +52,7 @@ const Appbar = props => {
       <Link to='/favorites'>
         <MenuItem onClick={handleMenuClose}>Favorites</MenuItem>
       </Link>
-      <Link to={`/profile/${props.me.username}`}>
+      <Link to={`/users/${props.me.username}`}>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </Link>
       {

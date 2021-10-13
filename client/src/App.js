@@ -422,8 +422,13 @@ function App() {
             <Route path='/login'>
               <Login updateMe={updateMe} />
             </Route>
-            <Route path='users/me'>
-              {/* add profile page */}
+            <Route path='users/:username'>
+              {meState.isLoggedIn ?
+                <Favorites
+                  favorites={favorites}
+                  setFavorites={setFavorites}
+                /> : <Redirect to='/login' />
+              }
             </Route>
           </Switch>
         </div>

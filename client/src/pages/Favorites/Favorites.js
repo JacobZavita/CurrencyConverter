@@ -8,6 +8,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper'
 import Favorite from '../../utils/favoriteAPI'
+import User from '../../utils/userAPI'
+import { useParams } from 'react-router-dom'
 
 const favoriteArray = []
 
@@ -33,12 +35,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Favorites() {
   useEffect(() => {
-    Favorite.getAll()
-      .then(({ data: favorites }) => {
-        console.log(favorites)
-        favoriteArray.push(...favorites)
+    User.me()
+      .then(({ data }) => {
+        console.log(data.favorites)
+        favoriteArray.push(...data.favorites)
         console.log('new array', favoriteArray)
       })
+      .catch(err => console.error(err))
     }, [])
 
   return (
