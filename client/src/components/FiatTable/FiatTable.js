@@ -57,7 +57,7 @@ export default function BasicTable(props) {
           </TableRow>
         </TableHead>
           <TableBody>
-            {/* {props.fiatData.exchange.map((row, i) => (
+            {props.fiatData.exchange.map((row, i) => (
               <StyledTableRow key={i}>
                 <StyledTableCell component="th" scope="row">
                   {props.fiatData.exchange[i][0].substring(3)}
@@ -72,7 +72,7 @@ export default function BasicTable(props) {
                   <FavoriteBorderIcon onClick={handleAddToFavorites}/>
                 </StyledTableCell>
             </StyledTableRow>
-            ))} */}
+            ))}
           </TableBody>
       </Table>
     </TableContainer>

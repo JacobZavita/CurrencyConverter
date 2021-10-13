@@ -6,6 +6,7 @@ import {
   Redirect
 } from 'react-router-dom'
 import Axios from 'axios'
+import LinearProgress from '@mui/material/LinearProgress';
 import User from './utils/userAPI'
 import Favorite from './utils/favoriteAPI'
 import Main from './pages/Main'
@@ -15,6 +16,7 @@ import Appbar from './components/Appbar'
 import './App.css';
 
 function App() {
+  // login log out functions
   const [meState, setMeState] = useState({
     me: {},
     isLoggedIn: true
@@ -53,6 +55,7 @@ function App() {
       })
   }
 
+  // may use this for a loading animation - I don't think it does anything now
   const [loading, setLoading] = useState(false)
 
   // state for handling the query input
@@ -61,6 +64,7 @@ function App() {
     amount: ''
   })
 
+  // for select to determine if the selected currency is crypto or fiat
   const [currencyFamily, setCurrencyFamily] = useState('fiat')
 
   // state for handling data from currency layer
@@ -74,13 +78,14 @@ function App() {
   // state for handling favorites
   const [favorites, setFavorites] = useState([])
  
-  // globals
+  // globals - mostly for the conversion
   let toUSD
   let conversionMultiple
   let toUSDHist
   let historicMultiple
   let baseToBTC
 
+  // for taking in the amount
   const handleInputChange = ({ target }) => {
     setInput({ ...input, [target.name]: target.value })
   }
@@ -342,7 +347,6 @@ function App() {
 
   // function for getting data from currency layer and adds to fiatData state
   const getFiatData = () => {
-    // setLoading(true)
     Axios.get(`https://api.currencylayer.com/live?access_key=34eca9d22b34a8f77ebe7de351ba880e&source=${input.base}`)
       .then(res => {
         const quoteData = res.data.quotes
@@ -368,10 +372,9 @@ function App() {
               }
             }
             setFiatData({...fiatData})
-            // console.log(fiatData)
+            setLoading(true)
           })
           .catch(err => console.error(err))
-        // setLoading(false)
       })
       .catch(err => console.error(err))
   }
@@ -394,28 +397,34 @@ function App() {
           />
           <Switch>
             <Route exact path='/'>
-              <Main
-                input={input}
-                currencyFamily={currencyFamily}
-                setCurrencyFamily={setCurrencyFamily}
-                handleInputChange={handleInputChange}
-                handleConversion={handleConversion}
-                conversionMultiple={conversionMultiple}
-                fiatArray={fiatArray}
-                cryptoArray={cryptoArray}
-                setInput={setInput}
-                cryptoData={cryptoData}
-                getCryptoData={getCryptoData}
-                fiatData={fiatData}
-                getFiatData={getFiatData}
-                loading={loading}
-              />
+              {loading ? (
+                <Main
+                  input={input}
+                  currencyFamily={currencyFamily}
+                  setCurrencyFamily={setCurrencyFamily}
+                  handleInputChange={handleInputChange}
+                  handleConversion={handleConversion}
+                  conversionMultiple={conversionMultiple}
+                  fiatArray={fiatArray}
+                  cryptoArray={cryptoArray}
+                  setInput={setInput}
+                  cryptoData={cryptoData}
+                  getCryptoData={getCryptoData}
+                  fiatData={fiatData}
+                  getFiatData={getFiatData}
+                  loading={loading}
+                />
+              ) : (
+                <LinearProgress />
+              )}
             </Route>
             <Route path='/favorites'>
               {meState.isLoggedIn ?
                 <Favorites
                   favorites={favorites}
                   setFavorites={setFavorites}
+                  cryptoData={cryptoData}
+                  fiatData={fiatData}
                 /> : <Redirect to='/login' />
               }
             </Route>

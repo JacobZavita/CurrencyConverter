@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import LinearProgress from '@mui/material/LinearProgress';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -7,11 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper'
-import Favorite from '../../utils/favoriteAPI'
 import User from '../../utils/userAPI'
-import { useParams } from 'react-router-dom'
 
 const favoriteArray = []
+const filteredArray = []
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,16 +33,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function Favorites() {
+const Favorites = props => {
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     User.me()
       .then(({ data }) => {
-        console.log(data.favorites)
         favoriteArray.push(...data.favorites)
-        console.log('new array', favoriteArray)
+        matchCryptos()
+        setLoading(true)
       })
       .catch(err => console.error(err))
     }, [])
+        
+   const matchCryptos = () => {
+     for (let i = 0; i < favoriteArray.length; i++) {
+       for (let j = 0; j < props.cryptoData.length; j++) {
+         if (favoriteArray[i].code === props.cryptoData[j][1].name) {
+           console.log('match', props.cryptoData[j][1].name)
+           filteredArray.push(props.cryptoData[j][1])
+         }
+       }
+       console.log(filteredArray)
+    }
+  } 
 
   return (
     <>
@@ -57,15 +71,23 @@ function Favorites() {
               <TableCell align="right">Favorites</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody stripedRows>
-            {favoriteArray.map((row, i) => (
-              <StyledTableRow key={i}>
-                <StyledTableCell component='th' scope='row'>
-                  {favoriteArray[i].code}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
+          {/* {loading ?  */}
+            {/* ( */}
+              <TableBody stripedRows>
+                {favoriteArray.map((row, i) => (
+                  <StyledTableRow key={i}>
+                    <StyledTableCell component='th' scope='row'>
+                      {favoriteArray[i].code}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+                {/* {props.filteredArray.map((row, i) => (
+                  console.log('hi')
+                ))} */}
+              </TableBody>
+            {/* ) */}
+          {/* : (<LinearProgress />) */}
+        {/* } */}
         </Table>
       </TableContainer>
     </>
