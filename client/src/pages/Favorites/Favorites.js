@@ -1,37 +1,20 @@
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from 'react'
-import LinearProgress from '@mui/material/LinearProgress';
-import TableContainer from '@mui/material/TableContainer';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableBody from '@mui/material/TableBody';
+import Axios from 'axios'
+import Box from '@mui/material/Box';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 import Paper from '@mui/material/Paper'
 import User from '../../utils/userAPI'
 
 const favoriteArray = []
 const filteredArray = []
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
 const Favorites = props => {
   const [loading, setLoading] = useState(false)
@@ -50,46 +33,73 @@ const Favorites = props => {
      for (let i = 0; i < favoriteArray.length; i++) {
        for (let j = 0; j < props.cryptoData.length; j++) {
          if (favoriteArray[i].code === props.cryptoData[j][1].name) {
-           console.log('match', props.cryptoData[j][1].name)
            filteredArray.push(props.cryptoData[j][1])
+           if (favoriteArray[i].type === 'crypto') {
+             console.log(props.cryptoData[j])
+             console.log(filteredArray)
+            //  Axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${cryptoData[j]}`)
+           } else {console.log('fiat')}
+          // console.log(favoriteArray)
          }
        }
-       console.log(filteredArray)
     }
   } 
 
   return (
     <>
       <h1>Favorites page</h1>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Currency</TableCell>
-              <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Change (24-hr)</TableCell>
-              <TableCell align="right">Favorites</TableCell>
-            </TableRow>
-          </TableHead>
-          {/* {loading ?  */}
-            {/* ( */}
-              <TableBody stripedRows>
-                {favoriteArray.map((row, i) => (
-                  <StyledTableRow key={i}>
-                    <StyledTableCell component='th' scope='row'>
-                      {favoriteArray[i].code}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-                {/* {props.filteredArray.map((row, i) => (
-                  console.log('hi')
-                ))} */}
-              </TableBody>
-            {/* ) */}
-          {/* : (<LinearProgress />) */}
-        {/* } */}
-        </Table>
-      </TableContainer>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          '& > :not(style)': { m: 1, minWidth: 500 },
+        }}
+      >
+        <Paper elevation={3}>
+          {filteredArray.map((row, i) => (
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                {filteredArray[i].name}
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box sx={{
+                  display: 'flex',
+                  justifyContent: 'space-evenly',
+                  flexWrap: 'wrap',
+                  '& > :not(style)': { m: 1 },
+                }}>
+                  <Typography align='left'>
+                    Current Price
+                  </Typography>
+                  <Typography align='center'>
+                    24-hour Change
+                  </Typography>
+                  <DeleteIcon align='right'/>
+                </Box>
+                <Box sx={{
+                  display: 'flex',
+                  justifyContent: 'space-evenly',
+                  flexWrap: 'wrap',
+                  '& > :not(style)': { m: 1 },
+                }}>
+                  <Typography align='left'>
+                    $ {filteredArray[i].price}
+                  </Typography>
+                  <Typography align='center'>
+                    {filteredArray[i].percent_change_24h}
+                  </Typography>
+                  <NotificationsIcon align='right'/>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Paper>
+      </Box>
     </>
   )
 }

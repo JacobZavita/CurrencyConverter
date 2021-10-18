@@ -340,6 +340,7 @@ function App() {
         cryptoData.push(response)
         const arrayifiedCryptoData = Object.entries(cryptoData)
         setCryptoData(arrayifiedCryptoData)
+        // console.log(cryptoData)
       })
       .catch(err => console.error(err))
     })
@@ -373,6 +374,7 @@ function App() {
             }
             setFiatData({...fiatData})
             setLoading(true)
+            // console.log(fiatData)
           })
           .catch(err => console.error(err))
       })
@@ -425,6 +427,8 @@ function App() {
                   setFavorites={setFavorites}
                   cryptoData={cryptoData}
                   fiatData={fiatData}
+                  getCryptoData={getCryptoData}
+                  getFiatData={getFiatData}
                 /> : <Redirect to='/login' />
               }
             </Route>

@@ -32,7 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const handleAddToFavorites = event => {
   const targetCurrency = event.target.parentElement.parentElement.children[0].innerHTML
-  console.log(targetCurrency)
   const newFavorite = {
     code: targetCurrency,
     type: 'crypto'
@@ -55,7 +54,7 @@ export default function CryptoTable(props) {
             <TableCell align="right">Favorites</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody stripedRows>
+        <TableBody stripedrows>
           {props.cryptoData.map((row, i) => (
             <StyledTableRow key={i}>
               <StyledTableCell component="th" scope="row">
