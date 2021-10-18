@@ -1,13 +1,17 @@
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from 'react'
-import Axios from 'axios'
 import Box from '@mui/material/Box';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import Paper from '@mui/material/Paper'
@@ -34,12 +38,6 @@ const Favorites = props => {
        for (let j = 0; j < props.cryptoData.length; j++) {
          if (favoriteArray[i].code === props.cryptoData[j][1].name) {
            filteredArray.push(props.cryptoData[j][1])
-           if (favoriteArray[i].type === 'crypto') {
-             console.log(props.cryptoData[j])
-             console.log(filteredArray)
-            //  Axios.get(`https://api.lunarcrush.com/v2?data=assets&key=nocqsi30btftgtw6lbaol&symbol=${cryptoData[j]}`)
-           } else {console.log('fiat')}
-          // console.log(favoriteArray)
          }
        }
     }
@@ -64,37 +62,32 @@ const Favorites = props => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                {filteredArray[i].name}
+                {row.name}
               </AccordionSummary>
               <AccordionDetails>
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'space-evenly',
-                  flexWrap: 'wrap',
-                  '& > :not(style)': { m: 1 },
-                }}>
-                  <Typography align='left'>
-                    Current Price
-                  </Typography>
-                  <Typography align='center'>
-                    24-hour Change
-                  </Typography>
-                  <DeleteIcon align='right'/>
-                </Box>
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'space-evenly',
-                  flexWrap: 'wrap',
-                  '& > :not(style)': { m: 1 },
-                }}>
-                  <Typography align='left'>
-                    $ {filteredArray[i].price}
-                  </Typography>
-                  <Typography align='center'>
-                    {filteredArray[i].percent_change_24h}
-                  </Typography>
-                  <NotificationsIcon align='right'/>
-                </Box>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Current Price</TableCell>
+                        <TableCell align="right">24-hour Change</TableCell>
+                        <TableCell align="right">7-day Change</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow
+                        key={row.name}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell align="left">${row.price}</TableCell>
+                        <TableCell align="right">{row.percent_change_24h}%</TableCell>
+                        <TableCell align="right">{row.percent_change_7d}%</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <DeleteIcon align="right" sx={{ marginTop: '10px', marginLeft: '10px' }}/>
+                <NotificationsIcon align="right" sx={{ marginTop: '10px', marginLeft: '15px' }}/>
               </AccordionDetails>
             </Accordion>
           ))}
