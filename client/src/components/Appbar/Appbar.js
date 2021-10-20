@@ -30,7 +30,6 @@ const Appbar = props => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    console.log('handleMenuClose')
   };
 
   const handleMobileMenuOpen = (event) => {

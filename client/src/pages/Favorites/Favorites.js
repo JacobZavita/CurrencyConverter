@@ -24,24 +24,36 @@ const Favorites = props => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    // so this is pushing the users data into the rendering array every time the page loads
     User.me()
       .then(({ data }) => {
         favoriteArray.push(...data.favorites)
         matchCryptos()
+        matchFiats()
         setLoading(true)
+        console.log(filteredArray)
       })
       .catch(err => console.error(err))
-    }, [])
+  }, [])
         
-   const matchCryptos = () => {
+    const matchCryptos = () => {
      for (let i = 0; i < favoriteArray.length; i++) {
        for (let j = 0; j < props.cryptoData.length; j++) {
          if (favoriteArray[i].code === props.cryptoData[j][1].name) {
            filteredArray.push(props.cryptoData[j][1])
          }
        }
+      }
     }
-  } 
+
+    const matchFiats = () => {
+      for(let i = 0; i < favoriteArray.length; i++) {
+        if (favoriteArray[i].code === props.fiatData.exchange[1][0].substring(3)) {
+          console.log('match')
+          filteredArray.push(props.fiatData.exchange[1][0].substring(3))
+        }
+      }
+    }
 
   return (
     <>
